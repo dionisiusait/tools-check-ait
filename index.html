@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
             --bg: #060b18; --bg-elevated: #0c1425; --card: rgba(12, 20, 37, 0.75);
@@ -64,6 +64,10 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .animate-spin { animation: spin 1s linear infinite; }
 
+        /* Tombol template dengan gaya khusus agar mudah dikenali */
+        .btn-template { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border: 1px solid rgba(6, 182, 212, 0.35); border-radius: 12px; font-family: 'Space Grotesk'; font-weight: 500; color: var(--cyan); background: rgba(6, 182, 212, 0.06); cursor: pointer; transition: all 0.3s; text-decoration: none; font-size: 0.9rem; }
+        .btn-template:hover { background: rgba(6, 182, 212, 0.12); border-color: var(--cyan); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15); }
+
         @media (max-width: 1024px) { .sidebar { width: 80px; padding: 24px 8px; } .logo-sub, .nav-item span { display: none; } .logo-ait { font-size: 2rem; } .main-content { margin-left: 80px; } }
     </style>
 </head>
@@ -93,6 +97,15 @@
             <div class="section-label">Tools Check 1</div>
             <h2 class="text-3xl font-bold mb-2">Project Close Ticket</h2>
             <p class="text-slate-400 mb-8">Identifikasi status tiket (OPEN/CLOSE).</p>
+
+            <!-- Tombol Download Template -->
+            <div class="mb-8">
+                <button class="btn-template" onclick="downloadTemplateCT()">
+                    <i class="fa-solid fa-file-arrow-down"></i> Download Template Excel
+                </button>
+                <p class="text-xs text-slate-500 mt-2 ml-1">Download template, isi kolom IDENTIFIER, lalu upload kembali di bawah.</p>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-6 mb-8">
                 <div><div class="upload-zone" id="csvZoneCT" onclick="document.getElementById('csvInputCT').click()"><input type="file" id="csvInputCT" accept=".csv" style="display:none" onchange="handleCT_CSV(event)"><div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-csv text-emerald-400 mr-2"></i>Database Tiket (CSV)</div></div><div id="csvInfoCT"></div></div>
                 <div><div class="upload-zone" id="excelZoneCT" onclick="document.getElementById('excelInputCT').click()"><input type="file" id="excelInputCT" accept=".xlsx,.xls" style="display:none" onchange="handleCT_Excel(event)"><div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>Daftar Identifier (Excel)</div></div><div id="excelInfoCT"></div></div>
@@ -155,7 +168,9 @@
             t.className='toast'; 
             if(type === 'error') t.style.background = 'rgba(239, 68, 68, 0.1)'; 
             if(type === 'error') t.style.color = '#f87171'; 
-            t.innerHTML=`<i class="fa-solid ${type === 'error' ? 'fa-circle-xmark' : 'fa-circle-check'}"></i><span>${msg}</span>`; 
+            if(type === 'info') t.style.background = 'rgba(6, 182, 212, 0.1)'; 
+            if(type === 'info') t.style.color = '#22d3ee'; 
+            t.innerHTML=`<i class="fa-solid ${type === 'error' ? 'fa-circle-xmark' : type === 'info' ? 'fa-circle-info' : 'fa-circle-check'}"></i><span>${msg}</span>`; 
             c.appendChild(t); 
             setTimeout(()=>t.remove(), 5000); 
         }
@@ -219,8 +234,33 @@
         // MODULE 1: CLOSE TICKET
         // =========================================================
         let ctCsv=[], ctExcel=[];
-        function handleCT_CSV(e) { const f=e.target.files[0]; if(!f) return; Papa.parse(f, { header:true, skipEmptyLines:true, complete: r => { ctCsv=r.data; document.getElementById('csvZoneCT').classList.add('has-file'); document.getElementById('csvInfoCT').innerHTML=`<div class="file-info">✔ ${f.name} (${ctCsv.length} baris)</div>`; checkCT(); }}); }
-        function handleCT_Excel(e) { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ const wb=XLSX.read(ev.target.result,{type:'array'}); ctExcel=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}); document.getElementById('excelZoneCT').classList.add('has-file'); document.getElementById('excelInfoCT').innerHTML=`<div class="file-info">✔ ${f.name} (${ctExcel.length} id)</div>`; checkCT(); }; r.readAsArrayBuffer(f); }
+
+        /**
+         * Download template Excel untuk Close Ticket.
+         * Struktur: HEAD | IDENTIFIER | RESULT
+         * Baris contoh: 0 | Diisi dengan identifier yang dicari | Jika Disburse bisa diisi dengan result set pendingnya (opsional)
+         */
+        function downloadTemplateCT() {
+            const wb = XLSX.utils.book_new();
+            const header = ['HEAD', 'IDENTIFIER', 'RESULT'];
+            const exampleRow = [0, 'Diisi dengan identifier yang dicari', 'Jika Disburse bisa diisi dengan result set pendingnya (opsional)'];
+            const aoa = [header, exampleRow];
+            const ws = XLSX.utils.aoa_to_sheet(aoa);
+
+            // Set lebar kolom agar teks terbaca jelas
+            ws['!cols'] = [
+                { wch: 8 },   // HEAD
+                { wch: 42 },  // IDENTIFIER
+                { wch: 60 }   // RESULT
+            ];
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'Close_Ticket.xlsx');
+            showToast('Template Close_Ticket.xlsx berhasil didownload!', 'info');
+        }
+
+        function handleCT_CSV(e) { const f=e.target.files[0]; if(!f) return; Papa.parse(f, { header:true, skipEmptyLines:true, complete: r => { ctCsv=r.data; document.getElementById('csvZoneCT').classList.add('has-file'); document.getElementById('csvInfoCT').innerHTML=`<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>${f.name} (${ctCsv.length} baris)</div>`; checkCT(); }}); }
+        function handleCT_Excel(e) { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ const wb=XLSX.read(ev.target.result,{type:'array'}); ctExcel=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}); document.getElementById('excelZoneCT').classList.add('has-file'); document.getElementById('excelInfoCT').innerHTML=`<div class="file-info"><i class="fa-solid fa-check text-cyan-400 mr-2"></i>${f.name} (${ctExcel.length} id)</div>`; checkCT(); }; r.readAsArrayBuffer(f); }
         function checkCT() { document.getElementById('btnProcessCT').disabled = !(ctCsv.length>0 && ctExcel.length>0); }
         
         function processCloseTicket() {
@@ -258,7 +298,7 @@
 
         function handleSNR_MTB(e) {
             const f = e.target.files[0]; if(!f) return;
-            readCSVFile(f).then(data => { snrMtb = data; e.target.parentElement.classList.add('has-file'); document.getElementById('snrMtbInfo').innerHTML = `<div class="file-info">✔ ${f.name} (${snrMtb.length} baris)</div>`; checkSNR(); });
+            readCSVFile(f).then(data => { snrMtb = data; e.target.parentElement.classList.add('has-file'); document.getElementById('snrMtbInfo').innerHTML = `<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>${f.name} (${snrMtb.length} baris)</div>`; checkSNR(); });
         }
 
         function handleSNR_Cache(e) {
