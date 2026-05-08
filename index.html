@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Check — SNR & Close Ticket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css.min.css">
+    <style>
+        :root {
+            --bg: #060b18; --bg-elevated: #0c1425; --card: rgba(12, 20, 37, 0.75);
+            --border: rgba(0, 230, 138, 0.12); --border-strong: rgba(0, 230, 138, 0.3);
+            --accent: #00e68a; --accent-dim: rgba(0, 230, 138, 0.08); --accent-glow: rgba(0, 230, 138, 0.25);
+            --cyan: #06b6d4; --text: #e2e8f0; --text-muted: #64748b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+        .sidebar { width: 280px; min-height: 100vh; background: var(--bg-elevated); border-right: 1px solid var(--border); padding: 24px 16px; position: fixed; top: 0; left: 0; z-index: 50; display: flex; flex-direction: column; }
+        
+        /* Logo Styles */
+        .sidebar-logo { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .logo-ait { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 2.8rem; line-height: 1; color: #ffffff; letter-spacing: -2px; }
+        .logo-sub { font-size: 0.6rem; letter-spacing: 3.5px; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; }
+
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; margin-bottom: 4px; font-weight: 500; }
+        .nav-item:hover { background: var(--accent-dim); color: var(--text); }
+        .nav-item.active { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--border-strong); }
+        .nav-item i { width: 20px; text-align: center; }
+        
+        .nav-reset { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
+        .nav-reset .nav-item { color: #ef4444; }
+        .nav-reset .nav-item:hover { background: rgba(239, 68, 68, 0.1); }
+
+        .main-content { margin-left: 280px; flex: 1; padding: 40px; }
+        .module-section { display: none; animation: fadeIn 0.4s ease; }
+        .module-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-label { display: inline-flex; align-items: center; gap: 8px; font-family: 'Space Grotesk'; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 12px; }
+        .section-label::before { content: ''; width: 20px; height: 2px; background: var(--accent); }
+        .stat-card { background: var(--card); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.3s; }
+        .upload-zone { border: 2px dashed var(--border); border-radius: 16px; padding: 30px 20px; text-align: center; cursor: pointer; transition: all 0.3s; background: var(--card); }
+        .upload-zone:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+        .upload-zone.has-file { border-color: var(--accent); border-style: solid; background: rgba(0, 230, 138, 0.04); }
+        .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; border: none; border-radius: 12px; font-family: 'Space Grotesk'; font-weight: 600; color: #060b18; background: linear-gradient(135deg, var(--accent), #00cc7a); cursor: pointer; transition: all 0.3s; text-decoration: none; font-size: 0.95rem; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border: 1px solid var(--border-strong); border-radius: 12px; font-family: 'Space Grotesk'; font-weight: 500; color: var(--accent); background: transparent; cursor: pointer; transition: all 0.3s; text-decoration: none; font-size: 0.9rem; }
+        .btn-secondary:hover { background: var(--accent-dim); border-color: var(--accent); }
+        .file-info { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(0, 230, 138, 0.05); border: 1px solid var(--border); border-radius: 10px; margin-top: 10px; font-size: 0.85rem; }
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 14px 20px; border-radius: 12px; backdrop-filter: blur(16px); border: 1px solid var(--border); font-size: 0.85rem; display: flex; align-items: center; gap: 10px; min-width: 280px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); background: rgba(0, 230, 138, 0.1); color: var(--accent); }
+        
+        .wording-box { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 0.85rem; white-space: pre-wrap; color: var(--text); line-height: 1.6; position: relative; margin-bottom: 16px; }
+        .input-text { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--text); font-family: 'DM Sans'; font-size: 0.85rem; outline: none; width: 100%; transition: border-color 0.3s ease; }
+        .input-text:focus { border-color: var(--accent); }
+        .input-text::placeholder { color: var(--text-muted); }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .animate-spin { animation: spin 1s linear infinite; }
+
+        @media (max-width: 1024px) { .sidebar { width: 80px; padding: 24px 8px; } .logo-sub, .nav-item span { display: none; } .logo-ait { font-size: 2rem; } .main-content { margin-left: 80px; } }
+    </style>
+</head>
+<body>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <aside class="sidebar">
+        <!-- Logo AIT -->
+        <div class="sidebar-logo">
+            <div class="logo-ait">AIT</div>
+            <div class="logo-sub">Arta Intra Teknologi</div>
+        </div>
+
+        <div class="nav-item active" onclick="switchModule('close-ticket', this)"><i class="fa-solid fa-ticket"></i> <span>Close Ticket</span></div>
+        <div class="nav-item" onclick="switchModule('snr', this)"><i class="fa-solid fa-money-bill-transfer"></i> <span>Success Not Received</span></div>
+
+        <!-- Reset Button -->
+        <div class="nav-reset">
+            <div class="nav-item" onclick="resetAllData()"><i class="fa-solid fa-rotate-left"></i> <span>Reset Data</span></div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <!-- MODULE 1: CLOSE TICKET -->
+        <section id="module-close-ticket" class="module-section active">
+            <div class="section-label">Tools Check 1</div>
+            <h2 class="text-3xl font-bold mb-2">Project Close Ticket</h2>
+            <p class="text-slate-400 mb-8">Identifikasi status tiket (OPEN/CLOSE).</p>
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div><div class="upload-zone" id="csvZoneCT" onclick="document.getElementById('csvInputCT').click()"><input type="file" id="csvInputCT" accept=".csv" style="display:none" onchange="handleCT_CSV(event)"><div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-csv text-emerald-400 mr-2"></i>Database Tiket (CSV)</div></div><div id="csvInfoCT"></div></div>
+                <div><div class="upload-zone" id="excelZoneCT" onclick="document.getElementById('excelInputCT').click()"><input type="file" id="excelInputCT" accept=".xlsx,.xls" style="display:none" onchange="handleCT_Excel(event)"><div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>Daftar Identifier (Excel)</div></div><div id="excelInfoCT"></div></div>
+            </div>
+            <button class="btn-primary" id="btnProcessCT" disabled onclick="processCloseTicket()"><i class="fa-solid fa-bolt"></i> Proses Close Ticket</button>
+            <div id="resultAreaCT" class="mt-8" style="display:none"></div>
+        </section>
+
+        <!-- MODULE 2: SUCCESS NOT RECEIVED -->
+        <section id="module-snr" class="module-section">
+            <div class="section-label">Tools Check 2</div>
+            <h2 class="text-3xl font-bold mb-2">Success Not Received</h2>
+            <p class="text-slate-400 mb-4">Generator wording claim untuk Slack.</p>
+            
+            <div class="mb-8">
+                <a href="https://metabase.danarapay.com/question#eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjEyMjA4LCJleHByZXNzaW9ucyI6eyJjcmVhdGVkIHRpbWV6b25lIjpbImNvbnZlcnQtdGltZXpvbmUiLFsiZmllbGQiLDIxMDYxMCx7ImJhc2UtdHlwZSI6InR5cGUvRGF0ZVRpbWUifV0sIkFzaWEvSmFrYXJ0YSIsIlVUQyJdfSwiZXhwcmVzc2lvbi1pZGVudHMiOnsiY3JlYXRlZCB0aW1lem9uZSI6Inp3UTgtZXZjczYyaVdvQjZrT2JpbSJ9fX0sImRpc3BsYXkiOiJ0YWJsZSIsInZpc3VhbGl6YXRpb25fc2V0dGluZ3MiOnsidGFibGUuY29sdW1ucyI6W3sibmFtZSI6ImlkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY29yZF9mbGFnIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZV9ieSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlX2J5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidXNlcm5hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJwYXJ0bmVyX3R4X2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbmtfY29kZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbmtfcmVjaXBpZW50X2FjY291bnQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJiYW5rX3JlY2lwaWVudF9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfbm90ZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImludGVybmFsX3R4X25vdGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhbW91bnQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhZG1pbl9mZWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0eF9zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpbnRlcm5hbF90eF9zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJyY19zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzZW5kZXJfaWRfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX3Bob25lX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY2lwaWVudF9waG9uZV9udW1iZXIiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJlbWFpbCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImRpc2J1cnNlX3ZlbmRvcl9yZWZfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ2ZW5kb3JfbmFtZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9jb3VudHJ5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfcmVmX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbGFuY2VfdXNlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImVycm9yX21hcHBpbmciLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhY2NvdW50X3R5cGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpc19jb21tb25fZGlzYnVyc2UiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJtYWNoaW5lX3N0YXRlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYWRkaXRpb25hbF9kYXRhIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiaXNfc3BsaXRfdHgiLCJlbmFibGVkIjp0cnVlfV19LCJ0eXBlIjoicXVlc3Rpb24ifQ==" target="_blank" class="btn-secondary mb-6 inline-flex">
+                    <i class="fa-solid fa-database"></i> Buka Metabase SNR
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <div class="upload-zone" onclick="document.getElementById('snrMtbInput').click()">
+                        <input type="file" id="snrMtbInput" accept=".csv" style="display:none" onchange="handleSNR_MTB(event)">
+                        <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-csv text-emerald-400 mr-2"></i>File Metabase SNR (CSV)</div>
+                        <div class="text-xs text-slate-500">Hasil download dari Metabase</div>
+                    </div>
+                    <div id="snrMtbInfo"></div>
+                </div>
+                
+                <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
+                    <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Cache Tiket</h4>
+                    <p class="text-xs text-slate-400 mb-4">Link spreadsheet sudah diisi otomatis.</p>
+                    <input type="text" id="gsheetLink" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRiLO_6ltbJ2BAl0inRojJiLlMvyfrEktpl8KCs8HnRpoftK_oalWVtzgm3uWHJP6nQ5iFYd_xpEiq6/pub?gid=786784466&single=true&output=csv">
+                    <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnFetchCache" onclick="fetchCacheTiket()">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis
+                    </button>
+                    <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
+                    <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('snrCacheInput').click()">
+                        <i class="fa-solid fa-upload"></i> Upload Manual CSV
+                    </button>
+                    <input type="file" id="snrCacheInput" accept=".csv,.xlsx" style="display:none" onchange="handleSNR_Cache(event)">
+                    <div id="snrCacheInfo" class="text-xs text-center text-slate-500 mt-3">Belum ada data cache.</div>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="btnProcessSNR" disabled onclick="processSNR()"><i class="fa-solid fa-comment-dots"></i> Generate Wording</button>
+            <div id="resultAreaSNR" class="mt-8" style="display:none"></div>
+        </section>
+
+    </main>
+
+    <script>
+        // =========================================================
+        // GLOBAL UTILS
+        // =========================================================
+        function showToast(msg, type = 'success') { 
+            const c = document.getElementById('toastContainer'); 
+            const t = document.createElement('div'); 
+            t.className='toast'; 
+            if(type === 'error') t.style.background = 'rgba(239, 68, 68, 0.1)'; 
+            if(type === 'error') t.style.color = '#f87171'; 
+            t.innerHTML=`<i class="fa-solid ${type === 'error' ? 'fa-circle-xmark' : 'fa-circle-check'}"></i><span>${msg}</span>`; 
+            c.appendChild(t); 
+            setTimeout(()=>t.remove(), 5000); 
+        }
+        function switchModule(id, el) { document.querySelectorAll('.module-section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-item:not(.nav-reset .nav-item)').forEach(n=>n.classList.remove('active')); document.getElementById('module-'+id).classList.add('active'); if(el && !el.parentElement.classList.contains('nav-reset')) el.classList.add('active'); }
+        function findColCI(cols, target) { const t = target.trim().toUpperCase(); return cols.find(c => c.trim().toUpperCase() === t) || null; }
+        function readExcelFile(file) { return new Promise((resolve) => { const reader = new FileReader(); reader.onload = (e) => { const wb = XLSX.read(e.target.result, { type: 'array' }); resolve(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' })); }; reader.readAsArrayBuffer(file); }); }
+        function readCSVFile(file) { return new Promise((resolve) => { Papa.parse(file, { header: true, skipEmptyLines: true, complete: (r) => resolve(r.data) }); }); }
+        
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => { showToast('Wording berhasil disalin ke clipboard!'); }).catch(err => { fallbackCopyTextToClipboard(text); });
+            } else { fallbackCopyTextToClipboard(text); }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea"); textArea.value = text; textArea.style.position="fixed"; textArea.style.top="0"; textArea.style.left="0"; document.body.appendChild(textArea); textArea.focus(); textArea.select();
+            try { document.execCommand('copy'); showToast('Wording berhasil disalin!'); } catch (err) { showToast('Gagal menyalin teks.', 'error'); }
+            document.body.removeChild(textArea);
+        }
+
+        // =========================================================
+        // RESET FUNCTION
+        // =========================================================
+        function resetAllData() {
+            // Reset Variables
+            ctCsv = []; ctExcel = []; snrMtb = []; snrCache = [];
+            window.ctResultData = []; window.ctSummaryOpen = []; window.snrResults = [];
+
+            // Reset Close Ticket UI
+            document.getElementById('csvInputCT').value = '';
+            document.getElementById('excelInputCT').value = '';
+            document.getElementById('csvZoneCT').classList.remove('has-file');
+            document.getElementById('excelZoneCT').classList.remove('has-file');
+            document.getElementById('csvInfoCT').innerHTML = '';
+            document.getElementById('excelInfoCT').innerHTML = '';
+            document.getElementById('btnProcessCT').disabled = true;
+            document.getElementById('resultAreaCT').style.display = 'none';
+
+            // Reset SNR UI
+            document.getElementById('snrMtbInput').value = '';
+            document.getElementById('snrCacheInput').value = '';
+            document.getElementById('snrMtbInfo').innerHTML = '';
+            document.getElementById('snrCacheInfo').innerHTML = '<span class="text-slate-500">Belum ada data cache.</span>';
+            
+            const btnFetch = document.getElementById('btnFetchCache');
+            btnFetch.disabled = false;
+            btnFetch.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis';
+            btnFetch.style.background = ''; btnFetch.style.color = ''; btnFetch.style.border = '';
+            
+            document.getElementById('btnProcessSNR').disabled = true;
+            document.getElementById('resultAreaSNR').style.display = 'none';
+
+            // Switch to first module & scroll top
+            switchModule('close-ticket', document.querySelector('.sidebar > .nav-item'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast('Semua data berhasil di-reset!', 'info');
+        }
+
+
+        // =========================================================
+        // MODULE 1: CLOSE TICKET
+        // =========================================================
+        let ctCsv=[], ctExcel=[];
+        function handleCT_CSV(e) { const f=e.target.files[0]; if(!f) return; Papa.parse(f, { header:true, skipEmptyLines:true, complete: r => { ctCsv=r.data; document.getElementById('csvZoneCT').classList.add('has-file'); document.getElementById('csvInfoCT').innerHTML=`<div class="file-info">✔ ${f.name} (${ctCsv.length} baris)</div>`; checkCT(); }}); }
+        function handleCT_Excel(e) { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ const wb=XLSX.read(ev.target.result,{type:'array'}); ctExcel=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''}); document.getElementById('excelZoneCT').classList.add('has-file'); document.getElementById('excelInfoCT').innerHTML=`<div class="file-info">✔ ${f.name} (${ctExcel.length} id)</div>`; checkCT(); }; r.readAsArrayBuffer(f); }
+        function checkCT() { document.getElementById('btnProcessCT').disabled = !(ctCsv.length>0 && ctExcel.length>0); }
+        
+        function processCloseTicket() {
+            const tCol = findColCI(Object.keys(ctCsv[0]||{}), 'No Ticket'); const pCol = findColCI(Object.keys(ctCsv[0]||{}), 'Close PIC (CSU)'); const nCol = findColCI(Object.keys(ctCsv[0]||{}), 'Number of Transaction');
+            if(!tCol||!pCol) { showToast('Kolom No Ticket / Close PIC tidak ada!', 'error'); return; }
+            const excelCols = Object.keys(ctExcel[0]||{}); const rCol = findColCI(excelCols, 'RESULT');
+            let resultData = []; let globalTicketSeen = new Set();
+            ctExcel.forEach(ex => {
+                const id = String(ex['IDENTIFIER']||'').trim(); const resRaw = rCol ? String(ex[rCol]||'').trim() : ''; const resVal = resRaw || '-'; let found = false;
+                ctCsv.forEach((cs, idx) => {
+                    const rowText = Object.values(cs).map(v => String(v).toLowerCase()).join(' | ');
+                    if(rowText.includes(id.toLowerCase())) {
+                        found = true; const ticketNo = String(cs[tCol]||'').trim();
+                        if(globalTicketSeen.has(ticketNo)) return; globalTicketSeen.add(ticketNo);
+                        const status = String(cs[pCol]||'').trim() === '' ? 'OPEN' : 'CLOSE'; const rowNumber = idx + 2; const nomorTrx = nCol ? String(cs[nCol]||'').trim() : '';
+                        resultData.push({ 'IDENTIFIER': id, 'NO TICKET': ticketNo || '*', 'STATUS': status, 'ROW LIST': rowNumber, 'NUMBER OF TRANSACTION': nomorTrx || '*', 'STATUS RESULT': resVal });
+                    }
+                });
+                if(!found) { resultData.push({ 'IDENTIFIER': id, 'NO TICKET': '*', 'STATUS': 'NOT FOUND', 'ROW LIST': '*', 'NUMBER OF TRANSACTION': '*', 'STATUS RESULT': resVal }); }
+            });
+            window.ctResultData = resultData; 
+            window.ctSummaryOpen = resultData.filter(r => r.STATUS === 'OPEN').map(r => ({ 'NO TICKET': r['NO TICKET'], 'ROW LIST': r['ROW LIST'], 'STATUS LIST': r['STATUS'], 'NUMBER OF TRANSACTION': r['NUMBER OF TRANSACTION'], 'STATUS RESULT': r['STATUS RESULT'] }));
+            let closeCount = resultData.filter(r=>r.STATUS==='CLOSE').length; let openCount = window.ctSummaryOpen.length; let notFoundCount = resultData.filter(r=>r.STATUS==='NOT FOUND').length;
+            document.getElementById('resultAreaCT').style.display='block';
+            document.getElementById('resultAreaCT').innerHTML=`<div class="stat-card"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Close Ticket</h3><div class="text-sm text-slate-400 mb-4">Close: <b class="text-emerald-400">${closeCount}</b> | Open: <b class="text-red-400">${openCount}</b> | Not Found: <b class="text-slate-400">${notFoundCount}</b></div><button class="btn-primary text-sm py-2" onclick="dlCT()"><i class="fa-solid fa-download mr-2"></i>Download Result_Tiket.xlsx</button></div>`;
+            showToast('Close Ticket Selesai!');
+        }
+        function dlCT() { const wb=XLSX.utils.book_new(); const resCols = ['IDENTIFIER', 'NO TICKET', 'STATUS', 'ROW LIST', 'NUMBER OF TRANSACTION', 'STATUS RESULT']; const ws1 = XLSX.utils.json_to_sheet(window.ctResultData, {header: resCols}); XLSX.utils.book_append_sheet(wb, ws1, 'RESULT'); const sumCols = ['NO TICKET', 'ROW LIST', 'STATUS LIST', 'NUMBER OF TRANSACTION', 'STATUS RESULT']; const ws2 = XLSX.utils.json_to_sheet(window.ctSummaryOpen, {header: sumCols}); XLSX.utils.book_append_sheet(wb, ws2, 'SUMMARY_OPEN'); XLSX.writeFile(wb, 'Result_Tiket.xlsx'); }
+
+
+        // =========================================================
+        // MODULE 2: SUCCESS NOT RECEIVED
+        // =========================================================
+        let snrMtb = [], snrCache = [];
+
+        function handleSNR_MTB(e) {
+            const f = e.target.files[0]; if(!f) return;
+            readCSVFile(f).then(data => { snrMtb = data; e.target.parentElement.classList.add('has-file'); document.getElementById('snrMtbInfo').innerHTML = `<div class="file-info">✔ ${f.name} (${snrMtb.length} baris)</div>`; checkSNR(); });
+        }
+
+        function handleSNR_Cache(e) {
+            const f = e.target.files[0]; if(!f) return;
+            const reader = f.name.endsWith('.csv') ? readCSVFile(f) : readExcelFile(f);
+            reader.then(data => { snrCache = data; document.getElementById('snrCacheInfo').innerHTML = `<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil (Manual): <b>${snrCache.length}</b> baris data tiket.`; checkSNR(); showToast('Cache Tiket Manual Berhasil Dimuat!'); });
+        }
+
+        async function fetchCacheTiket() {
+            const urlInput = document.getElementById('gsheetLink').value.trim(); const btn = document.getElementById('btnFetchCache'); const info = document.getElementById('snrCacheInfo');
+            if (!urlInput) { showToast('Harap masukkan link Google Sheets!', 'error'); return; }
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...'; info.innerHTML = '<span class="text-cyan-400">Menghubungi server...</span>';
+            let csvText = null;
+            try { let response = await fetch(urlInput); if (!response.ok) throw new Error('Direct fetch failed'); csvText = await response.text(); } catch (e1) {
+                try { let proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(urlInput); let response = await fetch(proxyUrl); if (!response.ok) throw new Error('Proxy fetch failed'); csvText = await response.text(); } catch (e2) {
+                    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi'; info.innerHTML = '<i class="fa-solid fa-exclamation-triangle text-red-400 mr-1"></i> Gagal otomatis. Gunakan Upload Manual.'; showToast('Gagal mengambil data otomatis.', 'error'); return;
+                }
+            }
+            if (csvText) { let results = Papa.parse(csvText, { header: true, skipEmptyLines: true }); if (results.data && results.data.length > 0) { snrCache = results.data; btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Data Cache Loaded'; btn.style.background = 'var(--accent-dim)'; btn.style.color = 'var(--accent)'; info.innerHTML = `<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>${snrCache.length}</b> baris data tiket.`; checkSNR(); showToast('Cache Tiket berhasil diambil!'); } }
+        }
+
+        function checkSNR() { document.getElementById('btnProcessSNR').disabled = !(snrMtb.length > 0 && snrCache.length > 0); }
+
+        function processSNR() {
+            let cacheMap = {};
+            snrCache.forEach(row => { let keys = Object.keys(row); if(keys.length >= 2) { let ticketId = String(row[keys[0]]).trim(); let trxId = String(row[keys[1]]).trim(); if(trxId) cacheMap[trxId] = ticketId; } });
+            let results = [];
+            snrMtb.forEach(row => {
+                let cols = Object.keys(row); let getVal = (name) => { let col = findColCI(cols, name); return col ? String(row[col]).trim() : ''; };
+                let partnerTxId = getVal('partner_tx_id'); let id = getVal('id'); let vendorName = getVal('vendor_name');
+                let relatedTicket = cacheMap[partnerTxId] || cacheMap[id] || "TIKET TIDAK DITEMUKAN";
+                let amountVal = getVal('amount').replace(/,/g, ''); let amountFormatted = parseFloat(amountVal) ? parseFloat(amountVal).toLocaleString('id-ID') : amountVal;
+                let w1 = `Dear tim @operationdanarapay \n\nMohon bantuannya untuk melakukan open claim ${vendorName}, detailnya :\n\nRelated tiket ${relatedTicket}\n\ntrx id : ${id}\npartner trx id : ${partnerTxId}\ncreated date : ${getVal('created timezone')}\namount : ${amountFormatted}\nbank code : ${getVal('bank_code')}\nbank account no : ${getVal('bank_recipient_account')}\nbank account name : ${getVal('bank_recipient_name')}\nvendor ref id : ${getVal('disburse_vendor_ref_id')}\nStatus : ${getVal('tx_status')}\n\nBerikut terlampir evidencenya\n\nTerima kasih 🙏\n\ncc @ops-monitoring`;
+                let w2 = `Dear Team, \n\nMohon bantuannya untuk melakukan open claim ke ${vendorName}, terkait case trx success not received, detail akan diinfokan di thread\n\nTerima kasih`;
+                results.push({ id, partner_tx_id: partnerTxId, vendor_name: vendorName, related_ticket: relatedTicket, wording1: w1, wording2: w2 });
+            });
+            window.snrResults = results;
+            let html = `<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Generate Wording</h3><div class="text-sm text-slate-400 mb-4">Total: <b>${results.length}</b> wording.</div><button class="btn-primary text-sm py-2" onclick="dlSNR()"><i class="fa-solid fa-file-excel mr-2"></i> Download Excel</button></div>`;
+            results.forEach((r, idx) => {
+                html += `<div class="stat-card mb-6">
+                    <div class="flex justify-between items-center mb-4"><h4 class="text-cyan-400 font-semibold">${r.vendor_name} - ${r.id.substring(0,8)}...</h4><span class="text-xs text-slate-500">Ticket: ${r.related_ticket}</span></div>
+                    <div class="mb-6"><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 1:</div><div class="wording-box" id="w1-${idx}">${r.wording1}</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyToClipboard(document.getElementById('w1-${idx}').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 1</button></div>
+                    <div><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 2:</div><div class="wording-box" id="w2-${idx}">${r.wording2}</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyToClipboard(document.getElementById('w2-${idx}').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 2</button></div>
+                </div>`;
+            });
+            document.getElementById('resultAreaSNR').style.display = 'block'; document.getElementById('resultAreaSNR').innerHTML = html; showToast('Wording SNR Selesai Dibuat!');
+        }
+
+        function dlSNR() {
+            if(!window.snrResults) return;
+            let data = window.snrResults.map(r => ({ 'ID': r.id, 'Partner TX ID': r.partner_tx_id, 'Vendor': r.vendor_name, 'Related Ticket': r.related_ticket, 'WORDING 1': r.wording1, 'WORDING 2': r.wording2 }));
+            const wb = XLSX.utils.book_new(); const ws = XLSX.utils.json_to_sheet(data); ws['!cols'] = [{ wch: 40 }, { wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 80 }, { wch: 60 }]; XLSX.utils.book_append_sheet(wb, ws, 'SNR_WORDING'); XLSX.writeFile(wb, 'SNR_Wording_Claim.xlsx');
+        }
+    </script>
+</body>
+</html>
