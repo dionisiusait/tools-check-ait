@@ -22,7 +22,6 @@
 
         .sidebar { width: 280px; min-height: 100vh; background: var(--bg-elevated); border-right: 1px solid var(--border); padding: 24px 16px; position: fixed; top: 0; left: 0; z-index: 50; display: flex; flex-direction: column; }
         
-        /* Logo Styles */
         .sidebar-logo { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
         .logo-ait { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 2.8rem; line-height: 1; color: #ffffff; letter-spacing: -2px; }
         .logo-sub { font-size: 0.6rem; letter-spacing: 3.5px; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; }
@@ -61,12 +60,11 @@
         .input-text:focus { border-color: var(--accent); }
         .input-text::placeholder { color: var(--text-muted); }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .animate-spin { animation: spin 1s linear infinite; }
-
-        /* Tombol template dengan gaya khusus agar mudah dikenali */
         .btn-template { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border: 1px solid rgba(6, 182, 212, 0.35); border-radius: 12px; font-family: 'Space Grotesk'; font-weight: 500; color: var(--cyan); background: rgba(6, 182, 212, 0.06); cursor: pointer; transition: all 0.3s; text-decoration: none; font-size: 0.9rem; }
         .btn-template:hover { background: rgba(6, 182, 212, 0.12); border-color: var(--cyan); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15); }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .animate-spin { animation: spin 1s linear infinite; }
 
         @media (max-width: 1024px) { .sidebar { width: 80px; padding: 24px 8px; } .logo-sub, .nav-item span { display: none; } .logo-ait { font-size: 2rem; } .main-content { margin-left: 80px; } }
     </style>
@@ -75,7 +73,6 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <aside class="sidebar">
-        <!-- Logo AIT -->
         <div class="sidebar-logo">
             <div class="logo-ait">AIT</div>
             <div class="logo-sub">Arta Intra Teknologi</div>
@@ -84,7 +81,6 @@
         <div class="nav-item active" onclick="switchModule('close-ticket', this)"><i class="fa-solid fa-ticket"></i> <span>Close Ticket</span></div>
         <div class="nav-item" onclick="switchModule('snr', this)"><i class="fa-solid fa-money-bill-transfer"></i> <span>Success Not Received</span></div>
 
-        <!-- Reset Button -->
         <div class="nav-reset">
             <div class="nav-item" onclick="resetAllData()"><i class="fa-solid fa-rotate-left"></i> <span>Reset Data</span></div>
         </div>
@@ -98,7 +94,6 @@
             <h2 class="text-3xl font-bold mb-2">Project Close Ticket</h2>
             <p class="text-slate-400 mb-8">Identifikasi status tiket (OPEN/CLOSE).</p>
 
-            <!-- Tombol Download Template -->
             <div class="mb-8">
                 <button class="btn-template" onclick="downloadTemplateCT()">
                     <i class="fa-solid fa-file-arrow-down"></i> Download Template Excel
@@ -166,10 +161,8 @@
             const c = document.getElementById('toastContainer'); 
             const t = document.createElement('div'); 
             t.className='toast'; 
-            if(type === 'error') t.style.background = 'rgba(239, 68, 68, 0.1)'; 
-            if(type === 'error') t.style.color = '#f87171'; 
-            if(type === 'info') t.style.background = 'rgba(6, 182, 212, 0.1)'; 
-            if(type === 'info') t.style.color = '#22d3ee'; 
+            if(type === 'error') { t.style.background = 'rgba(239, 68, 68, 0.1)'; t.style.color = '#f87171'; }
+            if(type === 'info') { t.style.background = 'rgba(6, 182, 212, 0.1)'; t.style.color = '#22d3ee'; }
             t.innerHTML=`<i class="fa-solid ${type === 'error' ? 'fa-circle-xmark' : type === 'info' ? 'fa-circle-info' : 'fa-circle-check'}"></i><span>${msg}</span>`; 
             c.appendChild(t); 
             setTimeout(()=>t.remove(), 5000); 
@@ -195,11 +188,9 @@
         // RESET FUNCTION
         // =========================================================
         function resetAllData() {
-            // Reset Variables
             ctCsv = []; ctExcel = []; snrMtb = []; snrCache = [];
             window.ctResultData = []; window.ctSummaryOpen = []; window.snrResults = [];
 
-            // Reset Close Ticket UI
             document.getElementById('csvInputCT').value = '';
             document.getElementById('excelInputCT').value = '';
             document.getElementById('csvZoneCT').classList.remove('has-file');
@@ -209,7 +200,6 @@
             document.getElementById('btnProcessCT').disabled = true;
             document.getElementById('resultAreaCT').style.display = 'none';
 
-            // Reset SNR UI
             document.getElementById('snrMtbInput').value = '';
             document.getElementById('snrCacheInput').value = '';
             document.getElementById('snrMtbInfo').innerHTML = '';
@@ -223,37 +213,24 @@
             document.getElementById('btnProcessSNR').disabled = true;
             document.getElementById('resultAreaSNR').style.display = 'none';
 
-            // Switch to first module & scroll top
             switchModule('close-ticket', document.querySelector('.sidebar > .nav-item'));
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showToast('Semua data berhasil di-reset!', 'info');
         }
-
 
         // =========================================================
         // MODULE 1: CLOSE TICKET
         // =========================================================
         let ctCsv=[], ctExcel=[];
 
-        /**
-         * Download template Excel untuk Close Ticket.
-         * Struktur: HEAD | IDENTIFIER | RESULT
-         * Baris contoh: 0 | Diisi dengan identifier yang dicari | Jika Disburse bisa diisi dengan result set pendingnya (opsional)
-         */
+        // Download template Excel: hanya IDENTIFIER | RESULT
         function downloadTemplateCT() {
             const wb = XLSX.utils.book_new();
-            const header = ['HEAD', 'IDENTIFIER', 'RESULT'];
-            const exampleRow = [0, 'Diisi dengan identifier yang dicari', 'Jika Disburse bisa diisi dengan result set pendingnya (opsional)'];
+            const header = ['IDENTIFIER', 'RESULT'];
+            const exampleRow = ['Diisi dengan identifier yang dicari', 'Jika Disburse bisa diisi dengan result set pendingnya (opsional)'];
             const aoa = [header, exampleRow];
             const ws = XLSX.utils.aoa_to_sheet(aoa);
-
-            // Set lebar kolom agar teks terbaca jelas
-            ws['!cols'] = [
-                { wch: 8 },   // HEAD
-                { wch: 42 },  // IDENTIFIER
-                { wch: 60 }   // RESULT
-            ];
-
+            ws['!cols'] = [{ wch: 42 }, { wch: 60 }];
             XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
             XLSX.writeFile(wb, 'Close_Ticket.xlsx');
             showToast('Template Close_Ticket.xlsx berhasil didownload!', 'info');
@@ -289,7 +266,6 @@
             showToast('Close Ticket Selesai!');
         }
         function dlCT() { const wb=XLSX.utils.book_new(); const resCols = ['IDENTIFIER', 'NO TICKET', 'STATUS', 'ROW LIST', 'NUMBER OF TRANSACTION', 'STATUS RESULT']; const ws1 = XLSX.utils.json_to_sheet(window.ctResultData, {header: resCols}); XLSX.utils.book_append_sheet(wb, ws1, 'RESULT'); const sumCols = ['NO TICKET', 'ROW LIST', 'STATUS LIST', 'NUMBER OF TRANSACTION', 'STATUS RESULT']; const ws2 = XLSX.utils.json_to_sheet(window.ctSummaryOpen, {header: sumCols}); XLSX.utils.book_append_sheet(wb, ws2, 'SUMMARY_OPEN'); XLSX.writeFile(wb, 'Result_Tiket.xlsx'); }
-
 
         // =========================================================
         // MODULE 2: SUCCESS NOT RECEIVED
