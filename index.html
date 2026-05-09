@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools Check — SNR & Close Ticket</title>
+    <title>Tools Check — SNR & Close Ticket & Blasting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -59,9 +59,20 @@
         .input-text { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--text); font-family: 'DM Sans'; font-size: 0.85rem; outline: none; width: 100%; transition: border-color 0.3s ease; }
         .input-text:focus { border-color: var(--accent); }
         .input-text::placeholder { color: var(--text-muted); }
+        textarea.input-text { resize: vertical; min-height: 100px; }
 
         .btn-template { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border: 1px solid rgba(6, 182, 212, 0.35); border-radius: 12px; font-family: 'Space Grotesk'; font-weight: 500; color: var(--cyan); background: rgba(6, 182, 212, 0.06); cursor: pointer; transition: all 0.3s; text-decoration: none; font-size: 0.9rem; }
         .btn-template:hover { background: rgba(6, 182, 212, 0.12); border-color: var(--cyan); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15); }
+
+        .open-ticket-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .open-ticket-table th { text-align: left; padding: 12px 16px; font-weight: 600; color: #94a3b8; border-bottom: 1px solid rgba(148, 163, 184, 0.15); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .open-ticket-table td { padding: 12px 16px; border-bottom: 1px solid rgba(148, 163, 184, 0.08); }
+        .open-ticket-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+        .open-ticket-table .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; background: rgba(239, 68, 68, 0.15); color: #f87171; }
+        
+        .blast-wag-list { list-style: none; padding: 0; }
+        .blast-wag-list li { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+        .blast-wag-list li:last-child { border-bottom: none; }
 
         @keyframes spin { to { transform: rotate(360deg); } }
         .animate-spin { animation: spin 1s linear infinite; }
@@ -80,6 +91,7 @@
 
         <div class="nav-item active" onclick="switchModule('close-ticket', this)"><i class="fa-solid fa-ticket"></i> <span>Close Ticket</span></div>
         <div class="nav-item" onclick="switchModule('snr', this)"><i class="fa-solid fa-money-bill-transfer"></i> <span>Success Not Received</span></div>
+        <div class="nav-item" onclick="switchModule('blasting', this)"><i class="fa-solid fa-bullhorn"></i> <span>Blasting</span></div>
 
         <div class="nav-reset">
             <div class="nav-item" onclick="resetAllData()"><i class="fa-solid fa-rotate-left"></i> <span>Reset Data</span></div>
@@ -151,6 +163,39 @@
             <div id="resultAreaSNR" class="mt-8" style="display:none"></div>
         </section>
 
+        <!-- MODULE 3: BLASTING -->
+        <section id="module-blasting" class="module-section">
+            <div class="section-label">Tools Check 3</div>
+            <h2 class="text-3xl font-bold mb-2">Blasting Group</h2>
+            <p class="text-slate-400 mb-8">Filter dan kelompokkan data blast berdasarkan username ke Kategori & Bahasa.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="stat-card">
+                    <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-solid fa-keyboard mr-2"></i>Input Username</h4>
+                    <p class="text-xs text-slate-400 mb-4">Paste daftar username dari Excel (satu per baris atau pisah koma).</p>
+                    <textarea id="blastUsernames" class="input-text" rows="8" placeholder="Contoh:&#10;grabkiosjaba&#10;tpicorne01&#10;username3"></textarea>
+                </div>
+                
+                <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
+                    <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Blasting</h4>
+                    <p class="text-xs text-slate-400 mb-4">Link spreadsheet sudah diisi otomatis.</p>
+                    <input type="text" id="gsheetBlastLink" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=0&single=true&output=csv">
+                    <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnFetchBlast" onclick="fetchBlastData()">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis
+                    </button>
+                    <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
+                    <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('blastCacheInput').click()">
+                        <i class="fa-solid fa-upload"></i> Upload Manual CSV
+                    </button>
+                    <input type="file" id="blastCacheInput" accept=".csv,.xlsx" style="display:none" onchange="handleBlastUpload(event)">
+                    <div id="blastCacheInfo" class="text-xs text-center text-slate-500 mt-3">Belum ada data database.</div>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="btnProcessBlast" disabled onclick="processBlasting()"><i class="fa-solid fa-filter"></i> Proses Blasting</button>
+            <div id="resultAreaBlast" class="mt-8" style="display:none"></div>
+        </section>
+
     </main>
 
     <script>
@@ -188,7 +233,7 @@
         // RESET FUNCTION
         // =========================================================
         function resetAllData() {
-            ctCsv = []; ctExcel = []; snrMtb = []; snrCache = [];
+            ctCsv = []; ctExcel = []; snrMtb = []; snrCache = []; blastData = [];
             window.ctResultData = []; window.ctSummaryOpen = []; window.snrResults = [];
 
             document.getElementById('csvInputCT').value = '';
@@ -205,13 +250,23 @@
             document.getElementById('snrMtbInfo').innerHTML = '';
             document.getElementById('snrCacheInfo').innerHTML = '<span class="text-slate-500">Belum ada data cache.</span>';
             
-            const btnFetch = document.getElementById('btnFetchCache');
+            let btnFetch = document.getElementById('btnFetchCache');
             btnFetch.disabled = false;
             btnFetch.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis';
             btnFetch.style.background = ''; btnFetch.style.color = ''; btnFetch.style.border = '';
             
             document.getElementById('btnProcessSNR').disabled = true;
             document.getElementById('resultAreaSNR').style.display = 'none';
+
+            document.getElementById('blastUsernames').value = '';
+            document.getElementById('blastCacheInput').value = '';
+            document.getElementById('blastCacheInfo').innerHTML = '<span class="text-slate-500">Belum ada data database.</span>';
+            btnFetch = document.getElementById('btnFetchBlast');
+            btnFetch.disabled = false;
+            btnFetch.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis';
+            btnFetch.style.background = ''; btnFetch.style.color = ''; btnFetch.style.border = '';
+            document.getElementById('btnProcessBlast').disabled = true;
+            document.getElementById('resultAreaBlast').style.display = 'none';
 
             switchModule('close-ticket', document.querySelector('.sidebar > .nav-item'));
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -223,7 +278,6 @@
         // =========================================================
         let ctCsv=[], ctExcel=[];
 
-        // Download template Excel: hanya IDENTIFIER | RESULT
         function downloadTemplateCT() {
             const wb = XLSX.utils.book_new();
             const header = ['IDENTIFIER', 'RESULT'];
@@ -261,8 +315,22 @@
             window.ctResultData = resultData; 
             window.ctSummaryOpen = resultData.filter(r => r.STATUS === 'OPEN').map(r => ({ 'NO TICKET': r['NO TICKET'], 'ROW LIST': r['ROW LIST'], 'STATUS LIST': r['STATUS'], 'NUMBER OF TRANSACTION': r['NUMBER OF TRANSACTION'], 'STATUS RESULT': r['STATUS RESULT'] }));
             let closeCount = resultData.filter(r=>r.STATUS==='CLOSE').length; let openCount = window.ctSummaryOpen.length; let notFoundCount = resultData.filter(r=>r.STATUS==='NOT FOUND').length;
+            
+            let openTableHtml = '';
+            if (openCount > 0) {
+                openTableHtml = `<div class="stat-card mt-6" style="border-color: rgba(239, 68, 68, 0.2);">
+                    <h3 class="font-semibold mb-4 text-red-400"><i class="fa-solid fa-circle-exclamation mr-2"></i>Daftar Tiket OPEN (${openCount})</h3>
+                    <div class="overflow-x-auto"><table class="open-ticket-table"><thead><tr><th>NO TICKET</th><th>ROW LIST</th><th>STATUS LIST</th><th>NUMBER OF TRANSACTION</th><th>STATUS RESULT</th></tr></thead><tbody>`;
+                window.ctSummaryOpen.forEach(row => {
+                    openTableHtml += `<tr><td class="font-mono text-emerald-400">${row['NO TICKET']}</td><td class="text-center">${row['ROW LIST']}</td><td><span class="status-badge">${row['STATUS LIST']}</span></td><td class="text-center">${row['NUMBER OF TRANSACTION']}</td><td>${row['STATUS RESULT']}</td></tr>`;
+                });
+                openTableHtml += `</tbody></table></div></div>`;
+            } else {
+                openTableHtml = `<div class="stat-card mt-6 text-center text-slate-500 py-5"><i class="fa-solid fa-check-circle text-emerald-400 mr-2"></i>Tidak ada tiket OPEN. Semua sudah tertutup!</div>`;
+            }
+
             document.getElementById('resultAreaCT').style.display='block';
-            document.getElementById('resultAreaCT').innerHTML=`<div class="stat-card"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Close Ticket</h3><div class="text-sm text-slate-400 mb-4">Close: <b class="text-emerald-400">${closeCount}</b> | Open: <b class="text-red-400">${openCount}</b> | Not Found: <b class="text-slate-400">${notFoundCount}</b></div><button class="btn-primary text-sm py-2" onclick="dlCT()"><i class="fa-solid fa-download mr-2"></i>Download Result_Tiket.xlsx</button></div>`;
+            document.getElementById('resultAreaCT').innerHTML=`<div class="stat-card"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Close Ticket</h3><div class="text-sm text-slate-400 mb-4">Close: <b class="text-emerald-400">${closeCount}</b> | Open: <b class="text-red-400">${openCount}</b> | Not Found: <b class="text-slate-400">${notFoundCount}</b></div><button class="btn-primary text-sm py-2" onclick="dlCT()"><i class="fa-solid fa-download mr-2"></i>Download Result_Tiket.xlsx</button></div>${openTableHtml}`;
             showToast('Close Ticket Selesai!');
         }
         function dlCT() { const wb=XLSX.utils.book_new(); const resCols = ['IDENTIFIER', 'NO TICKET', 'STATUS', 'ROW LIST', 'NUMBER OF TRANSACTION', 'STATUS RESULT']; const ws1 = XLSX.utils.json_to_sheet(window.ctResultData, {header: resCols}); XLSX.utils.book_append_sheet(wb, ws1, 'RESULT'); const sumCols = ['NO TICKET', 'ROW LIST', 'STATUS LIST', 'NUMBER OF TRANSACTION', 'STATUS RESULT']; const ws2 = XLSX.utils.json_to_sheet(window.ctSummaryOpen, {header: sumCols}); XLSX.utils.book_append_sheet(wb, ws2, 'SUMMARY_OPEN'); XLSX.writeFile(wb, 'Result_Tiket.xlsx'); }
@@ -327,6 +395,120 @@
             if(!window.snrResults) return;
             let data = window.snrResults.map(r => ({ 'ID': r.id, 'Partner TX ID': r.partner_tx_id, 'Vendor': r.vendor_name, 'Related Ticket': r.related_ticket, 'WORDING 1': r.wording1, 'WORDING 2': r.wording2 }));
             const wb = XLSX.utils.book_new(); const ws = XLSX.utils.json_to_sheet(data); ws['!cols'] = [{ wch: 40 }, { wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 80 }, { wch: 60 }]; XLSX.utils.book_append_sheet(wb, ws, 'SNR_WORDING'); XLSX.writeFile(wb, 'SNR_Wording_Claim.xlsx');
+        }
+
+        // =========================================================
+        // MODULE 3: BLASTING
+        // =========================================================
+        let blastData = [];
+
+        function handleBlastUpload(e) {
+            const f = e.target.files[0]; if(!f) return;
+            const reader = f.name.endsWith('.csv') ? readCSVFile(f) : readExcelFile(f);
+            reader.then(data => { 
+                blastData = data; 
+                document.getElementById('blastCacheInfo').innerHTML = `<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil (Manual): <b>${blastData.length}</b> baris data.`; 
+                checkBlast(); 
+                showToast('Database Blasting Berhasil Dimuat!'); 
+            });
+        }
+
+        async function fetchBlastData() {
+            const urlInput = document.getElementById('gsheetBlastLink').value.trim(); 
+            const btn = document.getElementById('btnFetchBlast'); 
+            const info = document.getElementById('blastCacheInfo');
+            if (!urlInput) { showToast('Harap masukkan link Google Sheets!', 'error'); return; }
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...'; info.innerHTML = '<span class="text-cyan-400">Menghubungi server...</span>';
+            let csvText = null;
+            try { let response = await fetch(urlInput); if (!response.ok) throw new Error('Direct fetch failed'); csvText = await response.text(); } catch (e1) {
+                try { let proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(urlInput); let response = await fetch(proxyUrl); if (!response.ok) throw new Error('Proxy fetch failed'); csvText = await response.text(); } catch (e2) {
+                    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi'; info.innerHTML = '<i class="fa-solid fa-exclamation-triangle text-red-400 mr-1"></i> Gagal otomatis. Gunakan Upload Manual.'; showToast('Gagal mengambil data otomatis.', 'error'); return;
+                }
+            }
+            if (csvText) { 
+                let results = Papa.parse(csvText, { header: true, skipEmptyLines: true }); 
+                if (results.data && results.data.length > 0) { 
+                    blastData = results.data; 
+                    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Data Loaded'; 
+                    btn.style.background = 'var(--accent-dim)'; btn.style.color = 'var(--accent)'; 
+                    info.innerHTML = `<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>${blastData.length}</b> baris data.`; 
+                    checkBlast(); showToast('Database Blasting berhasil diambil!'); 
+                } 
+            }
+        }
+
+        function checkBlast() { document.getElementById('btnProcessBlast').disabled = !(blastData.length > 0); }
+
+        function processBlasting() {
+            const rawInput = document.getElementById('blastUsernames').value.trim();
+            if (!rawInput) { showToast('Masukkan username terlebih dahulu!', 'error'); return; }
+            if (blastData.length === 0) { showToast('Database blasting belum dimuat!', 'error'); return; }
+            
+            // Parse input (split by newline or comma)
+            const usernames = rawInput.split(/[\n,]+/).map(u => u.trim().toLowerCase()).filter(u => u.length > 0);
+            if (usernames.length === 0) { showToast('Tidak ada username valid yang terdeteksi!', 'error'); return; }
+            
+            // Find Columns (Case Insensitive Matching)
+            const cols = Object.keys(blastData[0]);
+            const userCol = findColCI(cols, 'NAMA DARI METABASE') || findColCI(cols, 'USERNAME') || findColCI(cols, 'NAMA');
+            const katCol = findColCI(cols, 'KATEGORI') || findColCI(cols, 'CATEGORY');
+            const bahasaCol = findColCI(cols, 'BAHASA') || findColCI(cols, 'LANGUAGE') || findColCI(cols, 'LANG');
+            const wagCol = findColCI(cols, 'WAG') || findColCI(cols, 'GRUP') || findColCI(cols, 'WAG (IGN DELETE)');
+            
+            if (!userCol || !katCol || !bahasaCol || !wagCol) {
+                showToast('Kolom Nama/Kategori/Bahasa/WAG tidak ditemukan di database!', 'error'); return;
+            }
+            
+            // Filter Data
+            const filtered = blastData.filter(row => {
+                const rowUsername = String(row[userCol] || '').trim().toLowerCase();
+                return usernames.includes(rowUsername);
+            });
+            
+            // Grouping Data
+            const grouped = {};
+            filtered.forEach(row => {
+                const kat = String(row[katCol] || 'Unknown').trim().toUpperCase();
+                const bahasa = String(row[bahasaCol] || 'Unknown').trim();
+                const wag = String(row[wagCol] || 'Unknown').trim();
+                
+                if (!grouped[kat]) grouped[kat] = {};
+                if (!grouped[kat][bahasa]) grouped[kat][bahasa] = new Set();
+                if (wag && wag !== 'Unknown') grouped[kat][bahasa].add(wag);
+            });
+            
+            // Render HTML
+            let html = `<div class="stat-card mb-6">
+                <h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter Blasting</h3>
+                <div class="text-sm text-slate-400 mb-2">Username dicari: <b class="text-cyan-400">${usernames.length}</b> | Ditemukan: <b class="text-emerald-400">${filtered.length}</b></div>
+            </div>`;
+            
+            const katKeys = Object.keys(grouped).sort();
+            if (katKeys.length === 0) {
+                html += '<div class="stat-card text-center text-slate-400 py-8"><i class="fa-solid fa-ghost mr-2"></i>Tidak ada data yang cocok dengan username tersebut.</div>';
+            } else {
+                katKeys.forEach(kat => {
+                    html += `<div class="stat-card mb-6" style="border-color: rgba(6, 182, 212, 0.3);">
+                        <h3 class="font-bold text-cyan-400 mb-4 uppercase"><i class="fa-solid fa-layer-group mr-2"></i>Kategori: ${kat}</h3>`;
+                    const bahasaKeys = Object.keys(grouped[kat]).sort();
+                    bahasaKeys.forEach(bahasa => {
+                        const wags = Array.from(grouped[kat][bahasa]).sort();
+                        html += `<div class="mb-4 ml-4">
+                            <h4 class="font-semibold text-slate-200 mb-2 text-sm flex items-center gap-2"><i class="fa-solid fa-language text-emerald-400"></i> Bahasa: <span class="text-white">${bahasa}</span></h4>
+                            <div class="bg-[#0c1425] border border-slate-700/50 rounded-lg p-4">
+                                <ul class="blast-wag-list">`;
+                        wags.forEach(w => {
+                            html += `<li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-emerald-400 text-xs"></i> ${w}</li>`;
+                        });
+                        html += `</ul></div></div>`;
+                    });
+                    html += `</div>`;
+                });
+            }
+            
+            document.getElementById('resultAreaBlast').style.display = 'block'; 
+            document.getElementById('resultAreaBlast').innerHTML = html; 
+            showToast('Filter Blasting Selesai!');
         }
     </script>
 </body>
