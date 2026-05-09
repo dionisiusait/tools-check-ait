@@ -69,10 +69,6 @@
         .open-ticket-table td { padding: 12px 16px; border-bottom: 1px solid rgba(148, 163, 184, 0.08); }
         .open-ticket-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
         .open-ticket-table .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; background: rgba(239, 68, 68, 0.15); color: #f87171; }
-        
-        .blast-wag-list { list-style: none; padding: 0; }
-        .blast-wag-list li { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
-        .blast-wag-list li:last-child { border-bottom: none; }
 
         @keyframes spin { to { transform: rotate(360deg); } }
         .animate-spin { animation: spin 1s linear infinite; }
@@ -444,40 +440,38 @@
             if (!rawInput) { showToast('Masukkan username terlebih dahulu!', 'error'); return; }
             if (blastData.length === 0) { showToast('Database blasting belum dimuat!', 'error'); return; }
             
-            // Parse input (split by newline or comma)
             const usernames = rawInput.split(/[\n,]+/).map(u => u.trim().toLowerCase()).filter(u => u.length > 0);
             if (usernames.length === 0) { showToast('Tidak ada username valid yang terdeteksi!', 'error'); return; }
             
-            // Find Columns (Case Insensitive Matching)
             const cols = Object.keys(blastData[0]);
-            const userCol = findColCI(cols, 'NAMA DARI METABASE') || findColCI(cols, 'USERNAME') || findColCI(cols, 'NAMA');
-            const katCol = findColCI(cols, 'KATEGORI') || findColCI(cols, 'CATEGORY');
-            const bahasaCol = findColCI(cols, 'BAHASA') || findColCI(cols, 'LANGUAGE') || findColCI(cols, 'LANG');
-            const wagCol = findColCI(cols, 'WAG') || findColCI(cols, 'GRUP') || findColCI(cols, 'WAG (IGN DELETE)');
+            const namaCol = findColCI(cols, 'NAMA');
+            const wagCol = findColCI(cols, 'WAG');
+            const bahasaCol = findColCI(cols, 'BAHASA');
+            const kategoriCol = findColCI(cols, 'KATEGORI');
+            const notesCol = findColCI(cols, 'NOTES');
             
-            if (!userCol || !katCol || !bahasaCol || !wagCol) {
-                showToast('Kolom Nama/Kategori/Bahasa/WAG tidak ditemukan di database!', 'error'); return;
+            if (!namaCol || !wagCol || !bahasaCol || !kategoriCol) {
+                showToast('Kolom NAMA / WAG / BAHASA / KATEGORI tidak ditemukan di database!', 'error'); return;
             }
             
-            // Filter Data
             const filtered = blastData.filter(row => {
-                const rowUsername = String(row[userCol] || '').trim().toLowerCase();
-                return usernames.includes(rowUsername);
+                const rowNama = String(row[namaCol] || '').trim().toLowerCase();
+                return usernames.includes(rowNama);
             });
             
-            // Grouping Data
             const grouped = {};
             filtered.forEach(row => {
-                const kat = String(row[katCol] || 'Unknown').trim().toUpperCase();
+                const kat = String(row[kategoriCol] || 'Unknown').trim().toUpperCase();
                 const bahasa = String(row[bahasaCol] || 'Unknown').trim();
-                const wag = String(row[wagCol] || 'Unknown').trim();
-                
                 if (!grouped[kat]) grouped[kat] = {};
-                if (!grouped[kat][bahasa]) grouped[kat][bahasa] = new Set();
-                if (wag && wag !== 'Unknown') grouped[kat][bahasa].add(wag);
+                if (!grouped[kat][bahasa]) grouped[kat][bahasa] = [];
+                grouped[kat][bahasa].push({
+                    nama: String(row[namaCol] || '').trim(),
+                    wag: String(row[wagCol] || '').trim(),
+                    notes: notesCol ? String(row[notesCol] || '').trim() : '-'
+                });
             });
             
-            // Render HTML
             let html = `<div class="stat-card mb-6">
                 <h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter Blasting</h3>
                 <div class="text-sm text-slate-400 mb-2">Username dicari: <b class="text-cyan-400">${usernames.length}</b> | Ditemukan: <b class="text-emerald-400">${filtered.length}</b></div>
@@ -492,15 +486,27 @@
                         <h3 class="font-bold text-cyan-400 mb-4 uppercase"><i class="fa-solid fa-layer-group mr-2"></i>Kategori: ${kat}</h3>`;
                     const bahasaKeys = Object.keys(grouped[kat]).sort();
                     bahasaKeys.forEach(bahasa => {
-                        const wags = Array.from(grouped[kat][bahasa]).sort();
+                        const items = grouped[kat][bahasa];
                         html += `<div class="mb-4 ml-4">
-                            <h4 class="font-semibold text-slate-200 mb-2 text-sm flex items-center gap-2"><i class="fa-solid fa-language text-emerald-400"></i> Bahasa: <span class="text-white">${bahasa}</span></h4>
-                            <div class="bg-[#0c1425] border border-slate-700/50 rounded-lg p-4">
-                                <ul class="blast-wag-list">`;
-                        wags.forEach(w => {
-                            html += `<li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-emerald-400 text-xs"></i> ${w}</li>`;
+                            <h4 class="font-semibold text-slate-200 mb-2 text-sm flex items-center gap-2"><i class="fa-solid fa-language text-emerald-400"></i> Bahasa: <span class="text-white">${bahasa}</span> <span class="text-slate-500 text-xs">(${items.length} akun)</span></h4>
+                            <div class="bg-[#0c1425] border border-slate-700/50 rounded-lg overflow-x-auto">
+                                <table class="open-ticket-table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th>NAMA</th>
+                                            <th>WAG</th>
+                                            <th>NOTES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+                        items.forEach(item => {
+                            html += `<tr>
+                                <td class="font-mono text-emerald-400">${item.nama}</td>
+                                <td>${item.wag}</td>
+                                <td class="text-slate-400">${item.notes || '-'}</td>
+                            </tr>`;
                         });
-                        html += `</ul></div></div>`;
+                        html += `</tbody></table></div></div>`;
                     });
                     html += `</div>`;
                 });
