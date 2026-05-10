@@ -112,7 +112,7 @@
     <p class="text-slate-400 mb-8">Identifikasi status tiket (OPEN/CLOSE).</p>
     <div class="mb-8">
         <button class="btn-template" onclick="dlTemplateCT()"><i class="fa-solid fa-file-arrow-down"></i> Download Template Excel</button>
-        <p class="text-xs text-slate-500 mt-2 ml-1">Download template, isi kolom IDENTIFIER, lalu upload kembali.</p>
+        <p class="text-xs text-slate-500 mt-2 ml-1">Download template, isi kolom IDENTIFIER dan RESULT (Opsional) lalu upload kembali.</p>
     </div>
     <div class="grid md:grid-cols-2 gap-6 mb-8">
         <div>
@@ -124,7 +124,7 @@
         <div>
             <div class="upload-zone" id="zoneCT2" onclick="document.getElementById('inpCT2').click()">
                 <input type="file" id="inpCT2" accept=".xlsx,.xls" style="display:none" onchange="handleCT_XL(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>Daftar Identifier (Excel)</div>
+                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>File Pengecekan (Excel)</div>
             </div><div id="infoCT2"></div>
         </div>
     </div>
@@ -197,7 +197,7 @@
     <div class="grid md:grid-cols-2 gap-6 mb-8">
         <div class="stat-card">
             <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-solid fa-keyboard mr-2"></i>Input Username</h4>
-            <textarea id="fsUN" class="input-text" rows="8" placeholder="37projectid&#10;eterealfashioni"></textarea>
+            <textarea id="fsUN" class="input-text" rows="8" placeholder="Masukkan username disini&#10;danarapay"></textarea>
         </div>
         <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
             <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Force Success</h4>
@@ -217,7 +217,7 @@
             <div id="infoFS" class="text-xs text-center text-slate-500 mt-3">Belum ada data.</div>
         </div>
     </div>
-    <button class="btn-primary" id="btnFS" disabled onclick="processFS()"><i class="fa-solid fa-filter"></i> Proses Filter</button>
+    <button class="btn-primary" id="btnFS" disabled onclick="processFS()"><i class="fa-solid fa-filter"></i> Proses List FS</button>
     <div id="resultFS" class="mt-8" style="display:none"></div>
 </section>
 
@@ -233,13 +233,13 @@
         <div>
             <div class="upload-zone" id="zoneRRN1" onclick="document.getElementById('inpRRN1').click()">
                 <input type="file" id="inpRRN1" accept=".xlsx,.xls" style="display:none" onchange="handleRRN_Tmpl(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>Template Identifier (Excel)</div>
+                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>File Pengecekan (Excel)</div>
             </div><div id="infoRRN1"></div>
         </div>
         <div>
             <div class="upload-zone" id="zoneRRN2" onclick="document.getElementById('inpRRN2').click()">
                 <input type="file" id="inpRRN2" accept=".csv,.xlsx,.xls" multiple style="display:none" onchange="handleRRN_DB(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-database text-amber-400 mr-2"></i>File Database (CSV/Excel)</div>
+                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-database text-amber-400 mr-2"></i>File Database Mutasi (CSV/Excel)</div>
                 <div class="text-xs text-slate-500">Bisa upload beberapa file</div>
             </div><div id="infoRRN2"></div>
         </div>
@@ -267,15 +267,15 @@
         <div>
             <div class="upload-zone" id="zoneVA1" onclick="document.getElementById('inpVA1').click()">
                 <input type="file" id="inpVA1" accept=".xlsx,.xls" style="display:none" onchange="handleVA_Tmpl(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>Template CEK VA (Excel)</div>
+                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>File CEK VA (Excel)</div>
                 <div class="text-xs text-slate-500">Kolom: IDENTIFIER + AMOUNT (opsional)</div>
             </div><div id="infoVA1"></div>
         </div>
         <div id="vaMBWrap">
             <div class="upload-zone" id="zoneVA2" onclick="document.getElementById('inpVA2').click()" style="opacity:0.4;pointer-events:none;">
                 <input type="file" id="inpVA2" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleVA_MB(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-database text-amber-400 mr-2"></i>File METABASE (CSV/Excel)</div>
-                <div class="text-xs text-slate-500">Hanya untuk mode Validasi</div>
+                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-database text-amber-400 mr-2"></i>File METABASE (CSV)</div>
+                <div class="text-xs text-slate-500">Hanya untuk mode Validasi dan wajib ada CREATED TIMEZONE GMT+7</div>
             </div><div id="infoVA2"></div>
         </div>
     </div>
