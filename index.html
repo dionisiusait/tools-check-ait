@@ -31,6 +31,7 @@
         .nav-item.active { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--border-strong); }
         .nav-item i { width: 20px; text-align: center; }
         
+        
         .nav-reset { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
         .nav-reset .nav-item { color: #ef4444; }
         .nav-reset .nav-item:hover { background: rgba(239, 68, 68, 0.1); }
@@ -70,6 +71,7 @@
         .open-ticket-table td { padding: 12px 16px; border-bottom: 1px solid rgba(148, 163, 184, 0.08); }
         .open-ticket-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
         .open-ticket-table .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; background: rgba(239, 68, 68, 0.15); color: #f87171; }
+        .blast-nama-cell { white-space: pre-line; word-break: break-word; }
 
         @keyframes spin { to { transform: rotate(360deg); } }
         .animate-spin { animation: spin 1s linear infinite; }
@@ -101,7 +103,7 @@
         <!-- MODULE 1: CLOSE TICKET -->
         <section id="module-close-ticket" class="module-section active">
             <div class="section-label">Tools Check 1</div>
-            <h2 class="text-3xl font-bold mb-2">Close Ticket</h2>
+            <h2 class="text-3xl font-bold mb-2">Project Close Ticket</h2>
             <p class="text-slate-400 mb-8">Identifikasi status tiket (OPEN/CLOSE).</p>
 
             <div class="mb-8">
@@ -123,7 +125,7 @@
         <section id="module-snr" class="module-section">
             <div class="section-label">Tools Check 2</div>
             <h2 class="text-3xl font-bold mb-2">Success Not Received</h2>
-            <p class="text-slate-400 mb-4">Generator wording open claim untuk Slack.</p>
+            <p class="text-slate-400 mb-4">Generator wording claim untuk Slack.</p>
             
             <div class="mb-8">
                 <a href="https://metabase.danarapay.com/question#eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjEyMjA4LCJleHByZXNzaW9ucyI6eyJjcmVhdGVkIHRpbWV6b25lIjpbImNvbnZlcnQtdGltZXpvbmUiLFsiZmllbGQiLDIxMDYxMCx7ImJhc2UtdHlwZSI6InR5cGUvRGF0ZVRpbWUifV0sIkFzaWEvSmFrYXJ0YSIsIlVUQyJdfSwiZXhwcmVzc2lvbi1pZGVudHMiOnsiY3JlYXRlZCB0aW1lem9uZSI6Inp3UTgtZXZjczYyaVdvQjZrT2JpbSJ9fX0sImRpc3BsYXkiOiJ0YWJsZSIsInZpc3VhbGl6YXRpb25fc2V0dGluZ3MiOnsidGFibGUuY29sdW1ucyI6W3sibmFtZSI6ImlkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY29yZF9mbGFnIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZV9ieSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlX2J5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidXNlcm5hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJwYXJ0bmVyX3R4X2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbmtfY29kZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbmtfcmVjaXBpZW50X2FjY291bnQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJiYW5rX3JlY2lwaWVudF9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfbm90ZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImludGVybmFsX3R4X25vdGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhbW91bnQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhZG1pbl9mZWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0eF9zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpbnRlcm5hbF90eF9zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJyY19zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzZW5kZXJfaWRfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX3Bob25lX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY2lwaWVudF9waG9uZV9udW1iZXIiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJlbWFpbCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImRpc2J1cnNlX3ZlbmRvcl9yZWZfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ2ZW5kb3JfbmFtZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9jb3VudHJ5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfcmVmX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbGFuY2VfdXNlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImVycm9yX21hcHBpbmciLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhY2NvdW50X3R5cGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpc19jb21tb25fZGlzYnVyc2UiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJtYWNoaW5lX3N0YXRlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYWRkaXRpb25hbF9kYXRhIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiaXNfc3BsaXRfdHgiLCJlbmFibGVkIjp0cnVlfV19LCJ0eXBlIjoicXVlc3Rpb24ifQ==" target="_blank" class="btn-secondary mb-6 inline-flex">
@@ -165,12 +167,12 @@
         <section id="module-blasting" class="module-section">
             <div class="section-label">Tools Check 3</div>
             <h2 class="text-3xl font-bold mb-2">Blasting Group</h2>
-            <p class="text-slate-400 mb-8">Filter data blast berdasarkan username ke Kategori & Bahasa.</p>
+            <p class="text-slate-400 mb-8">Filter dan kelompokkan data blast berdasarkan username ke Kategori & Bahasa.</p>
 
             <div class="grid md:grid-cols-2 gap-6 mb-8">
                 <div class="stat-card">
                     <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-solid fa-keyboard mr-2"></i>Input Username</h4>
-                    <p class="text-xs text-slate-400 mb-4">Masukkan username yang ingin dicari (satu per baris atau pisah koma).</p>
+                    <p class="text-xs text-slate-400 mb-4">Paste daftar username dari Excel (satu per baris atau pisah koma).</p>
                     <textarea id="blastUsernames" class="input-text" rows="8" placeholder="Contoh:&#10;grabkiosjaba&#10;tpicorne01&#10;username3"></textarea>
                 </div>
                 
@@ -203,7 +205,7 @@
             <div class="grid md:grid-cols-2 gap-6 mb-8">
                 <div class="stat-card">
                     <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-solid fa-keyboard mr-2"></i>Input Username</h4>
-                    <p class="text-xs text-slate-400 mb-4">Masukkan username yang ingin dicari (satu per baris atau pisah koma).</p>
+                    <p class="text-xs text-slate-400 mb-4">Paste daftar username dari Excel (satu per baris atau pisah koma).</p>
                     <textarea id="fsUsernames" class="input-text" rows="8" placeholder="Contoh:&#10;37projectid&#10;eterealfashioni"></textarea>
                 </div>
                 
@@ -461,8 +463,10 @@
             if (!rawInput) { showToast('Masukkan username terlebih dahulu!', 'error'); return; }
             if (blastData.length === 0) { showToast('Database blasting belum dimuat!', 'error'); return; }
             
-            const usernames = rawInput.split(/[\n,]+/).map(u => u.trim().toLowerCase()).filter(u => u.length > 0);
-            if (usernames.length === 0) { showToast('Tidak ada username valid yang terdeteksi!', 'error'); return; }
+            const rawInputs = rawInput.split(/[\n,]+/).map(u => u.trim()).filter(u => u.length > 0);
+            const rawInputsLower = rawInputs.map(u => u.toLowerCase());
+            
+            if (rawInputs.length === 0) { showToast('Tidak ada username valid yang terdeteksi!', 'error'); return; }
             
             const cols = Object.keys(blastData[0]);
             const namaCol = findColCI(cols, 'NAMA');
@@ -473,21 +477,43 @@
             
             if (!namaCol || !wagCol || !bahasaCol || !kategoriCol) { showToast('Kolom NAMA / WAG / BAHASA / KATEGORI tidak ditemukan di database!', 'error'); return; }
             
-            const filtered = blastData.filter(row => { const rowNama = String(row[namaCol] || '').trim().toLowerCase(); return usernames.includes(rowNama); });
+            const addedRows = new Set();
+            // Menggunakan struktur objek berdasarkan WAG untuk mencegah duplikasi row
             const grouped = {};
-            filtered.forEach(row => {
-                const kat = String(row[kategoriCol] || 'Unknown').trim().toUpperCase();
-                const bahasa = String(row[bahasaCol] || 'Unknown').trim();
-                if (!grouped[kat]) grouped[kat] = {};
-                if (!grouped[kat][bahasa]) grouped[kat][bahasa] = [];
-                grouped[kat][bahasa].push({ nama: String(row[namaCol] || '').trim(), wag: String(row[wagCol] || '').trim(), notes: notesCol ? String(row[notesCol] || '').trim() : '-' });
+            let matchCount = 0;
+            
+            blastData.forEach((row, idx) => {
+                const cellContent = String(row[namaCol] || '').toLowerCase();
+                const namesInCell = cellContent.split(/[\n,]+/).map(n => n.trim()).filter(n => n.length > 0);
+                
+                const matchedUsernames = rawInputs.filter((inputVal, i) => namesInCell.includes(rawInputsLower[i]));
+                
+                if (matchedUsernames.length > 0 && !addedRows.has(idx)) {
+                    addedRows.add(idx);
+                    matchCount++;
+                    
+                    const kat = String(row[kategoriCol] || 'Unknown').trim().toUpperCase();
+                    const bahasa = String(row[bahasaCol] || 'Unknown').trim();
+                    const wag = String(row[wagCol] || 'Unknown').trim();
+                    const notes = notesCol ? String(row[notesCol] || '').trim() : '-';
+                    
+                    if (!grouped[kat]) grouped[kat] = {};
+                    if (!grouped[kat][bahasa]) grouped[kat][bahasa] = {};
+                    
+                    // Jika WAG sudah ada di grouping ini, gabungkan usernamenya saja
+                    if (!grouped[kat][bahasa][wag]) {
+                        grouped[kat][bahasa][wag] = { usernames: new Set(), notes: notes };
+                    }
+                    
+                    matchedUsernames.forEach(u => grouped[kat][bahasa][wag].usernames.add(u));
+                }
             });
             
             window.blastGroupedResult = grouped;
             
             let html = `<div class="stat-card mb-6">
                 <h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter Blasting</h3>
-                <div class="text-sm text-slate-400 mb-4">Username dicari: <b class="text-cyan-400">${usernames.length}</b> | Ditemukan: <b class="text-emerald-400">${filtered.length}</b></div>
+                <div class="text-sm text-slate-400 mb-4">Username dicari: <b class="text-cyan-400">${rawInputs.length}</b> | Grup Cell Ditemukan: <b class="text-emerald-400">${matchCount}</b></div>
                 <button class="btn-primary text-sm py-2" onclick="dlBlast()"><i class="fa-solid fa-file-excel mr-2"></i> Download Excel (Pisah Sheet)</button>
             </div>`;
             
@@ -499,9 +525,13 @@
                     html += `<div class="stat-card mb-6" style="border-color: rgba(6, 182, 212, 0.3);"><h3 class="font-bold text-cyan-400 mb-4 uppercase"><i class="fa-solid fa-layer-group mr-2"></i>Kategori: ${kat}</h3>`;
                     const bahasaKeys = Object.keys(grouped[kat]).sort();
                     bahasaKeys.forEach(bahasa => {
-                        const items = grouped[kat][bahasa];
-                        html += `<div class="mb-4 ml-4"><h4 class="font-semibold text-slate-200 mb-2 text-sm flex items-center gap-2"><i class="fa-solid fa-language text-emerald-400"></i> Bahasa: <span class="text-white">${bahasa}</span> <span class="text-slate-500 text-xs">(${items.length} akun)</span></h4><div class="bg-[#0c1425] border border-slate-700/50 rounded-lg overflow-x-auto"><table class="open-ticket-table w-full"><thead><tr><th>NAMA</th><th>WAG</th><th>NOTES</th></tr></thead><tbody>`;
-                        items.forEach(item => { html += `<tr><td class="font-mono text-emerald-400">${item.nama}</td><td>${item.wag}</td><td class="text-slate-400">${item.notes || '-'}</td></tr>`; });
+                        const wagKeys = Object.keys(grouped[kat][bahasa]).sort();
+                        html += `<div class="mb-4 ml-4"><h4 class="font-semibold text-slate-200 mb-2 text-sm flex items-center gap-2"><i class="fa-solid fa-language text-emerald-400"></i> Bahasa: <span class="text-white">${bahasa}</span> <span class="text-slate-500 text-xs">(${wagKeys.length} WAG)</span></h4><div class="bg-[#0c1425] border border-slate-700/50 rounded-lg overflow-x-auto"><table class="open-ticket-table w-full"><thead><tr><th>NAMA</th><th>WAG</th><th>NOTES</th></tr></thead><tbody>`;
+                        wagKeys.forEach(wag => {
+                            const item = grouped[kat][bahasa][wag];
+                            const displayNama = Array.from(item.usernames).join(', ');
+                            html += `<tr><td class="font-mono text-emerald-400 blast-nama-cell">${displayNama}</td><td class="blast-nama-cell">${wag}</td><td class="text-slate-400 blast-nama-cell">${item.notes || '-'}</td></tr>`;
+                        });
                         html += `</tbody></table></div></div>`;
                     });
                     html += `</div>`;
@@ -517,10 +547,13 @@
             
             Object.keys(grouped).sort().forEach(kat => {
                 Object.keys(grouped[kat]).sort().forEach(bahasa => {
-                    const items = grouped[kat][bahasa];
-                    const data = items.map(item => ({ 'NAMA': item.nama, 'WAG': item.wag, 'NOTES': item.notes }));
+                    const wagKeys = Object.keys(grouped[kat][bahasa]).sort();
+                    const data = wagKeys.map(wag => {
+                        const item = grouped[kat][bahasa][wag];
+                        return { 'NAMA': Array.from(item.usernames).join(', '), 'WAG': wag, 'NOTES': item.notes };
+                    });
                     const ws = XLSX.utils.json_to_sheet(data);
-                    ws['!cols'] = [{ wch: 30 }, { wch: 30 }, { wch: 30 }];
+                    ws['!cols'] = [{ wch: 40 }, { wch: 40 }, { wch: 40 }];
                     let sheetName = `${kat}_${bahasa}`.substring(0, 31);
                     let finalName = sheetName;
                     let count = 1;
@@ -538,7 +571,6 @@
         // =========================================================
         let fsData = [];
 
-        // URL Mapping sesuai permintaan (Diubah dari pubhtml ke pub?output=csv agar bisa dibaca website)
         const fsUrlMapping = {
             "Payment Routing": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=935635924&single=true&output=csv",
             "VA Aggregator": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=748605321&single=true&output=csv",
@@ -548,7 +580,6 @@
         function updateFSUrl() {
             const product = document.getElementById('fsProduct').value;
             document.getElementById('gsheetFSLink').value = fsUrlMapping[product] || '';
-            // Reset data jika ganti product agar tidak salah mapping
             fsData = [];
             document.getElementById('fsCacheInfo').innerHTML = '<span class="text-slate-500">Product berubah, silakan ambil data ulang.</span>';
             document.getElementById('btnProcessFS').disabled = true;
