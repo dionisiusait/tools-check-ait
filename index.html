@@ -19,8 +19,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--tx); min-height: 100vh; display: flex; }
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
-
-        /* Sidebar */
         .sidebar { width: 280px; min-height: 100vh; background: var(--bg2); border-right: 1px solid var(--bdr); padding: 24px 16px; position: fixed; top: 0; left: 0; z-index: 50; display: flex; flex-direction: column; overflow-y: auto; }
         .sidebar-logo { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--bdr); }
         .logo-ait { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 2.8rem; line-height: 1; color: #ffffff; letter-spacing: -2px; }
@@ -32,16 +30,12 @@
         .nav-reset { margin-top: auto; border-top: 1px solid var(--bdr); padding-top: 16px; }
         .nav-reset .nav-item { color: #ef4444; }
         .nav-reset .nav-item:hover { background: rgba(239, 68, 68, 0.1); }
-
-        /* Main */
         .main-content { margin-left: 280px; flex: 1; padding: 40px; }
         .module-section { display: none; animation: fadeIn 0.4s ease; }
         .module-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .section-label { display: inline-flex; align-items: center; gap: 8px; font-family: 'Space Grotesk'; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--acc); margin-bottom: 12px; }
         .section-label::before { content: ''; width: 20px; height: 2px; background: var(--acc); }
-
-        /* Components */
         .stat-card { background: var(--card); backdrop-filter: blur(12px); border: 1px solid var(--bdr); border-radius: 16px; padding: 24px; transition: all 0.3s; }
         .upload-zone { border: 2px dashed var(--bdr); border-radius: 16px; padding: 30px 20px; text-align: center; cursor: pointer; transition: all 0.3s; background: var(--card); }
         .upload-zone:hover { border-color: var(--acc); box-shadow: 0 0 20px var(--accg); }
@@ -62,8 +56,6 @@
         .input-text::placeholder { color: var(--txm); }
         textarea.input-text { resize: vertical; min-height: 100px; }
         select.input-text { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E"); background-position: right 12px center; background-repeat: no-repeat; background-size: 16px; }
-
-        /* Tables */
         .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .data-table th { text-align: left; padding: 12px 16px; font-weight: 600; color: #94a3b8; border-bottom: 1px solid rgba(148, 163, 184, 0.15); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .data-table td { padding: 12px 16px; border-bottom: 1px solid rgba(148, 163, 184, 0.08); }
@@ -74,12 +66,9 @@
         .status-badge.notfound { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
         .status-badge.kor { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
         .wlc { white-space: pre-line; word-break: break-word; }
-
-        /* Radio group */
         .radio-group label { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px solid var(--bdr); border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 500; }
         .radio-group label:hover { border-color: var(--acc); }
         .radio-group input[type="radio"] { accent-color: var(--acc); }
-
         @keyframes spin { to { transform: rotate(360deg); } }
         .animate-spin { animation: spin 1s linear infinite; }
         @media (max-width: 1024px) { .sidebar { width: 80px; padding: 24px 8px; } .logo-sub, .nav-item span { display: none; } .logo-ait { font-size: 2rem; } .main-content { margin-left: 80px; } }
@@ -105,7 +94,7 @@
 
 <main class="main-content">
 
-<!-- ===== MODULE 1: CLOSE TICKET ===== -->
+<!-- MODULE 1: CLOSE TICKET -->
 <section id="module-close-ticket" class="module-section active">
     <div class="section-label">Tools Check 1</div>
     <h2 class="text-3xl font-bold mb-2">Close Ticket</h2>
@@ -132,7 +121,7 @@
     <div id="resultCT" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- ===== MODULE 2: SNR ===== -->
+<!-- MODULE 2: SNR -->
 <section id="module-snr" class="module-section">
     <div class="section-label">Tools Check 2</div>
     <h2 class="text-3xl font-bold mb-2">Success Not Received</h2>
@@ -165,15 +154,26 @@
     <div id="resultSNR" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- ===== MODULE 3: BLASTING ===== -->
+<!-- MODULE 3: BLASTING -->
 <section id="module-blasting" class="module-section">
     <div class="section-label">Tools Check 3</div>
     <h2 class="text-3xl font-bold mb-2">Blasting Group</h2>
-    <p class="text-slate-400 mb-8">Filter dan kelompokkan data blast berdasarkan username.</p>
+    <p class="text-slate-400 mb-8">Filter dan kelompokkan data blast berdasarkan username atau tampilkan semua partner berdasarkan notes.</p>
     <div class="grid md:grid-cols-2 gap-6 mb-8">
         <div class="stat-card">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-solid fa-keyboard mr-2"></i>Input Username</h4>
-            <textarea id="blastUN" class="input-text" rows="8" placeholder="Masukkan username disini, contohnya&#10;danarapay"></textarea>
+            <h4 class="font-semibold text-cyan-400 mb-3"><i class="fa-solid fa-keyboard mr-2"></i>Input Data</h4>
+            <div class="radio-group flex gap-3 flex-wrap mb-4">
+                <label><input type="radio" name="blastMode" value="username" checked onchange="toggleBLMode()"><span>Filter Username</span></label>
+                <label><input type="radio" name="blastMode" value="allpartner" onchange="toggleBLMode()"><span>All Partner</span></label>
+            </div>
+            <div id="blastUsernameWrap">
+                <textarea id="blastUN" class="input-text" rows="6" placeholder="Masukkan username disini, contohnya&#10;danarapay"></textarea>
+            </div>
+            <div id="blastNotesWrap" style="display:none">
+                <label class="text-xs text-slate-400 mb-1 block font-semibold">Filter NOTES:</label>
+                <input type="text" id="blastNotes" class="input-text" placeholder="Contoh: DANARA">
+                <p class="text-xs text-slate-500 mt-2">Tampilkan semua data dengan NOTES yang mengandung kata kunci di atas. Hasil akan dikelompokkan per Kategori, Bahasa, dan WAG.</p>
+            </div>
         </div>
         <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
             <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Blasting</h4>
@@ -189,7 +189,7 @@
     <div id="resultBL" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- ===== MODULE 4: FORCE SUCCESS ===== -->
+<!-- MODULE 4: FORCE SUCCESS -->
 <section id="module-force-success" class="module-section">
     <div class="section-label">Tools Check 4</div>
     <h2 class="text-3xl font-bold mb-2">List Force Success Tanpa Bukses</h2>
@@ -221,7 +221,7 @@
     <div id="resultFS" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- ===== MODULE 5: CEK RRN/DISB ===== -->
+<!-- MODULE 5: CEK RRN/DISB -->
 <section id="module-cek-rrn" class="module-section">
     <div class="section-label">Tools Check 5</div>
     <h2 class="text-3xl font-bold mb-2">CEK RRN/DISB</h2>
@@ -248,7 +248,7 @@
     <div id="resultRRN" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- ===== MODULE 6: CEK VA ===== -->
+<!-- MODULE 6: CEK VA -->
 <section id="module-cek-va" class="module-section">
     <div class="section-label">Tools Check 6</div>
     <h2 class="text-3xl font-bold mb-2">CEK VA</h2>
@@ -293,11 +293,8 @@
 </main>
 
 <script>
-/* ============================================================
-   GLOBAL UTILITIES
-   ============================================================ */
+/* ========== GLOBAL UTILITIES ========== */
 function $(id) { return document.getElementById(id); }
-
 function showToast(msg, type) {
     type = type || 'success';
     var box = $('toastBox');
@@ -310,20 +307,17 @@ function showToast(msg, type) {
     box.appendChild(t);
     setTimeout(function() { t.remove(); }, 5000);
 }
-
 function switchMod(id, el) {
     document.querySelectorAll('.module-section').forEach(function(s) { s.classList.remove('active'); });
     document.querySelectorAll('.nav-item:not(.nav-reset .nav-item)').forEach(function(n) { n.classList.remove('active'); });
     $('module-' + id).classList.add('active');
     if (el && !el.parentElement.classList.contains('nav-reset')) el.classList.add('active');
 }
-
 function findCol(cols, target) {
     var t = target.trim().toUpperCase();
     for (var i = 0; i < cols.length; i++) { if (cols[i].trim().toUpperCase() === t) return cols[i]; }
     return null;
 }
-
 function readExcel(file) {
     return new Promise(function(resolve) {
         var reader = new FileReader();
@@ -334,13 +328,11 @@ function readExcel(file) {
         reader.readAsArrayBuffer(file);
     });
 }
-
 function readCSV(file) {
     return new Promise(function(resolve) {
         Papa.parse(file, { header: true, skipEmptyLines: true, complete: function(r) { resolve(r.data); } });
     });
 }
-
 function copyText(text) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function() { showToast('Berhasil disalin!'); });
@@ -352,14 +344,12 @@ function copyText(text) {
         document.body.removeChild(ta);
     }
 }
-
 function cleanNum(v) {
     if (!v || String(v).trim() === '' || String(v).trim() === 'nan') return v;
     var s = String(v).trim();
     if (s.indexOf('.') > -1) { try { var f = parseFloat(s); if (f === Math.floor(f)) return String(Math.floor(f)); } catch(e) {} }
     return s;
 }
-
 async function fetchGSheet(url) {
     var text = null;
     try { var r = await fetch(url); if (!r.ok) throw 0; text = await r.text(); }
@@ -369,54 +359,39 @@ async function fetchGSheet(url) {
     }
     return text;
 }
-
 function resetBtn(btn, label) {
-    btn.disabled = false;
-    btn.innerHTML = label;
-    btn.style.background = '';
-    btn.style.color = '';
-    btn.style.border = '';
+    btn.disabled = false; btn.innerHTML = label; btn.style.background = ''; btn.style.color = ''; btn.style.border = '';
 }
 
-/* ============================================================
-   RESET ALL
-   ============================================================ */
+/* ========== RESET ALL ========== */
 function resetAll() {
     dCT1 = []; dCT2 = []; dSNR1 = []; dSNR2 = []; dBL = []; dFS = [];
     dRRN1 = []; dRRN2 = []; dVA1 = []; dVA2 = []; dVA3 = [];
     window.wCTResult = []; window.wCTOpen = []; window.wSNRResult = [];
     window.wBLGroup = null; window.wRRNResult = []; window.wVAResult = []; window.wVASelisih = [];
-
-    ['inpCT1','inpCT2','inpSNR1','inpSNR2','inpBL','inpFS','inpRRN1','inpRRN2','inpVA1','inpVA2','inpVA3'].forEach(function(id) {
-        var el = $(id); if (el) el.value = '';
-    });
+    ['inpCT1','inpCT2','inpSNR1','inpSNR2','inpBL','inpFS','inpRRN1','inpRRN2','inpVA1','inpVA2','inpVA3'].forEach(function(id) { var el = $(id); if (el) el.value = ''; });
     document.querySelectorAll('.upload-zone').forEach(function(z) { z.classList.remove('has-file'); });
-    ['infoCT1','infoCT2','infoSNR1','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id) {
-        var el = $(id); if (el) el.innerHTML = '';
-    });
+    ['infoCT1','infoCT2','infoSNR1','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id) { var el = $(id); if (el) el.innerHTML = ''; });
     $('infoSNR2').innerHTML = '<span class="text-slate-500">Belum ada data cache.</span>';
     $('infoBL').innerHTML = '<span class="text-slate-500">Belum ada data.</span>';
     $('infoFS').innerHTML = '<span class="text-slate-500">Belum ada data.</span>';
-    $('blastUN').value = ''; $('fsUN').value = '';
-
+    $('blastUN').value = ''; $('fsUN').value = ''; $('blastNotes').value = '';
+    var blastRadio = document.querySelector('input[name="blastMode"][value="username"]');
+    if (blastRadio) blastRadio.checked = true;
+    toggleBLMode();
     ['btnCT','btnSNR','btnBL','btnFS','btnRRN','btnVA'].forEach(function(id) { $(id).disabled = true; });
     ['resultCT','resultSNR','resultBL','resultFS','resultRRN','resultVA'].forEach(function(id) { $(id).style.display = 'none'; });
-
     resetBtn($('btnSNRGS'), '<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
     resetBtn($('btnBLGS'), '<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
     resetBtn($('btnFSGS'), '<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-    updateFSUrl();
-    toggleVAMode();
+    updateFSUrl(); toggleVAMode();
     switchMod('close-ticket', document.querySelector('.sidebar > .nav-item'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Semua data berhasil di-reset!', 'info');
 }
 
-/* ============================================================
-   MODULE 1: CLOSE TICKET
-   ============================================================ */
+/* ========== MODULE 1: CLOSE TICKET ========== */
 var dCT1 = [], dCT2 = [];
-
 function dlTemplateCT() {
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.aoa_to_sheet([['IDENTIFIER','RESULT'],['Diisi identifier','Opsional']]);
@@ -425,17 +400,14 @@ function dlTemplateCT() {
     XLSX.writeFile(wb, 'Close_Ticket.xlsx');
     showToast('Template berhasil didownload!', 'info');
 }
-
 function handleCT_CSV(e) {
     var f = e.target.files[0]; if (!f) return;
     Papa.parse(f, { header: true, skipEmptyLines: true, complete: function(r) {
-        dCT1 = r.data;
-        $('zoneCT1').classList.add('has-file');
+        dCT1 = r.data; $('zoneCT1').classList.add('has-file');
         $('infoCT1').innerHTML = '<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>' + f.name + ' (' + dCT1.length + ' baris)</div>';
         checkCT();
     }});
 }
-
 function handleCT_XL(e) {
     var f = e.target.files[0]; if (!f) return;
     var rd = new FileReader();
@@ -448,9 +420,7 @@ function handleCT_XL(e) {
     };
     rd.readAsArrayBuffer(f);
 }
-
 function checkCT() { $('btnCT').disabled = !(dCT1.length > 0 && dCT2.length > 0); }
-
 function processCT() {
     var tC = findCol(Object.keys(dCT1[0] || {}), 'No Ticket');
     var pC = findCol(Object.keys(dCT1[0] || {}), 'Close PIC (CSU)');
@@ -458,7 +428,6 @@ function processCT() {
     if (!tC || !pC) { showToast('Kolom No Ticket / Close PIC tidak ada!', 'error'); return; }
     var rC = findCol(Object.keys(dCT2[0] || {}), 'RESULT');
     var resultData = []; var globalSeen = new Set();
-
     dCT2.forEach(function(ex) {
         var id = String(ex['IDENTIFIER'] || '').trim();
         var rv = rC ? String(ex[rC] || '').trim() : ''; if (!rv) rv = '-';
@@ -476,13 +445,11 @@ function processCT() {
         });
         if (!found) { resultData.push({ 'IDENTIFIER': id, 'NO TICKET': '*', 'STATUS': 'NOT FOUND', 'ROW LIST': '*', 'NUMBER OF TRANSACTION': '*', 'STATUS RESULT': rv }); }
     });
-
     window.wCTResult = resultData;
     window.wCTOpen = resultData.filter(function(r) { return r.STATUS === 'OPEN'; });
     var cc = resultData.filter(function(r) { return r.STATUS === 'CLOSE'; }).length;
     var oc = window.wCTOpen.length;
     var nc = resultData.filter(function(r) { return r.STATUS === 'NOT FOUND'; }).length;
-
     var tblHtml = '';
     if (oc > 0) {
         tblHtml = '<div class="stat-card mt-6" style="border-color:rgba(239,68,68,0.2)"><h3 class="font-semibold mb-4 text-red-400"><i class="fa-solid fa-circle-exclamation mr-2"></i>Daftar Tiket OPEN (' + oc + ')</h3><div class="overflow-x-auto"><table class="data-table"><thead><tr><th>NO TICKET</th><th>ROW</th><th>STATUS</th><th>NUM TRX</th><th>RESULT</th></tr></thead><tbody>';
@@ -493,12 +460,10 @@ function processCT() {
     } else {
         tblHtml = '<div class="stat-card mt-6 text-center text-slate-500 py-5"><i class="fa-solid fa-check-circle text-emerald-400 mr-2"></i>Tidak ada tiket OPEN!</div>';
     }
-
     $('resultCT').style.display = 'block';
     $('resultCT').innerHTML = '<div class="stat-card"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Close Ticket</h3><div class="text-sm text-slate-400 mb-4">Close: <b class="text-emerald-400">' + cc + '</b> | Open: <b class="text-red-400">' + oc + '</b> | Not Found: <b class="text-slate-400">' + nc + '</b></div><button class="btn-primary text-sm py-2" onclick="dlCT()"><i class="fa-solid fa-download mr-2"></i>Download Result_Tiket.xlsx</button></div>' + tblHtml;
     showToast('Close Ticket Selesai!');
 }
-
 function dlCT() {
     var wb = XLSX.utils.book_new();
     var ws1 = XLSX.utils.json_to_sheet(window.wCTResult, { header: ['IDENTIFIER','NO TICKET','STATUS','ROW LIST','NUMBER OF TRANSACTION','STATUS RESULT'] });
@@ -508,11 +473,8 @@ function dlCT() {
     XLSX.writeFile(wb, 'Result_Tiket.xlsx');
 }
 
-/* ============================================================
-   MODULE 2: SNR
-   ============================================================ */
+/* ========== MODULE 2: SNR ========== */
 var dSNR1 = [], dSNR2 = [];
-
 function handleSNR_MTB(e) {
     var f = e.target.files[0]; if (!f) return;
     readCSV(f).then(function(d) {
@@ -521,17 +483,14 @@ function handleSNR_MTB(e) {
         checkSNR();
     });
 }
-
 function handleSNR_Cache(e) {
     var f = e.target.files[0]; if (!f) return;
     var reader = f.name.endsWith('.csv') ? readCSV(f) : readExcel(f);
     reader.then(function(d) {
-        dSNR2 = d;
-        $('infoSNR2').innerHTML = '<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>' + dSNR2.length + '</b> baris';
+        dSNR2 = d; $('infoSNR2').innerHTML = '<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>' + dSNR2.length + '</b> baris';
         checkSNR(); showToast('Cache Tiket Berhasil Dimuat!');
     });
 }
-
 async function fetchSNRCache() {
     var url = $('gsSNR').value.trim(), btn = $('btnSNRGS'), info = $('infoSNR2');
     if (!url) { showToast('Harap masukkan link!', 'error'); return; }
@@ -549,9 +508,7 @@ async function fetchSNRCache() {
         } else { resetBtn(btn, '<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi'); info.innerHTML = 'Gagal parse.'; }
     } else { resetBtn(btn, '<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi'); info.innerHTML = '<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.'; showToast('Gagal mengambil data.', 'error'); }
 }
-
 function checkSNR() { $('btnSNR').disabled = !(dSNR1.length > 0 && dSNR2.length > 0); }
-
 function processSNR() {
     var cacheMap = {};
     dSNR2.forEach(function(row) { var k = Object.keys(row); if (k.length >= 2) { var t = String(row[k[0]]).trim(), i = String(row[k[1]]).trim(); if (i) cacheMap[i] = t; } });
@@ -562,7 +519,7 @@ function processSNR() {
         var pt = gv('partner_tx_id'), id = gv('id'), vn = gv('vendor_name');
         var rt = cacheMap[pt] || cacheMap[id] || "TIKET TIDAK DITEMUKAN";
         var av = gv('amount').replace(/,/g, ''), af = parseFloat(av) ? parseFloat(av).toLocaleString('id-ID') : av;
-        var w1 = 'Dear tim @operationdanarapay \n\nMohon bantuannya untuk melakukan open claim ' + vn + ', detailnya :\n\nRelated tiket ' + rt + '\n\ntrx id : ' + id + '\npartner trx id : ' + pt + '\ncreated date : ' + gv('created timezone') + '\namount : ' + af + '\nbank code : ' + gv('bank_code') + '\nbank account no : ' + gv('bank_recipient_account') + '\nbank account name : ' + gv('bank_recipient_name') + '\nvendor ref id : ' + gv('disburse_vendor_ref_id') + '\nStatus : ' + gv('tx_status') + '\n\nBerikut terlampir evidencenya\n\nTerima kasih 🙏\n\ncc @ops-monitoring';
+        var w1 = 'Dear tim @operationdanarapay \n\nMohon bantuannya untuk melakukan open claim ' + vn + ', detailnya :\n\nRelated tiket ' + rt + '\n\ntrx id : ' + id + '\npartner trx id : ' + pt + '\ncreated date : ' + gv('created timezone') + '\namount : ' + af + '\nbank code : ' + gv('bank_code') + '\nbank account no : ' + gv('bank_recipient_account') + '\nbank account name : ' + gv('bank_recipient_name') + '\nvendor ref id : ' + gv('disburse_vendor_ref_id') + '\nStatus : ' + gv('tx_status') + '\n\nBerikut terlampir evidencenya\n\nTerima kasih \n\ncc @ops-monitoring';
         var w2 = 'Dear Team, \n\nMohon bantuannya untuk melakukan open claim ke ' + vn + ', terkait case trx success not received, detail akan diinfokan di thread\n\nTerima kasih';
         results.push({ id: id, pt: pt, vn: vn, rt: rt, w1: w1, w2: w2 });
     });
@@ -575,7 +532,6 @@ function processSNR() {
     });
     $('resultSNR').style.display = 'block'; $('resultSNR').innerHTML = html; showToast('Wording SNR Selesai!');
 }
-
 function dlSNR() {
     if (!window.wSNRResult) return;
     var d = window.wSNRResult.map(function(r) { return { 'ID': r.id, 'Partner TX ID': r.pt, 'Vendor': r.vn, 'Related Ticket': r.rt, 'WORDING 1': r.w1, 'WORDING 2': r.w2 }; });
@@ -584,13 +540,20 @@ function dlSNR() {
     XLSX.utils.book_append_sheet(wb, ws, 'SNR_WORDING'); XLSX.writeFile(wb, 'SNR_Wording_Claim.xlsx');
 }
 
-/* ============================================================
-   MODULE 3: BLASTING
-   ============================================================ */
+/* ========== MODULE 3: BLASTING ========== */
 var dBL = [];
-
+function toggleBLMode() {
+    var mode = document.querySelector('input[name="blastMode"]:checked').value;
+    if (mode === 'username') {
+        $('blastUsernameWrap').style.display = 'block';
+        $('blastNotesWrap').style.display = 'none';
+    } else {
+        $('blastUsernameWrap').style.display = 'none';
+        $('blastNotesWrap').style.display = 'block';
+    }
+    checkBL();
+}
 function handleBLUpload(e) { var f = e.target.files[0]; if (!f) return; (f.name.endsWith('.csv') ? readCSV(f) : readExcel(f)).then(function(d) { dBL = d; $('infoBL').innerHTML = '<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>' + dBL.length + '</b> baris'; checkBL(); showToast('Database Blasting Berhasil!'); }); }
-
 async function fetchBLData() {
     var url = $('gsBL').value.trim(), btn = $('btnBLGS'), info = $('infoBL');
     if (!url) { showToast('Harap masukkan link!', 'error'); return; }
@@ -602,39 +565,62 @@ async function fetchBLData() {
         else { resetBtn(btn, '<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi'); }
     } else { resetBtn(btn, '<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi'); info.innerHTML = '<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.'; showToast('Gagal mengambil data.', 'error'); }
 }
-
 function checkBL() { $('btnBL').disabled = !(dBL.length > 0); }
-
 function processBL() {
-    var ri = $('blastUN').value.trim();
-    if (!ri) { showToast('Masukkan username!', 'error'); return; }
-    var rawInputs = ri.split(/[\n,]+/).map(function(u) { return u.trim(); }).filter(function(u) { return u.length > 0; });
-    var rawLower = rawInputs.map(function(u) { return u.toLowerCase(); });
+    var mode = document.querySelector('input[name="blastMode"]:checked').value;
     var cols = Object.keys(dBL[0]);
     var nc = findCol(cols, 'NAMA'), wc = findCol(cols, 'WAG'), bc = findCol(cols, 'BAHASA'), kc = findCol(cols, 'KATEGORI'), otc = findCol(cols, 'NOTES');
     if (!nc || !wc || !bc || !kc) { showToast('Kolom NAMA/WAG/BAHASA/KATEGORI tidak ditemukan!', 'error'); return; }
 
-    var added = new Set(), grouped = {}, matchCount = 0;
-    dBL.forEach(function(row, idx) {
-        var cell = String(row[nc] || '').toLowerCase();
-        var namesInCell = cell.split(/[\n,]+/).map(function(n) { return n.trim(); }).filter(function(n) { return n.length > 0; });
-        var matched = [];
-        rawInputs.forEach(function(inputVal, i) { if (namesInCell.indexOf(rawLower[i]) > -1) matched.push(inputVal); });
-        if (matched.length > 0 && !added.has(idx)) {
+    var added = new Set(), grouped = {}, matchCount = 0, headerInfo = '';
+
+    if (mode === 'username') {
+        var ri = $('blastUN').value.trim();
+        if (!ri) { showToast('Masukkan username!', 'error'); return; }
+        var rawInputs = ri.split(/[\n,]+/).map(function(u) { return u.trim(); }).filter(function(u) { return u.length > 0; });
+        var rawLower = rawInputs.map(function(u) { return u.toLowerCase(); });
+        dBL.forEach(function(row, idx) {
+            var cell = String(row[nc] || '').toLowerCase();
+            var namesInCell = cell.split(/[\n,]+/).map(function(n) { return n.trim(); }).filter(function(n) { return n.length > 0; });
+            var matched = [];
+            rawInputs.forEach(function(inputVal, i) { if (namesInCell.indexOf(rawLower[i]) > -1) matched.push(inputVal); });
+            if (matched.length > 0 && !added.has(idx)) {
+                added.add(idx); matchCount++;
+                var kat = String(row[kc] || 'Unknown').trim().toUpperCase();
+                var bahasa = String(row[bc] || 'Unknown').trim();
+                var wag = String(row[wc] || 'Unknown').trim();
+                var notes = otc ? String(row[otc] || '').trim() : '-';
+                if (!grouped[kat]) grouped[kat] = {};
+                if (!grouped[kat][bahasa]) grouped[kat][bahasa] = {};
+                if (!grouped[kat][bahasa][wag]) grouped[kat][bahasa][wag] = { u: new Set(), n: notes };
+                matched.forEach(function(u) { grouped[kat][bahasa][wag].u.add(u); });
+            }
+        });
+        headerInfo = 'Dicari: <b class="text-cyan-400">' + rawInputs.length + '</b> | Ditemukan: <b class="text-emerald-400">' + matchCount + '</b>';
+    } else {
+        var notesFilter = $('blastNotes').value.trim();
+        if (!notesFilter) { showToast('Masukkan filter NOTES!', 'error'); return; }
+        var nfLower = notesFilter.toLowerCase();
+        dBL.forEach(function(row, idx) {
+            var notesVal = otc ? String(row[otc] || '').trim() : '';
+            if (notesVal.toLowerCase().indexOf(nfLower) === -1) return;
+            if (added.has(idx)) return;
             added.add(idx); matchCount++;
             var kat = String(row[kc] || 'Unknown').trim().toUpperCase();
             var bahasa = String(row[bc] || 'Unknown').trim();
             var wag = String(row[wc] || 'Unknown').trim();
-            var notes = otc ? String(row[otc] || '').trim() : '-';
+            var nama = String(row[nc] || '').trim();
+            var notes = notesVal || '-';
             if (!grouped[kat]) grouped[kat] = {};
             if (!grouped[kat][bahasa]) grouped[kat][bahasa] = {};
             if (!grouped[kat][bahasa][wag]) grouped[kat][bahasa][wag] = { u: new Set(), n: notes };
-            matched.forEach(function(u) { grouped[kat][bahasa][wag].u.add(u); });
-        }
-    });
-    window.wBLGroup = grouped;
+            nama.split(/[\n,]+/).map(function(n) { return n.trim(); }).filter(function(n) { return n.length > 0; }).forEach(function(u) { grouped[kat][bahasa][wag].u.add(u); });
+        });
+        headerInfo = 'NOTES: <b class="text-cyan-400">' + notesFilter + '</b> | Ditemukan: <b class="text-emerald-400">' + matchCount + '</b> baris';
+    }
 
-    var html = '<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter Blasting</h3><div class="text-sm text-slate-400 mb-4">Dicari: <b class="text-cyan-400">' + rawInputs.length + '</b> | Ditemukan: <b class="text-emerald-400">' + matchCount + '</b></div><button class="btn-primary text-sm py-2" onclick="dlBL()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
+    window.wBLGroup = grouped;
+    var html = '<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter Blasting</h3><div class="text-sm text-slate-400 mb-4">' + headerInfo + '</div><button class="btn-primary text-sm py-2" onclick="dlBL()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
     var katKeys = Object.keys(grouped).sort();
     if (!katKeys.length) { html += '<div class="stat-card text-center text-slate-400 py-8">Tidak ada data cocok.</div>'; }
     else {
@@ -654,7 +640,6 @@ function processBL() {
     }
     $('resultBL').style.display = 'block'; $('resultBL').innerHTML = html; showToast('Blasting Selesai!');
 }
-
 function dlBL() {
     if (!window.wBLGroup) return;
     var wb = XLSX.utils.book_new();
@@ -670,24 +655,19 @@ function dlBL() {
     XLSX.writeFile(wb, 'Blasting_Result.xlsx'); showToast('Blasting_Result.xlsx berhasil!');
 }
 
-/* ============================================================
-   MODULE 4: FORCE SUCCESS
-   ============================================================ */
+/* ========== MODULE 4: FORCE SUCCESS ========== */
 var dFS = [];
 var fsUrlMap = {
     'Payment Routing': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=935635924&single=true&output=csv',
     'VA Aggregator': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=748605321&single=true&output=csv',
     'VA Top Up': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=456614761&single=true&output=csv'
 };
-
 function updateFSUrl() {
     $('gsFS').value = fsUrlMap[$('fsProd').value] || '';
     dFS = []; $('infoFS').innerHTML = '<span class="text-slate-500">Product berubah.</span>';
     $('btnFS').disabled = true; resetBtn($('btnFSGS'), '<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
 }
-
 function handleFSUpload(e) { var f = e.target.files[0]; if (!f) return; (f.name.endsWith('.csv') ? readCSV(f) : readExcel(f)).then(function(d) { dFS = d; $('infoFS').innerHTML = '<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>' + dFS.length + '</b> baris'; checkFS(); showToast('Database FS Berhasil!'); }); }
-
 async function fetchFSData() {
     var url = $('gsFS').value.trim(), btn = $('btnFSGS'), info = $('infoFS');
     if (!url) { showToast('Link belum diset!', 'error'); return; }
@@ -699,9 +679,7 @@ async function fetchFSData() {
         else { resetBtn(btn, 'Coba Lagi'); }
     } else { resetBtn(btn, 'Coba Lagi'); info.innerHTML = '<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.'; showToast('Gagal mengambil data.', 'error'); }
 }
-
 function checkFS() { $('btnFS').disabled = !(dFS.length > 0); }
-
 function processFS() {
     var ri = $('fsUN').value.trim(); if (!ri) { showToast('Masukkan username!', 'error'); return; }
     var uu = ri.split(/[\n,]+/).map(function(u) { return u.trim().toLowerCase(); }).filter(function(u) { return u.length > 0; });
@@ -717,11 +695,8 @@ function processFS() {
     $('resultFS').style.display = 'block'; $('resultFS').innerHTML = html; showToast('Filter FS Selesai!');
 }
 
-/* ============================================================
-   MODULE 5: CEK RRN/DISB
-   ============================================================ */
+/* ========== MODULE 5: CEK RRN/DISB ========== */
 var dRRN1 = [], dRRN2 = [];
-
 function dlTemplateRRN() {
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.aoa_to_sheet([['IDENTIFIER'], ['Input identifier yang digunakan utk pengecekan ke mutasi']]);
@@ -730,7 +705,6 @@ function dlTemplateRRN() {
     XLSX.writeFile(wb, 'CEK_RRN_DISB.xlsx');
     showToast('Template berhasil didownload!', 'info');
 }
-
 function handleRRN_Tmpl(e) {
     var f = e.target.files[0]; if (!f) return;
     readExcel(f).then(function(d) {
@@ -743,7 +717,6 @@ function handleRRN_Tmpl(e) {
         checkRRN();
     });
 }
-
 function handleRRN_DB(e) {
     var files = Array.from(e.target.files); if (!files.length) return;
     var promises = files.map(function(f) {
@@ -758,17 +731,12 @@ function handleRRN_DB(e) {
         checkRRN();
     });
 }
-
 function checkRRN() { $('btnRRN').disabled = !(dRRN1.length > 0 && dRRN2.length > 0); }
-
 function processRRN() {
     var cols = Object.keys(dRRN1[0] || {});
     var idCol = findCol(cols, 'IDENTIFIER') || findCol(cols, 'IDENTIFIER RRN') || findCol(cols, 'IDENTIFIER DISB');
     if (!idCol) { showToast('Kolom IDENTIFIER tidak ditemukan!', 'error'); return; }
-
     var identifiers = dRRN1.map(function(r) { return String(r[idCol] || '').replace(/\.0$/, '').trim(); }).filter(function(id) { return id && id !== 'nan'; });
-
-    // Build index
     var indexMap = {}, rowCacheMap = {};
     dRRN2.forEach(function(db) {
         var fileName = db.name;
@@ -779,7 +747,6 @@ function processRRN() {
         });
         var rowCache = normData.map(function(row) { return Object.values(row).join(' ').trim(); });
         rowCacheMap[fileName] = { data: normData, cache: rowCache };
-
         identifiers.forEach(function(ident) {
             if (!ident) return;
             rowCache.forEach(function(text, i) {
@@ -790,7 +757,6 @@ function processRRN() {
             });
         });
     });
-
     var resultRows = [];
     identifiers.forEach(function(ident) {
         if (indexMap[ident]) {
@@ -804,11 +770,9 @@ function processRRN() {
             resultRows.push({ 'IDENTIFIER': ident, 'RESULT': 'NO RESULT', 'INFO': '', 'SOURCE FILE': '', 'DETAILS': '' });
         }
     });
-
     window.wRRNResult = resultRows;
     var fc = resultRows.filter(function(r) { return r.RESULT === 'DITEMUKAN'; }).length;
     var nc = resultRows.filter(function(r) { return r.RESULT === 'NO RESULT'; }).length;
-
     var html = '<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil CEK RRN/DISB</h3><div class="text-sm text-slate-400 mb-4">Ditemukan: <b class="text-emerald-400">' + fc + '</b> | Tidak: <b class="text-red-400">' + nc + '</b></div><button class="btn-primary text-sm py-2" onclick="dlRRN()"><i class="fa-solid fa-download mr-2"></i>Download Result</button></div>';
     if (resultRows.length) {
         html += '<div class="stat-card" style="border-color:rgba(6,182,212,0.3)"><div class="overflow-x-auto"><table class="data-table w-full"><thead><tr><th>IDENTIFIER</th><th>RESULT</th><th>INFO</th><th>SOURCE FILE</th></tr></thead><tbody>';
@@ -820,7 +784,6 @@ function processRRN() {
     }
     $('resultRRN').style.display = 'block'; $('resultRRN').innerHTML = html; showToast('CEK RRN/DISB Selesai!');
 }
-
 function dlRRN() {
     if (!window.wRRNResult) return;
     var wb = XLSX.utils.book_new(), ws = XLSX.utils.json_to_sheet(window.wRRNResult);
@@ -829,21 +792,14 @@ function dlRRN() {
     XLSX.writeFile(wb, 'Result_RRN_DISB.xlsx'); showToast('Result_RRN_DISB.xlsx berhasil!');
 }
 
-/* ============================================================
-   MODULE 6: CEK VA — Helper Functions
-   ============================================================ */
-
-// Parse datetime to { ds: 'YYYY-MM-DD', mn: minuteOfDay, dt: 'YYYY-MM-DD HH:MM' }
+/* ========== MODULE 6: CEK VA HELPERS ========== */
 function normDTM(value) {
     if (!value || String(value).trim() === '' || String(value).trim() === 'nan') return null;
     var vs = String(value).trim(), m, y, mo, d, h, mi;
-    // YYYY-MM-DD HH:MM(:SS)
     m = vs.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/);
     if (m) { y=m[1]; mo=m[2]; d=m[3]; h=m[4]; mi=m[5]; return { ds: y+'-'+mo+'-'+d, mn: parseInt(h)*60+parseInt(mi), dt: y+'-'+mo+'-'+d+' '+h+':'+mi }; }
-    // DD/MM/YYYY HH:MM(:SS)
     m = vs.match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})/);
     if (m) { d=m[1]; mo=m[2]; y=m[3]; h=m[4]; mi=m[5]; return { ds: y+'-'+mo+'-'+d, mn: parseInt(h)*60+parseInt(mi), dt: y+'-'+mo+'-'+d+' '+h+':'+mi }; }
-    // Fallback: Date object
     try {
         var dt = new Date(vs);
         if (!isNaN(dt.getTime())) {
@@ -854,8 +810,6 @@ function normDTM(value) {
     } catch(e) {}
     return null;
 }
-
-// Normalize amount string
 function normAmt(v) {
     if (!v || String(v).trim() === '' || String(v).trim() === 'nan') return '';
     var c = String(v).replace(/,/g, '').replace(/ /g, '').trim();
@@ -863,8 +817,6 @@ function normAmt(v) {
     if (c.indexOf('.') > -1) { try { var f = parseFloat(c); if (f === Math.floor(f)) c = String(Math.floor(f)); } catch(e) {} }
     return c;
 }
-
-// Fix VA number from scientific notation
 function fixVA(val, targetIds) {
     var s = String(val).trim();
     if (!s || s === 'nan') return '';
@@ -891,8 +843,6 @@ function fixVA(val, targetIds) {
         return expanded;
     } catch(e) { return s; }
 }
-
-// Get jenis transaksi from description
 function getJenis(desc) {
     if (!desc || String(desc).trim() === '' || String(desc).trim() === 'nan') return 'OTHER';
     var s = String(desc).trim();
@@ -902,8 +852,6 @@ function getJenis(desc) {
     if (s.indexOf('BRIVA') > -1) return 'BRIVA';
     return 'OTHER';
 }
-
-// Toggle VA mode (show/hide metabase upload)
 function toggleVAMode() {
     var mode = document.querySelector('input[name="vaMode"]:checked').value;
     var zone = $('zoneVA2');
@@ -912,11 +860,8 @@ function toggleVAMode() {
     checkVA();
 }
 
-/* ============================================================
-   MODULE 6: CEK VA — Data Handlers
-   ============================================================ */
+/* ========== MODULE 6: CEK VA DATA HANDLERS ========== */
 var dVA1 = [], dVA2 = [], dVA3 = [];
-
 function dlTemplateVA() {
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.aoa_to_sheet([['IDENTIFIER', 'AMOUNT'], ['Input No VA yang dicari', 'Input amount yang diinginkan (opsional)']]);
@@ -925,27 +870,22 @@ function dlTemplateVA() {
     XLSX.writeFile(wb, 'CEK_VA.xlsx');
     showToast('Template berhasil didownload!', 'info');
 }
-
 function handleVA_Tmpl(e) {
     var f = e.target.files[0]; if (!f) return;
     readExcel(f).then(function(d) {
-        dVA1 = d;
-        $('zoneVA1').classList.add('has-file');
+        dVA1 = d; $('zoneVA1').classList.add('has-file');
         $('infoVA1').innerHTML = '<div class="file-info"><i class="fa-solid fa-check text-cyan-400 mr-2"></i>' + f.name + ' (' + dVA1.length + ' id)</div>';
         checkVA();
     });
 }
-
 function handleVA_MB(e) {
     var f = e.target.files[0]; if (!f) return;
     (f.name.toLowerCase().endsWith('.csv') ? readCSV(f) : readExcel(f)).then(function(d) {
-        dVA2 = d;
-        $('zoneVA2').classList.add('has-file');
+        dVA2 = d; $('zoneVA2').classList.add('has-file');
         $('infoVA2').innerHTML = '<div class="file-info"><i class="fa-solid fa-check text-amber-400 mr-2"></i>' + f.name + ' (' + dVA2.length + ' baris)</div>';
         checkVA();
     });
 }
-
 function handleVA_Mutasi(e) {
     var files = Array.from(e.target.files); if (!files.length) return;
     var promises = files.map(function(f) {
@@ -960,14 +900,11 @@ function handleVA_Mutasi(e) {
         checkVA();
     });
 }
-
 function checkVA() {
     var mode = document.querySelector('input[name="vaMode"]:checked').value;
     var base = dVA1.length > 0 && dVA3.length > 0;
     $('btnVA').disabled = !(base && (mode === 'normal' || dVA2.length > 0));
 }
-
-// Merge helper: combine rows with same content but different SOURCE_FILE/ROW_NUMBER
 function mergeVARows(df) {
     if (!df.length) return df;
     var groupCols = Object.keys(df[0]).filter(function(c) { return c !== 'SOURCE_FILE' && c !== 'ROW_NUMBER'; });
@@ -991,35 +928,23 @@ function mergeVARows(df) {
     });
 }
 
-/* ============================================================
-   MODULE 6: CEK VA — Process
-   ============================================================ */
+/* ========== MODULE 6: CEK VA PROCESS ========== */
 function processVA() {
     var mode = document.querySelector('input[name="vaMode"]:checked').value;
-    var TOL = 5; // ±5 menit toleransi
-
-    // Parse template
+    var TOL = 5;
     var tCols = Object.keys(dVA1[0] || {});
     var idCol = findCol(tCols, 'IDENTIFIER') || findCol(tCols, 'IDENTIFIER VA');
     if (!idCol) { showToast('Kolom IDENTIFIER tidak ditemukan!', 'error'); return; }
     var useAmt = !!findCol(tCols, 'AMOUNT');
     var targetIds = new Set();
     dVA1.forEach(function(r) { var v = String(r[idCol] || '').trim(); if (v && v !== 'nan') targetIds.add(v); });
-
-    // Build searchable text from MUTASI
     var allMuRows = [];
     dVA3.forEach(function(db) {
-        var norm = db.data.map(function(r) {
-            var nr = {};
-            Object.keys(r).forEach(function(k) { nr[k.trim()] = String(r[k]); });
-            return nr;
-        });
+        var norm = db.data.map(function(r) { var nr = {}; Object.keys(r).forEach(function(k) { nr[k.trim()] = String(r[k]); }); return nr; });
         norm.forEach(function(r, i) { r._SRC = db.name; r._RN = i + 2; r._ST = Object.values(r).map(function(v) { return String(v).toLowerCase(); }).join(' | '); });
         allMuRows = allMuRows.concat(norm);
     });
     var slList = allMuRows.map(function(r) { return r._ST; });
-
-    // Search each identifier in MUTASI
     var outputRows = [];
     dVA1.forEach(function(row) {
         var id = String(row[idCol] || '').trim();
@@ -1027,13 +952,8 @@ function processVA() {
         if (!id || id === 'nan') return;
         var idl = id.toLowerCase(), amtl = amt.toLowerCase();
         var mi = [];
-        slList.forEach(function(t, i) {
-            if (t.indexOf(idl) > -1 && (!amtl || t.indexOf(amtl) > -1)) mi.push(i);
-        });
-        if (!mi.length) {
-            outputRows.push({ IDENTIFIER: id, AMOUNT: amt, RESULT: 'NO RESULT', SOURCE_FILE: '', ROW_NUMBER: '' });
-            return;
-        }
+        slList.forEach(function(t, i) { if (t.indexOf(idl) > -1 && (!amtl || t.indexOf(amtl) > -1)) mi.push(i); });
+        if (!mi.length) { outputRows.push({ IDENTIFIER: id, AMOUNT: amt, RESULT: 'NO RESULT', SOURCE_FILE: '', ROW_NUMBER: '' }); return; }
         mi.forEach(function(i) {
             var mr = allMuRows[i];
             var or2 = { IDENTIFIER: id, AMOUNT: amt, RESULT: 'DITEMUKAN', SOURCE_FILE: mr._SRC, ROW_NUMBER: String(mr._RN) };
@@ -1041,11 +961,10 @@ function processVA() {
             outputRows.push(or2);
         });
     });
-
     outputRows = mergeVARows(outputRows);
     window.wVAResult = outputRows;
 
-    // ===== NORMAL MODE =====
+    /* NORMAL MODE */
     if (mode === 'normal') {
         var fc = outputRows.filter(function(r) { return r.RESULT === 'DITEMUKAN'; }).length;
         var nf = outputRows.filter(function(r) { return r.RESULT === 'NO RESULT'; }).length;
@@ -1072,16 +991,13 @@ function processVA() {
         return;
     }
 
-    // ===== VALIDATION MODE =====
+    /* VALIDATION MODE */
     if (!dVA2.length) { showToast('File METABASE belum dimuat!', 'error'); return; }
-
-    // Parse METABASE columns
     var mbCols = Object.keys(dVA2[0] || {});
     var vaCol = null;
     for (var i = 0; i < mbCols.length; i++) { var cu = mbCols[i].toUpperCase(); if (cu.indexOf('VA_NUMBER') > -1 || cu.indexOf('VA NUMBER') > -1) { vaCol = mbCols[i]; break; } }
     if (!vaCol) { for (var i = 0; i < mbCols.length; i++) { if (mbCols[i].toUpperCase().indexOf('VA') === 0) { vaCol = mbCols[i]; break; } } }
     if (!vaCol) { showToast('Kolom VA_NUMBER tidak ditemukan di METABASE!', 'error'); return; }
-
     var maCol = findCol(mbCols, 'AMOUNT') || findCol(mbCols, 'AMOUNT (IDR)');
     var tzCol = null;
     for (var i = 0; i < mbCols.length; i++) { var cu = mbCols[i].toUpperCase(); if (cu.indexOf('CREATED TIMEZONE') > -1 || cu.indexOf('CREATED_TIMEZONE') > -1) { tzCol = mbCols[i]; break; } }
@@ -1089,7 +1005,6 @@ function processVA() {
     if (!tzCol) tzCol = findCol(mbCols, 'CREATED');
     if (!tzCol) { showToast('Kolom CREATED TIMEZONE tidak ditemukan di METABASE!', 'error'); return; }
 
-    // Build METABASE minute index: key -> { dateStr -> Set(minute) }
     var mbIdx = {};
     dVA2.forEach(function(r) {
         var ident = fixVA(r[vaCol], targetIds);
@@ -1101,12 +1016,8 @@ function processVA() {
         if (!mbIdx[key][p.ds]) mbIdx[key][p.ds] = new Set();
         mbIdx[key][p.ds].add(p.mn);
     });
-
-    // Build MUTASI minute index from found rows
     var foundRows = outputRows.filter(function(r) { return r.RESULT === 'DITEMUKAN'; });
     var mtIdx = {}, mtEntries = [], seenMt = new Set(), dedupCount = {};
-
-    // Find relevant column names in MUTASI data
     var allMuCols = foundRows.length ? Object.keys(foundRows[0]) : [];
     var csvDateCol = null, deskCol = null, kreditCol = null;
     for (var i = 0; i < allMuCols.length; i++) {
@@ -1115,7 +1026,6 @@ function processVA() {
         if (cu.indexOf('DESK_TRAN') > -1 || cu === 'DESK') deskCol = allMuCols[i];
         if (cu.indexOf('MUTASI_KREDIT') > -1 || cu === 'KREDIT') kreditCol = allMuCols[i];
     }
-
     foundRows.forEach(function(r) {
         if (!csvDateCol) return;
         var p = normDTM(r[csvDateCol]); if (!p) return;
@@ -1134,13 +1044,8 @@ function processVA() {
         mtIdx[key][p.ds].add(p.mn);
         mtEntries.push({ key: key, ds: p.ds, mn: p.mn, dt: p.dt, ident: ident, amt: r.AMOUNT || csvAmt, jenis: jenis, sf: r.SOURCE_FILE || '', rn: r.ROW_NUMBER || '', jk: dedupCount[dk] });
     });
-
-    // Detect selisih — 2 arah
     function checkMinuteMatch(mn, targetSet) { return Array.from(targetSet).some(function(m) { return Math.abs(m - mn) <= TOL; }); }
-
     var selisihList = [], cnt1 = 0, cnt2 = 0;
-
-    // ARAH 1: MUTASI -> METABASE
     mtEntries.forEach(function(en) {
         if (en.jenis === 'KOR') {
             selisihList.push({ IDENTIFIER: en.ident, AMOUNT: en.amt, TGL_EFEKTIF: en.dt, JENIS_TRANSAKSI: 'KOR', STATUS_SELISIH: 'TRANSAKSI KOREKSI (KorBFVA) DITEMUKAN DI MUTASI', JUMLAH_KEMUNCULAN: en.jk, SOURCE_FILE: en.sf, ROW_NUMBER: en.rn, DETAIL_LENGKAP: '' });
@@ -1159,8 +1064,6 @@ function processVA() {
             cnt1++;
         }
     });
-
-    // ARAH 2: METABASE -> MUTASI
     var seenMb = new Set();
     dVA2.forEach(function(r) {
         var ident = fixVA(r[vaCol], targetIds);
@@ -1183,18 +1086,14 @@ function processVA() {
             cnt2++;
         }
     });
-
     window.wVASelisih = selisihList;
     var korCount = selisihList.filter(function(s) { return s.JENIS_TRANSAKSI === 'KOR'; }).length;
     var fc = outputRows.filter(function(r) { return r.RESULT === 'DITEMUKAN'; }).length;
     var nf = outputRows.filter(function(r) { return r.RESULT === 'NO RESULT'; }).length;
-
     var html = '<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil CEK VA (Validasi)</h3>';
     html += '<div class="text-sm text-slate-400 mb-2">Ditemukan di MUTASI: <b class="text-emerald-400">' + fc + '</b> | Tidak: <b class="text-red-400">' + nf + '</b></div>';
     html += '<div class="text-sm text-slate-400 mb-4">Total SELISIH: <b class="text-amber-400">' + selisihList.length + '</b> (KOR: <b>' + korCount + '</b> | Dari MUTASI: <b>' + (cnt1 - korCount) + '</b> | Dari METABASE: <b>' + cnt2 + '</b>) — Toleransi ±' + TOL + ' menit</div>';
     html += '<button class="btn-primary text-sm py-2" onclick="dlVA()"><i class="fa-solid fa-download mr-2"></i>Download Result</button></div>';
-
-    // HASIL_CEK_VA table
     if (outputRows.length) {
         var dc2 = Object.keys(outputRows[0]).filter(function(k) { return k !== 'DETAIL_LENGKAP'; });
         html += '<div class="stat-card mb-6" style="border-color:rgba(6,182,212,0.3)"><h3 class="font-semibold mb-3 text-cyan-400">HASIL_CEK_VA</h3><div class="overflow-x-auto" style="max-height:400px;overflow-y:auto"><table class="data-table w-full"><thead><tr>';
@@ -1212,8 +1111,6 @@ function processVA() {
         });
         html += '</tbody></table></div></div>';
     }
-
-    // SELISIH table
     if (selisihList.length) {
         html += '<div class="stat-card" style="border-color:rgba(239,68,68,0.3)"><h3 class="font-semibold mb-3 text-red-400"><i class="fa-solid fa-triangle-exclamation mr-2"></i>SELISIH (' + selisihList.length + ')</h3><div class="overflow-x-auto" style="max-height:400px;overflow-y:auto"><table class="data-table w-full"><thead><tr><th>IDENTIFIER</th><th>AMOUNT</th><th>TGL_EFEKTIF</th><th>JENIS</th><th>STATUS_SELISIH</th><th>x</th><th>SOURCE_FILE</th><th>ROW</th></tr></thead><tbody>';
         selisihList.forEach(function(r) {
@@ -1224,48 +1121,35 @@ function processVA() {
     } else {
         html += '<div class="stat-card text-center text-emerald-400 py-5"><i class="fa-solid fa-check-circle mr-2"></i>Tidak ada selisih!</div>';
     }
-
     $('resultVA').style.display = 'block'; $('resultVA').innerHTML = html;
     showToast('CEK VA (Validasi) Selesai!');
 }
 
-/* ============================================================
-   MODULE 6: CEK VA — Download
-   ============================================================ */
+/* ========== MODULE 6: CEK VA DOWNLOAD ========== */
 function dlVA() {
     var wb = XLSX.utils.book_new();
     var mode = document.querySelector('input[name="vaMode"]:checked').value;
-
-    // Sheet 1: HASIL_CEK_VA
     if (window.wVAResult && window.wVAResult.length) {
         var ws1 = XLSX.utils.json_to_sheet(window.wVAResult);
         XLSX.utils.book_append_sheet(wb, ws1, 'HASIL_CEK_VA');
     } else {
         XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['IDENTIFIER','AMOUNT','RESULT','SOURCE_FILE','ROW_NUMBER']]), 'HASIL_CEK_VA');
     }
-
-    // Sheet 2: SELISIH (only in validation mode)
     if (mode === 'validation' && window.wVASelisih) {
         var sCols = ['IDENTIFIER','AMOUNT','TGL_EFEKTIF','JENIS_TRANSAKSI','STATUS_SELISIH','JUMLAH_KEMUNCULAN','SOURCE_FILE','ROW_NUMBER','DETAIL_LENGKAP'];
-        var slData = window.wVASelisih.map(function(r) {
-            var o = {};
-            sCols.forEach(function(c) { o[c] = r[c] || ''; });
-            return o;
-        });
+        var slData = window.wVASelisih.map(function(r) { var o = {}; sCols.forEach(function(c) { o[c] = r[c] || ''; }); return o; });
         var ws2 = XLSX.utils.json_to_sheet(slData);
         ws2['!cols'] = [{ wch:30 },{ wch:20 },{ wch:20 },{ wch:10 },{ wch:60 },{ wch:5 },{ wch:30 },{ wch:10 },{ wch:80 }];
         XLSX.utils.book_append_sheet(wb, ws2, 'SELISIH');
     }
-
     XLSX.writeFile(wb, 'Result_CEK_VA.xlsx');
     showToast('Result_CEK_VA.xlsx berhasil!');
 }
 
-/* ============================================================
-   INITIALIZE
-   ============================================================ */
+/* ========== INITIALIZE ========== */
 updateFSUrl();
 toggleVAMode();
+toggleBLMode();
 </script>
 </body>
 </html>
