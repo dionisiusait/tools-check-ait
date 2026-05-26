@@ -514,6 +514,36 @@ function dlCT(){
 
 /* ========== MODULE 2: SNR ========== */
 var dSNR1=[],dSNR2=[];
+
+function _cleanVal(v){
+    if(v==null)return '';
+    var s=String(v).trim();
+    if(!s||s==='nan'||s==='undefined'||s==='null')return '';
+    s=s.replace(/^["']|["']$/g,'').replace(/[\uFEFF\u200B\u200C\u200D\u00AD]/g,'');
+    if(/[eE]/.test(s)){
+        try{
+            var p=s.split(/[eE]/),m=p[0],exp=parseInt(p[1]),neg=m.charAt(0)==='-';
+            if(neg)m=m.substring(1);
+            var di=m.indexOf('.'),d=m.replace('.',''),dl=di>=0?m.length-di-1:0;
+            var np=d.length-dl+exp,r;
+            if(np<=0)r='0.'+'0'.repeat(-np)+d;
+            else if(np>=d.length)r=d+'0'.repeat(np-d.length);
+            else r=d.substring(0,np)+'.'+d.substring(np);
+            r=r.replace(/\.?0+$/,'');
+            return(neg?'-':'')+r;
+        }catch(e){}
+    }
+    if(s.indexOf('.')>-1){try{var f=parseFloat(s);if(f===Math.floor(f)&&isFinite(f))s=String(Math.floor(f));}catch(e){}}
+    return s;
+}
+
+/* Detect spreadsheet */
+function _isHeader(v){
+    if(!v)return false;
+    var u=v.toLowerCase();
+    return u.indexOf('no ticket')>-1||u.indexOf('transaction')>-1||u.indexOf('partner tx')>-1;
+}
+
 function handleSNR_MTB(e){
     var f=e.target.files[0];if(!f)return;
     readCSV(f).then(function(d){
@@ -526,6 +556,13 @@ function handleSNR_Cache(e){
     var f=e.target.files[0];if(!f)return;
     var reader=f.name.endsWith('.csv')?readCSV(f):readExcel(f);
     reader.then(function(d){
+        if(d.length>0&&!d[0].hasOwnProperty('_c0')){
+            var keys=Object.keys(d[0]);
+            d=d.map(function(row){return{'_c0':_cleanVal(row[keys[0]]),'_c1':_cleanVal(row[keys[1]])};});
+        }else{
+            d=d.map(function(row){return{'_c0':_cleanVal(row._c0),'_c1':_cleanVal(row._c1)};});
+        }
+        d=d.filter(function(row){return !_isHeader(row._c0)&&!_isHeader(row._c1);});
         dSNR2=d;$('infoSNR2').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>'+dSNR2.length+'</b> baris';
         checkSNR();showToast('Cache Tiket Berhasil Dimuat!');
     });
@@ -537,48 +574,84 @@ async function fetchSNRCache(){
     info.innerHTML='<span class="text-cyan-400">Menghubungi server...</span>';
     var txt=await fetchGSheet(url);
     if(txt){
-        var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
+        console.log('[SNR] Raw CSV (first 600):\n',txt.substring(0,600));
+        var r=Papa.parse(txt,{header:false,skipEmptyLines:true});
         if(r.data&&r.data.length>0){
-            dSNR2=r.data;btn.disabled=false;
+            dSNR2=r.data.map(function(row){return{'_c0':_cleanVal(row[0]),'_c1':_cleanVal(row[1])};});
+            dSNR2=dSNR2.filter(function(row){return !_isHeader(row._c0)&&!_isHeader(row._c1);});
+            btn.disabled=false;
             btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';
             btn.style.background='var(--accd)';btn.style.color='var(--acc)';
             info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>'+dSNR2.length+'</b> baris';
+            console.log('[SNR] Cache (first 3):',dSNR2.slice(0,3));
             checkSNR();showToast('Cache Tiket berhasil!');
         }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='Gagal parse.';}
     }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
 }
 function checkSNR(){$('btnSNR').disabled=!(dSNR1.length>0&&dSNR2.length>0);}
 function processSNR(){
-    var cacheMap={};
-    dSNR2.forEach(function(row){var k=Object.keys(row);if(k.length>=2){var t=String(row[k[0]]).trim(),i=String(row[k[1]]).trim();if(i)cacheMap[i]=t;}});
-    var results=[];
+    
+    var cacheMap={},cacheArr=[];
+    dSNR2.forEach(function(row){
+        var ticket=row._c0,txid=row._c1;
+        if(ticket&&txid){
+            cacheMap[txid]=ticket;
+            cacheArr.push({ticket:ticket,txid:txid});
+        }
+    });
+    console.log('[SNR] cacheMap keys:',Object.keys(cacheMap).length,'sample:',Object.keys(cacheMap).slice(0,3));
+
+    var results=[],missLog=[];
     dSNR1.forEach(function(row){
         var cols=Object.keys(row);
         function gv(n){var c=findCol(cols,n);return c?String(row[c]).trim():'';}
-        var pt=gv('partner_tx_id'),id=gv('id'),vn=gv('vendor_name');
-        var rt=cacheMap[pt]||cacheMap[id]||"TIKET TIDAK DITEMUKAN";
+        var pt=_cleanVal(gv('partner_tx_id')),id=_cleanVal(gv('id')),vn=gv('vendor_name');
+
+        
+        var rt=cacheMap[pt]||cacheMap[id]||null;
+
+        
+        if(!rt){
+            var ptL=(pt||'').toLowerCase(),idL=(id||'').toLowerCase();
+            for(var i=0;i<cacheArr.length;i++){
+                var txL=(cacheArr[i].txid||'').toLowerCase();
+                if(txL&&(txL.indexOf(ptL)>-1||txL.indexOf(idL)>-1)){
+                    rt=cacheArr[i].ticket;break;
+                }
+            }
+        }
+
+        if(!rt)rt="TIKET TIDAK DITEMUKAN";
+
+        if(rt==="TIKET TIDAK DITEMUKAN"&&missLog.length<3){
+            missLog.push({
+                pt:pt,id:id,
+                mapPt:!!cacheMap[pt],mapId:!!cacheMap[id],
+                cacheTxSample:cacheArr.length>0?cacheArr[0].txid:'(empty)'
+            });
+        }
+
         var av=gv('amount').replace(/,/g,''),af=parseFloat(av)?parseFloat(av).toLocaleString('id-ID'):av;
         var w1='Dear tim @operationdanarapay \n\nMohon bantuannya untuk melakukan open claim '+vn+', detailnya :\n\nRelated tiket '+rt+'\n\ntrx id : '+id+'\npartner trx id : '+pt+'\ncreated date : '+gv('created timezone')+'\namount : '+af+'\nbank code : '+gv('bank_code')+'\nbank account no : '+gv('bank_recipient_account')+'\nbank account name : '+gv('bank_recipient_name')+'\nvendor ref id : '+gv('disburse_vendor_ref_id')+'\nStatus : '+gv('tx_status')+'\n\nBerikut terlampir evidencenya\n\nTerima kasih \n\ncc @ops-monitoring';
         var w2='Dear Team, \n\nMohon bantuannya untuk melakukan open claim ke '+vn+', terkait case trx success not received, detail akan diinfokan di thread\n\nTerima kasih';
         results.push({id:id,pt:pt,vn:vn,rt:rt,w1:w1,w2:w2});
     });
+
+    console.log('[SNR] Miss log:',missLog);
+
     window.wSNRResult=results;
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Generate Wording</h3><div class="text-sm text-slate-400 mb-4">Total: <b>'+results.length+'</b> wording.</div><button class="btn-primary text-sm py-2" onclick="dlSNR()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
+    var found=results.filter(function(r){return r.rt!=="TIKET TIDAK DITEMUKAN";}).length;
+    var notFound=results.length-found;
+    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Generate Wording</h3><div class="text-sm text-slate-400 mb-4">Total: <b>'+results.length+'</b> wording | <span class="text-emerald-400">Ditemukan: '+found+'</span> | <span class="text-red-400">Tidak ditemukan: '+notFound+'</span></div><button class="btn-primary text-sm py-2" onclick="dlSNR()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
     results.forEach(function(r,i){
-        html+='<div class="stat-card mb-6"><div class="flex justify-between items-center mb-4"><h4 class="text-cyan-400 font-semibold">'+r.vn+' - '+r.id.substring(0,8)+'...</h4><span class="text-xs text-slate-500">Ticket: '+r.rt+'</span></div>';
+        var isNF=r.rt==="TIKET TIDAK DITEMUKAN";
+        var tc=isNF?'text-red-400':'text-slate-500';
+        html+='<div class="stat-card mb-6"><div class="flex justify-between items-center mb-4"><h4 class="text-cyan-400 font-semibold">'+r.vn+' - '+r.id.substring(0,8)+'...</h4><span class="text-xs '+tc+'">Ticket: '+r.rt+'</span></div>';
         html+='<div class="mb-6"><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 1:</div><div class="wording-box" id="w1-'+i+'">'+r.w1+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w1-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 1</button></div>';
         html+='<div><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 2:</div><div class="wording-box" id="w2-'+i+'">'+r.w2+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w2-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 2</button></div></div>';
     });
     $('resultSNR').style.display='block';$('resultSNR').innerHTML=html;showToast('Wording SNR Selesai!');
 }
-function dlSNR(){
-    if(!window.wSNRResult)return;
-    var d=window.wSNRResult.map(function(r){return{'ID':r.id,'Partner TX ID':r.pt,'Vendor':r.vn,'Related Ticket':r.rt,'WORDING 1':r.w1,'WORDING 2':r.w2};});
-    var wb=XLSX.utils.book_new();var ws=XLSX.utils.json_to_sheet(d);
-    ws['!cols']=[{wch:40},{wch:40},{wch:20},{wch:20},{wch:80},{wch:60}];
-    XLSX.utils.book_append_sheet(wb,ws,'SNR_WORDING');XLSX.writeFile(wb,'SNR_Wording_Claim.xlsx');
-}
-
 /* ========== MODULE 3: BLASTING ========== */
 var dBL=[];
 function toggleBLMode(){
