@@ -99,23 +99,41 @@
     <div class="section-label">Tools Check 1</div>
     <h2 class="text-3xl font-bold mb-2">Close Ticket</h2>
     <p class="text-slate-400 mb-8">Identifikasi status tiket (OPEN/CLOSE) ataupun Cek identifier masuk tiket atau tidak.</p>
+    
     <div class="mb-8">
         <button class="btn-template" onclick="dlTemplateCT()"><i class="fa-solid fa-file-arrow-down"></i> Download Template Excel</button>
-        <p class="text-xs text-slate-500 mt-2 ml-1">Download template, isi kolom IDENTIFIER dan RESULT (Opsional) lalu upload kembali.</p>
+        <p class="text-xs text-slate-500 mt-2 ml-1">Download template untuk File Pengecekan (Excel), isi kolom IDENTIFIER dan RESULT (Opsional).</p>
     </div>
+
     <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div>
-            <div class="upload-zone" id="zoneCT1" onclick="document.getElementById('inpCT1').click()">
-                <input type="file" id="inpCT1" accept=".csv" style="display:none" onchange="handleCT_CSV(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-csv text-emerald-400 mr-2"></i>Database Tiket (CSV)</div>
-            </div><div id="infoCT1"></div>
-        </div>
+        
+        <!---->
         <div>
             <div class="upload-zone" id="zoneCT2" onclick="document.getElementById('inpCT2').click()">
                 <input type="file" id="inpCT2" accept=".xlsx,.xls" style="display:none" onchange="handleCT_XL(event)">
                 <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-excel text-cyan-400 mr-2"></i>File Pengecekan (Excel)</div>
             </div><div id="infoCT2"></div>
         </div>
+
+        <!---->
+        <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
+            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Tiket</h4>
+            <p class="text-xs text-slate-400 mb-4">Pilih metode pengambilan data tiket.</p>
+            
+            <!---->
+            <input type="text" id="gsCT" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv">
+            <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnCTGS" onclick="fetchCTCache()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
+            
+            <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
+            
+            <!---->
+            <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpCT1').click()"><i class="fa-solid fa-upload"></i> Upload Manual CSV</button>
+            
+            <input type="file" id="inpCT1" accept=".csv" style="display:none" onchange="handleCT_CSV(event)">
+            
+            <div id="infoCT1" class="text-xs text-center text-slate-500 mt-3">Belum ada data tiket.</div>
+        </div>
+        
     </div>
     <button class="btn-primary" id="btnCT" disabled onclick="processCT()"><i class="fa-solid fa-bolt"></i> Proses Close Ticket</button>
     <div id="resultCT" class="mt-8" style="display:none"></div>
@@ -127,7 +145,7 @@
     <h2 class="text-3xl font-bold mb-2">Template Success Not Received</h2>
     <p class="text-slate-400 mb-4">Generator wording claim untuk Slack.</p>
     <div class="mb-8">
-        <a href="https://metabase.danarapay.com/question#eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjEyMjA4LCJleHByZXNzaW9ucyI6eyJjcmVhdGVkIHRpbWV6b25lIjpbImNvbnZlcnQtdGltZXpvbmUiLFsiZmllbGQiLDIxMDYxMCx7ImJhc2UtdHlwZSI6InR5cGUvRGF0ZVRpbWUifV0sIkFzaWEvSmFrYXJ0YSIsIlVUQyJdfSwiZXhwcmVzc2lvbi1pZGVudHMiOnsiY3JlYXRlZCB0aW1lem9uZSI6Inp3UTgtZXZjczYyaVdvQjZrT2JpbSJ9fX0sImRpc3BsYXkiOiJ0YWJsZSIsInZpc3VhbGl6YXRpb25fc2V0dGluZ3MiOnsidGFibGUuY29sdW1ucyI6W3sibmFtZSI6ImlkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY29yZF9mbGFnIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZV9ieSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlX2J5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidXNlcm5hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJwYXJ0bmVyX3R4X2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbmtfY29kZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbmtfcmVjaXBpZW50X2FjY291bnQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJiYW5rX3JlY2lwaWVudF9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfbm90ZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImludGVybmFsX3R4X25vdGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhbW91bnQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhZG1pbl9mZWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0eF9zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpbnRlcm5hbF90eF9zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJyY19zdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzZW5kZXJfaWRfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX3Bob25lX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY2lwaWVudF9waG9uZV9udW1iZXIiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJlbWFpbCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImRpc2J1cnNlX3ZlbmRvcl9yZWZfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ2ZW5kb3JfbmFtZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9jb3VudHJ5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidHhfcmVmX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImJhbGFuY2VfdXNlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImVycm9yX21hcHBpbmciLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhY2NvdW50X3R5cGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpc19jb21tb25fZGlzYnVyc2UiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJtYWNoaW5lX3N0YXRlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYWRkaXRpb25hbF9kYXRhIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiaXNfc3BsaXRfdHgiLCJlbmFibGVkIjp0cnVlfV19LCJ0eXBlIjoicXVlc3Rpb24ifQ==" target="_blank" class="btn-secondary mb-6 inline-flex">
+        <a href="https://metabase.danarapay.com/question#eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjEyMjA4LCJleHByZXNzaW9ucyI6eyJjcmVhdGVkIHRpbWV6b25lIjpbImNvbnZlcnQtdGltZXpvbmUiLFsiZmllbGQiLDIxMDYxMCx7ImJhc2UtdHlwZSI6InR5cGUvRGF0ZVRpbWUifV0sIkFzaWEvSmFrYXJ0YSIsIlVUQyJdfSwiZXhwcmVzc2lvbi1pZGVudGlmaWVycyI6eyJjcmVhdGVkIHRpbWV6b25lIjoieW81UTgtZXZjczYyaVdvQjZrT2JpbSJ9fX0sImRpc3BsYXkiOiJ0YWJsZSIsInZpc3VhbGl6YXRpb25fc2V0dGluZ3MiOnsidGFibGUuY29sdW1ucyI6W3sibmFtZSI6ImlkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY29yZF9mbGFnIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZV9ieSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlX2J5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Im5hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJkZXNjcmlwdGlvbiIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6IndhbGxldF9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFtb3VudCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFkbWluX2ZlZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InR4X3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImludGVybmFsX3R4X3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJjX3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9pZF90eXBlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX25hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzZW5kZXJfcGhvbmVfbnVtYmVyIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoicmVjaXBpZW50X3Bob25lX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImVtYWlsIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZGlzYnVyc2VfdmVuZG9yX3JlZl9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InZlbmRvcl9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX2NvdW50cnkiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0eF9yZWZfbnVtYmVyIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYmFsYW5jZV91c2VkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYWRkaXRpb25hbF9kYXRhIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZXJyb3JfbWFwcGluZyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFjY291bnRfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImlzX2NvbW1vbl9kaXNidXJzZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Im1hY2hpbmVfc3RhdGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpc19zcGxpdF90eCIsImVuYWJsZWQiOnRydWV9XX0sInR5cGUiOiJxdWVzdGlvbiJ9" target="_blank" class="btn-secondary mb-6 inline-flex">
             <i class="fa-solid fa-database"></i> Buka Metabase SNR
         </a>
     </div>
@@ -291,7 +309,7 @@
     <button class="btn-primary" id="btnVA" disabled onclick="processVA()"><i class="fa-solid fa-magnifying-glass"></i> Proses CEK VA</button>
     <div id="resultVA" class="mt-8" style="display:none"></div>
 
-    <!-- REK VA SECTION -->
+    <!-- REK VA  -->
     <div class="mt-12 pt-8" style="border-top:1px solid var(--bdr)">
         <div class="section-label">Tambahan</div>
         <h3 class="text-2xl font-bold mb-2">REK VA</h3>
@@ -394,7 +412,7 @@ function resetBtn(btn,label){
 function initMetabaseVALink(){
     var el=$('metabaseVAHistoryLink');
     if(el){
-        var b='eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjE5NiwiZXhwcmVzc2lvbnMiOnsiY3JlYXRlZCB0aW1lem9uZSI6WyJjb252ZXJ0LXRpbWV6b25lIixbImZpZWxkIiwyMzEzLHsiYmFzZS10eXBlIjoidHlwZS9EYXRlVGltZSJ9XSwiQXNpYS9KYWthcnRhIiwiVVRDIl19LCJleHByZXNzaW9uLWlkZW50cyI6eyJjcmVhdGVkIHRpbWV6b25lIjoieW43QklUNDk1UGl2V0JpSWFTaXJ0In19fSwiZGlzcGxheSI6InRhYmxlIiwidmlzdWFsaXphdGlvbl9zZXR0aW5ncyI6eyJ0YWJsZS5jb2x1bW5zIjpbeyJuYW1lIjoiZGQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJjcmVhdGVkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlX2J5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoibGFzdF91cGRhdGVkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoibGFzdF91cGRhdGVfYnkiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJjcmVhdGVkIHRpbWV6b25lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoibmFtZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImRlc2NyaXB0aW9uIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoid2FsbGV0X2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYW1vdW50IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYWRtaW5fZmVlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic3RhdHVzIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZmlsZW5hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzdGFydF9kYXRlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZW5kX2RhdGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJkdWVfZGF0ZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImlzX3JlZnVuZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNtc190ZW1wbGF0ZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl93YWxsZXRfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJyZWNlaXZlcl93YWxsZXRfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0cmFuc2FjdGlvbl90eXBlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoidmFfbnVtYmVyIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZGlkX25vdF9yZWNlaXZlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX25hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJyZWNlaXZlcl9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY2VpdmVyX25hbWUiLCJlbmFibGVkIjp0cnVlfV19LCJ0eXBlIjoicXVlc3Rpb24ifQ==';
+        var b='eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjE5NiwiZXhwcmVzc2lvbnMiOnsiY3JlYXRlZCB0aW1lem9uZSI6WyJjb252ZXJ0LXRpbWV6b25lIixbImZpZWxkIiwyMzEzLHsiYmFzZS10eXBlIjoidHlwZS9EYXRlVGltZSJ9XSwiQXNpYS9KYWthcnRhIiwiVVRDIl19LCJleHByZXNzaW9uLWlkZW50aWZpZXJzIjp7ImNyZWF0ZWQgdGltZXpvbmUiOiI5bjdCSVQ0OTVQaXZXQmlJYVNpcnQifX19LCJkaXNwbGF5IjoidGFibGUiLCJ2aXN1YWxpemF0aW9uX3NldHRpbmdzIjp7InRhYmxlLmNvbHVtbnMiOlt7Im5hbWUiOiJkZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJjcmVhdGVfYnkiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJsYXN0X3VwZGF0ZWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJsYXN0X3VwZGF0ZV9ieSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZWQgdGltZXpvbmUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJuYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZGVzY3JpcHRpb24iLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ3YWxsZXRfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhbW91bnQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJhZG1pbl9mZWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzdGF0dXMiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJmaWxlbmFtZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImZpbGVuYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2ltc190ZW1wbGF0ZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl93YWxsZXRfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJyZWNlaXZlcl93YWxsZXRfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0cmFjZWl2ZXJfaWQiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJyZWNlaXZlcl9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX19XX0sInR5cGUiOiJxdWVzdGlvbiJ9';
         el.href='https://metabase.danarapay.com/question#'+b;
     }
 }
@@ -408,7 +426,14 @@ function resetAll(){
     window.wRekVAResult=[];
     ['inpCT1','inpCT2','inpSNR1','inpSNR2','inpBL','inpFS','inpRRN1','inpRRN2','inpVA1','inpVA2','inpVA3','inpRekVA'].forEach(function(id){var el=$(id);if(el)el.value='';});
     document.querySelectorAll('.upload-zone').forEach(function(z){z.classList.remove('has-file');});
-    ['infoCT1','infoCT2','infoSNR1','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id){var el=$(id);if(el)el.innerHTML='';});
+    ['infoCT2','infoSNR1','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id){var el=$(id);if(el)el.innerHTML='';});
+    
+    // 
+    $('infoCT1').innerHTML='<span class="text-slate-500">Belum ada data tiket.</span>';
+    $('gsCT').value='https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv';
+    resetBtn($('btnCTGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
+    window.isCTManual = false; 
+
     $('infoSNR2').innerHTML='<span class="text-slate-500">Belum ada data cache.</span>';
     $('infoBL').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
     $('infoFS').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
@@ -431,6 +456,8 @@ function resetAll(){
 
 /* ========== MODULE 1: CLOSE TICKET ========== */
 var dCT1=[],dCT2=[];
+var isCTManual = false; 
+
 function dlTemplateCT(){
     var wb=XLSX.utils.book_new();
     var ws=XLSX.utils.aoa_to_sheet([['IDENTIFIER','RESULT'],['Diisi identifier','Opsional']]);
@@ -439,14 +466,77 @@ function dlTemplateCT(){
     XLSX.writeFile(wb,'Close_Ticket.xlsx');
     showToast('Template berhasil didownload!','info');
 }
+
+// Close tiket
+async function fetchCTCache(){
+    var url=$('gsCT').value.trim(),btn=$('btnCTGS'),info=$('infoCT1');
+    if(!url){showToast('Harap masukkan link!','error');return;}
+    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
+    info.innerHTML='<span class="text-cyan-400">Menghubungi server...</span>';
+    
+    var txt=await fetchGSheet(url);
+    if(txt){
+        try {
+            var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
+            if(r.data&&r.data.length>0){
+                dCT1=r.data;
+                isCTManual = false; // Set flag: Auto source (assume all open)
+                btn.disabled=false;
+                btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';
+                btn.style.background='var(--accd)';btn.style.color='var(--acc)';
+                info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>'+dCT1.length+'</b> baris';
+                checkCT();showToast('Database Tiket berhasil diambil!');
+            }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='Gagal parse data kosong.';}
+        } catch(e) {
+            resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');
+            info.innerHTML='Gagal parsing CSV.';showToast('Error parsing data.','error');
+        }
+    }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
+}
+
+// Close tiket
 function handleCT_CSV(e){
     var f=e.target.files[0];if(!f)return;
     Papa.parse(f,{header:true,skipEmptyLines:true,complete:function(r){
-        dCT1=r.data;$('zoneCT1').classList.add('has-file');
-        $('infoCT1').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>'+f.name+' ('+dCT1.length+' baris)</div>';
-        checkCT();
+        if(!r.data || r.data.length === 0){
+            showToast('File CSV kosong!', 'error');
+            return;
+        }
+
+        //
+        var cols = Object.keys(r.data[0]);
+        var colClose = findCol(cols, 'Close PIC (CSU)');
+        
+        if(!colClose){
+            showToast('Kolom "Close PIC (CSU)" tidak ditemukan! Cek kembali file CSV.', 'error');
+            return;
+        }
+
+        //
+        var filteredData = r.data.filter(function(row){
+            var val = row[colClose];
+            //
+            return !val || String(val).trim() === '';
+        });
+
+        if(filteredData.length === 0){
+            showToast('Tidak ada tiket OPEN ditemukan di file ini (semua tiket CLOSE)', 'info');
+            return;
+        }
+
+        dCT1 = filteredData;
+        isCTManual = true;
+        
+        
+        var parentZone = document.querySelector('.btn-secondary[onclick="document.getElementById(\'inpCT1\').click()"]').parentElement;
+        
+        $('infoCT1').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil (Manual): <b>'+dCT1.length+'</b> tiket OPEN';
+        checkCT();showToast('Manual CSV berhasil di-filter ke tiket OPEN!');
     }});
 }
+
+// Close tiket
+
 function handleCT_XL(e){
     var f=e.target.files[0];if(!f)return;
     var rd=new FileReader();
@@ -461,11 +551,19 @@ function handleCT_XL(e){
 }
 function checkCT(){$('btnCT').disabled=!(dCT1.length>0&&dCT2.length>0);}
 function processCT(){
+    // 
     var tC=findCol(Object.keys(dCT1[0]||{}),'No Ticket');
-    var pC=findCol(Object.keys(dCT1[0]||{}),'Close PIC (CSU)');
+    if(!tC) tC=findCol(Object.keys(dCT1[0]||{}),'TICKET');
+    if(!tC) tC=findCol(Object.keys(dCT1[0]||{}),'NOTICKET');
+    if(!tC) tC=Object.keys(dCT1[0])[0];
+
+    if(!tC){
+        showToast('Kolom Nomor Tiket tidak ditemukan di Database!','error');return;
+    }
+
     var nC=findCol(Object.keys(dCT1[0]||{}),'Number of Transaction');
-    if(!tC||!pC){showToast('Kolom No Ticket / Close PIC tidak ada!','error');return;}
     var rC=findCol(Object.keys(dCT2[0]||{}),'RESULT');
+    
     var resultData=[];var globalSeen=new Set();
     dCT2.forEach(function(ex){
         var id=String(ex['IDENTIFIER']||'').trim();
@@ -478,7 +576,8 @@ function processCT(){
                 var ticketNo=String(cs[tC]||'').trim();
                 if(globalSeen.has(ticketNo))return;
                 globalSeen.add(ticketNo);
-                var status=String(cs[pC]||'').trim()===''?'OPEN':'CLOSE';
+                //
+                var status='OPEN'; 
                 resultData.push({'IDENTIFIER':id,'NO TICKET':ticketNo||'*','STATUS':status,'ROW LIST':idx+2,'NUMBER OF TRANSACTION':nC?String(cs[nC]||'').trim()||'*':'*','STATUS RESULT':rv});
             }
         });
@@ -486,7 +585,6 @@ function processCT(){
     });
     window.wCTResult=resultData;
     window.wCTOpen=resultData.filter(function(r){return r.STATUS==='OPEN';});
-    var cc=resultData.filter(function(r){return r.STATUS==='CLOSE';}).length;
     var oc=window.wCTOpen.length;
     var nc=resultData.filter(function(r){return r.STATUS==='NOT FOUND';}).length;
     var tblHtml='';
@@ -497,10 +595,10 @@ function processCT(){
         });
         tblHtml+='</tbody></table></div></div>';
     }else{
-        tblHtml='<div class="stat-card mt-6 text-center text-slate-500 py-5"><i class="fa-solid fa-check-circle text-emerald-400 mr-2"></i>Tidak ada tiket OPEN!</div>';
+        tblHtml='<div class="stat-card mt-6 text-center text-slate-500 py-5"><i class="fa-solid fa-check-circle text-emerald-400 mr-2"></i>Tidak ada tiket OPEN (Tiket bisa di CLOSE)!</div>';
     }
     $('resultCT').style.display='block';
-    $('resultCT').innerHTML='<div class="stat-card"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Close Ticket</h3><div class="text-sm text-slate-400 mb-4">Close: <b class="text-emerald-400">'+cc+'</b> | Open: <b class="text-red-400">'+oc+'</b> | Not Found: <b class="text-slate-400">'+nc+'</b></div><button class="btn-primary text-sm py-2" onclick="dlCT()"><i class="fa-solid fa-download mr-2"></i>Download Result_Tiket.xlsx</button></div>'+tblHtml;
+    $('resultCT').innerHTML='<div class="stat-card"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Close Ticket</h3><div class="text-sm text-slate-400 mb-4">Open: <b class="text-red-400">'+oc+'</b> | Not Found (Potensial Close): <b class="text-slate-400">'+nc+'</b></div><button class="btn-primary text-sm py-2" onclick="dlCT()"><i class="fa-solid fa-download mr-2"></i>Download Result_Tiket.xlsx</button></div>'+tblHtml;
     showToast('Close Ticket Selesai!');
 }
 function dlCT(){
@@ -648,7 +746,7 @@ function processSNR(){
         var tc=isNF?'text-red-400':'text-slate-500';
         html+='<div class="stat-card mb-6"><div class="flex justify-between items-center mb-4"><h4 class="text-cyan-400 font-semibold">'+r.vn+' - '+r.id.substring(0,8)+'...</h4><span class="text-xs '+tc+'">Ticket: '+r.rt+'</span></div>';
         html+='<div class="mb-6"><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 1:</div><div class="wording-box" id="w1-'+i+'">'+r.w1+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w1-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 1</button></div>';
-        html+='<div><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 2:</div><div class="wording-box" id="w2-'+i+'">'+r.w2+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w2-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 2</button></div></div>';
+        html+='<div><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 2:</div><div class="wording-box" id="w2-'+i+'">'+r.w2+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w2-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 2</button></div></div></div>';
     });
     $('resultSNR').style.display='block';$('resultSNR').innerHTML=html;showToast('Wording SNR Selesai!');
 }
@@ -896,7 +994,7 @@ function dlRRN(){
     XLSX.writeFile(wb,'Result_RRN_DISB.xlsx');showToast('Result_RRN_DISB.xlsx berhasil!');
 }
 
-/* ========== MODULE 6: CEK VA HELPERS ========== */
+/* ========== MODULE 6: CEK VA ========== */
 function normDTM(value){
     if(!value||String(value).trim()===''||String(value).trim()==='nan')return null;
     var vs=String(value).trim(),m,y,mo,d,h,mi;
@@ -931,7 +1029,7 @@ function fixVA(val,targetIds){
             var parts=s.split(/[Ee]/),mantissa=parts[0].replace('-',''),exponent=parseInt(parts[1]);
             var dotIdx=mantissa.indexOf('.'),digits=mantissa.replace('.','');
             var decPlaces=dotIdx>=0?mantissa.length-dotIdx-1:0;
-            var totalDigits=digits.length-decPlaces+exponent;
+            var totalDigits=digits.length-decPlaces+exp,r;
             if(totalDigits<=0)expanded='0';
             else if(totalDigits>digits.length)expanded=digits+'0'.repeat(totalDigits-digits.length);
             else expanded=digits.substring(0,totalDigits);
@@ -964,7 +1062,7 @@ function toggleVAMode(){
     checkVA();
 }
 
-/* ========== MODULE 6: CEK VA DATA HANDLERS ========== */
+/* ========== MODULE 6: CEK VA DATA ========== */
 var dVA1=[],dVA2=[],dVA3=[];
 function dlTemplateVA(){
     var wb=XLSX.utils.book_new();
@@ -1032,7 +1130,7 @@ function mergeVARows(df){
     });
 }
 
-/* ========== MODULE 6: CEK VA PROCESS ========== */
+/* ========== MODULE 6: CEK VA ========== */
 function processVA(){
     var mode=document.querySelector('input[name="vaMode"]:checked').value;
     var TOL=5;
