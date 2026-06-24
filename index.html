@@ -84,9 +84,6 @@
         <div class="logo-sub">Arta Intra Teknologi</div>
     </div>
     <div class="nav-item active" onclick="switchMod('close-ticket',this)"><i class="fa-solid fa-ticket"></i><span>Close Ticket</span></div>
-    <div class="nav-item" onclick="switchMod('snr',this)"><i class="fa-solid fa-money-bill-transfer"></i><span>Template SNR</span></div>
-    <div class="nav-item" onclick="switchMod('blasting',this)"><i class="fa-solid fa-bullhorn"></i><span>Filter Blasting</span></div>
-    <div class="nav-item" onclick="switchMod('force-success',this)"><i class="fa-solid fa-list-check"></i><span>Filter FS Tanpa Bukses</span></div>
     <div class="nav-item" onclick="switchMod('cek-rrn',this)"><i class="fa-solid fa-hashtag"></i><span>CEK RRN/DISB</span></div>
     <div class="nav-item" onclick="switchMod('cek-va',this)"><i class="fa-solid fa-building-columns"></i><span>CEK VA</span></div>
     <div class="nav-reset"><div class="nav-item" onclick="resetAll()"><i class="fa-solid fa-rotate-left"></i><span>Reset Data</span></div></div>
@@ -121,7 +118,7 @@
             <p class="text-xs text-slate-400 mb-4">Pilih metode pengambilan data tiket.</p>
             
             <!---->
-            <input type="text" id="gsCT" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv">
+<input type="text" id="gsCT" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv">
             <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnCTGS" onclick="fetchCTCache()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
             
             <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
@@ -139,109 +136,9 @@
     <div id="resultCT" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- MODULE 2: SNR -->
-<section id="module-snr" class="module-section">
-    <div class="section-label">Tools Check 2</div>
-    <h2 class="text-3xl font-bold mb-2">Template Success Not Received</h2>
-    <p class="text-slate-400 mb-4">Generator wording claim untuk Slack.</p>
-    <div class="mb-8">
-        <a href="https://metabase.danarapay.com/question#eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjEyMjA4LCJleHByZXNzaW9ucyI6eyJjcmVhdGVkIHRpbWV6b25lIjpbImNvbnZlcnQtdGltZXpvbmUiLFsiZmllbGQiLDIxMDYxMCx7ImJhc2UtdHlwZSI6InR5cGUvRGF0ZVRpbWUifV0sIkFzaWEvSmFrYXJ0YSIsIlVUQyJdfSwiZXhwcmVzc2lvbi1pZGVudGlmaWVycyI6eyJjcmVhdGVkIHRpbWV6b25lIjoieW95UTgtZXZjc2Y2aVdvQjZrT2JpbSJ9fX0sImRpc3BsYXkiOiJ0YWJsZSIsInZpc3VhbGl6YXRpb25fc2V0dGluZ3MiOnsidGFibGUuY29sdW1ucyI6W3sibmFtZSI6ImlkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY29yZF9mbGFnIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZV9ieSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlX2J5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Im5hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJkZXNjcmlwdGlvbiIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6IndhbGxldF9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFtb3VudCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFkbWluX2ZlZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InR4X3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImludGVybmFsX3R4X3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJjX3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9pZF90eXBlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX25hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzZW5kZXJfcGhvbmVfbnVtYmVyIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoicmVjaXBpZW50X3Bob25lX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImVtYWlsIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZGlzYnVyc2VfdmVuZG9yX3JlZl9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InZlbmRvcl9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX2NvdW50cnkiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0eF9yZWZfbnVtYmVyIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYmFsYW5jZV91c2VkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYWRkaXRpb25hbF9kYXRhIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZXJyb3JfbWFwcGluZyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFjY291bnRfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImlzX2NvbW1vbl9kaXNidXJzZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Im1hY2hpbmVfc3RhdGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpc19zcGxpdF90eCIsImVuYWJsZWQiOnRydWV9XX0sInR5cGUiOiJxdWVzdGlvbiJ9" target="_blank" class="btn-secondary mb-6 inline-flex">
-            <i class="fa-solid fa-database"></i> Buka Metabase SNR
-        </a>
-    </div>
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div>
-            <div class="upload-zone" onclick="document.getElementById('inpSNR1').click()">
-                <input type="file" id="inpSNR1" accept=".csv" style="display:none" onchange="handleSNR_MTB(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-csv text-emerald-400 mr-2"></i>File Metabase SNR (CSV)</div>
-                <div class="text-xs text-slate-500">Hasil download dari Metabase</div>
-            </div><div id="infoSNR1"></div>
-        </div>
-        <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Cache Tiket</h4>
-            <p class="text-xs text-slate-400 mb-4">Link spreadsheet sudah diisi otomatis.</p>
-            <input type="text" id="gsSNR" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv">
-            <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnSNRGS" onclick="fetchSNRCache()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
-            <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
-            <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpSNR2').click()"><i class="fa-solid fa-upload"></i> Upload Manual CSV</button>
-            <input type="file" id="inpSNR2" accept=".csv,.xlsx" style="display:none" onchange="handleSNR_Cache(event)">
-            <div id="infoSNR2" class="text-xs text-center text-slate-500 mt-3">Belum ada data cache.</div>
-        </div>
-    </div>
-    <button class="btn-primary" id="btnSNR" disabled onclick="processSNR()"><i class="fa-solid fa-comment-dots"></i> Generate Wording</button>
-    <div id="resultSNR" class="mt-8" style="display:none"></div>
-</section>
-
-<!-- MODULE 3: BLASTING -->
-<section id="module-blasting" class="module-section">
-    <div class="section-label">Tools Check 3</div>
-    <h2 class="text-3xl font-bold mb-2">Filter Blasting Group</h2>
-    <p class="text-slate-400 mb-8">Filter dan kelompokkan data blast berdasarkan username atau menampilkan semua WAG berdasarkan FILTER CLIENT.</p>
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div class="stat-card">
-            <h4 class="font-semibold text-cyan-400 mb-3"><i class="fa-solid fa-keyboard mr-2"></i>Input Data</h4>
-            <div class="radio-group flex gap-3 flex-wrap mb-4">
-                <label><input type="radio" name="blastMode" value="username" checked onchange="toggleBLMode()"><span>Filter Username</span></label>
-                <label><input type="radio" name="blastMode" value="allpartner" onchange="toggleBLMode()"><span>All Partner</span></label>
-            </div>
-            <div id="blastUsernameWrap">
-                <textarea id="blastUN" class="input-text" rows="6" placeholder="Masukkan username disini, contohnya&#10;danarapay"></textarea>
-            </div>
-            <div id="blastNotesWrap" style="display:none">
-                <label class="text-xs text-slate-400 mb-1 block font-semibold">FILTER CLIENT:</label>
-                <input type="text" id="blastNotes" class="input-text" placeholder="Contoh: DANARA">
-                <p class="text-xs text-slate-500 mt-2">Pilih salah satu dari client ini : DANARA, OY, OFFLINE, BAC. Hasil akan dikelompokkan per Kategori, Bahasa, dan WAG.</p>
-            </div>
-        </div>
-        <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Blasting</h4>
-            <input type="text" id="gsBL" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=0&single=true&output=csv">
-            <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnBLGS" onclick="fetchBLData()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
-            <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
-            <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpBL').click()"><i class="fa-solid fa-upload"></i> Upload Manual</button>
-            <input type="file" id="inpBL" accept=".csv,.xlsx" style="display:none" onchange="handleBLUpload(event)">
-            <div id="infoBL" class="text-xs text-center text-slate-500 mt-3">Belum ada data.</div>
-        </div>
-    </div>
-    <button class="btn-primary" id="btnBL" disabled onclick="processBL()"><i class="fa-solid fa-filter"></i> Proses Filter Blasting</button>
-    <div id="resultBL" class="mt-8" style="display:none"></div>
-</section>
-
-<!-- MODULE 4: FORCE SUCCESS -->
-<section id="module-force-success" class="module-section">
-    <div class="section-label">Tools Check 4</div>
-    <h2 class="text-3xl font-bold mb-2">List Force Success Tanpa Bukses</h2>
-    <p class="text-slate-400 mb-8">Filter data force success berdasarkan username dan product.</p>
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div class="stat-card">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-solid fa-keyboard mr-2"></i>Input Username</h4>
-            <textarea id="fsUN" class="input-text" rows="8" placeholder="Masukkan username disini, contohnya&#10;danarapay"></textarea>
-        </div>
-        <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Force Success</h4>
-            <div class="mb-4">
-                <label class="text-xs text-slate-400 mb-1 block font-semibold">Pilih Product:</label>
-                <select id="fsProd" class="input-text py-2 cursor-pointer" onchange="updateFSUrl()">
-                    <option value="Payment Routing">Payment Routing</option>
-                    <option value="VA Aggregator">VA Aggregator</option>
-                    <option value="VA Top Up">VA Top Up</option>
-                </select>
-            </div>
-            <input type="text" id="gsFS" class="input-text mb-3 text-xs" value="" readonly>
-            <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnFSGS" onclick="fetchFSData()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
-            <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
-            <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpFS').click()"><i class="fa-solid fa-upload"></i> Upload Manual</button>
-            <input type="file" id="inpFS" accept=".csv,.xlsx" style="display:none" onchange="handleFSUpload(event)">
-            <div id="infoFS" class="text-xs text-center text-slate-500 mt-3">Belum ada data.</div>
-        </div>
-    </div>
-    <button class="btn-primary" id="btnFS" disabled onclick="processFS()"><i class="fa-solid fa-filter"></i> Proses List FS</button>
-    <div id="resultFS" class="mt-8" style="display:none"></div>
-</section>
-
-<!-- MODULE 5: CEK RRN/DISB -->
+<!-- MODULE 2: CEK RRN/DISB -->
 <section id="module-cek-rrn" class="module-section">
-    <div class="section-label">Tools Check 5</div>
+    <div class="section-label">Tools Check 2</div>
     <h2 class="text-3xl font-bold mb-2">CEK RRN/DISB</h2>
     <p class="text-slate-400 mb-8">Pencarian identifier RRN dan untuk DISB SATU ARAH di file database mutasi.</p>
     <div class="mb-8">
@@ -266,9 +163,9 @@
     <div id="resultRRN" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- MODULE 6: CEK VA -->
+<!-- MODULE 3: CEK VA -->
 <section id="module-cek-va" class="module-section">
-    <div class="section-label">Tools Check 6</div>
+    <div class="section-label">Tools Check 3</div>
     <h2 class="text-3xl font-bold mb-2">CEK VA</h2>
     <p class="text-slate-400 mb-4">Pencarian VA number di file mutasi dengan opsi validasi selisih/koreksi.</p>
     <p class="text-slate-400 mb-4">Untuk VA Topup data METABASE tanggalnya WAJIB sama dengan data MUTASI.</p>
@@ -308,8 +205,7 @@
     </div>
     <button class="btn-primary" id="btnVA" disabled onclick="processVA()"><i class="fa-solid fa-magnifying-glass"></i> Proses CEK VA</button>
     <div id="resultVA" class="mt-8" style="display:none"></div>
-
-    <!-- REK VA  -->
+  <!-- REK VA  -->
     <div class="mt-12 pt-8" style="border-top:1px solid var(--bdr)">
         <div class="section-label">Tambahan</div>
         <h3 class="text-2xl font-bold mb-2">REK VA</h3>
@@ -419,36 +315,26 @@ function initMetabaseVALink(){
 
 /* ========== RESET ALL ========== */
 function resetAll(){
-    dCT1=[];dCT2=[];dSNR1=[];dSNR2=[];dBL=[];dFS=[];
+    dCT1=[];dCT2=[];
     dRRN1=[];dRRN2=[];dVA1=[];dVA2=[];dVA3=[];dRekVA=[];
-    window.wCTResult=[];window.wCTOpen=[];window.wSNRResult=[];
-    window.wBLGroup=null;window.wRRNResult=[];window.wVAResult=[];window.wVASelisih=[];
+    window.wCTResult=[];window.wCTOpen=[];
+    window.wRRNResult=[];window.wVAResult=[];window.wVASelisih=[];
     window.wRekVAResult=[];
-    ['inpCT1','inpCT2','inpSNR1','inpSNR2','inpBL','inpFS','inpRRN1','inpRRN2','inpVA1','inpVA2','inpVA3','inpRekVA'].forEach(function(id){var el=$(id);if(el)el.value='';});
+    ['inpCT1','inpCT2','inpRRN1','inpRRN2','inpVA1','inpVA2','inpVA3','inpRekVA'].forEach(function(id){var el=$(id);if(el)el.value='';});
     document.querySelectorAll('.upload-zone').forEach(function(z){z.classList.remove('has-file');});
-    ['infoCT2','infoSNR1','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id){var el=$(id);if(el)el.innerHTML='';});
+    ['infoCT2','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id){var el=$(id);if(el)el.innerHTML='';});
     
-    // 
     $('infoCT1').innerHTML='<span class="text-slate-500">Belum ada data tiket.</span>';
     $('gsCT').value='https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv';
     resetBtn($('btnCTGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
     window.isCTManual = false; 
 
-    $('infoSNR2').innerHTML='<span class="text-slate-500">Belum ada data cache.</span>';
-    $('infoBL').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
-    $('infoFS').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
     $('infoRekVA').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
-    $('blastUN').value='';$('fsUN').value='';$('blastNotes').value='';$('rekVAInput').value='';
-    var blastRadio=document.querySelector('input[name="blastMode"][value="username"]');
-    if(blastRadio)blastRadio.checked=true;
-    toggleBLMode();
-    ['btnCT','btnSNR','btnBL','btnFS','btnRRN','btnVA','btnRekVA'].forEach(function(id){$(id).disabled=true;});
-    ['resultCT','resultSNR','resultBL','resultFS','resultRRN','resultVA','resultRekVA'].forEach(function(id){$(id).style.display='none';});
-    resetBtn($('btnSNRGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-    resetBtn($('btnBLGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-    resetBtn($('btnFSGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
+    $('rekVAInput').value='';
+    ['btnCT','btnRRN','btnVA','btnRekVA'].forEach(function(id){$(id).disabled=true;});
+    ['resultCT','resultRRN','resultVA','resultRekVA'].forEach(function(id){$(id).style.display='none';});
     resetBtn($('btnRekVAGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-    updateFSUrl();toggleVAMode();
+    toggleVAMode();
     switchMod('close-ticket',document.querySelector('.sidebar > .nav-item'));
     window.scrollTo({top:0,behavior:'smooth'});
     showToast('Semua data berhasil di-reset!','info');
@@ -534,7 +420,6 @@ function handleCT_CSV(e){
         checkCT();showToast('Manual CSV berhasil di-filter ke tiket OPEN!');
     }});
 }
-
 // Close tiket
 
 function handleCT_XL(e){
@@ -648,300 +533,7 @@ function dlCT(){
     XLSX.writeFile(wb,'Result_Tiket.xlsx');
 }
 
-/* ========== MODULE 2: SNR ========== */
-var dSNR1=[],dSNR2=[];
-
-function _cleanVal(v){
-    if(v==null)return '';
-    var s=String(v).trim();
-    if(!s||s==='nan'||s==='undefined'||s==='null')return '';
-    s=s.replace(/^["']|["']$/g,'').replace(/[\uFEFF\u200B\u200C\u200D\u00AD]/g,'');
-    // FIX: Only apply scientific notation logic if it's actually a number.
-    // Prevents corrupting UUIDs or strings containing 'e'.
-    if(/[eE]/.test(s) && !isNaN(parseFloat(s)) && isFinite(s)){
-        try{
-            var p=s.split(/[eE]/),m=p[0],exp=parseInt(p[1]),neg=m.charAt(0)==='-';
-            if(neg)m=m.substring(1);
-            var di=m.indexOf('.'),d=m.replace('.',''),dl=di>=0?m.length-di-1:0;
-            var np=d.length-dl+exp,r;
-            if(np<=0)r='0.'+'0'.repeat(-np)+d;
-            else if(np>=d.length)r=d+'0'.repeat(np-d.length);
-            else r=d.substring(0,np)+'.'+d.substring(np);
-            r=r.replace(/\.?0+$/,'');
-            return(neg?'-':'')+r;
-        }catch(e){}
-    }
-    if(s.indexOf('.')>-1){try{var f=parseFloat(s);if(f===Math.floor(f))s=String(Math.floor(f));}catch(e){}}
-    return s;
-}
-
-/* Detect spreadsheet */
-function _isHeader(v){
-    if(!v)return false;
-    var u=v.toLowerCase();
-    return u.indexOf('no ticket')>-1||u.indexOf('transaction')>-1||u.indexOf('partner tx')>-1;
-}
-
-function handleSNR_MTB(e){
-    var f=e.target.files[0];if(!f)return;
-    readCSV(f).then(function(d){
-        dSNR1=d;e.target.parentElement.classList.add('has-file');
-        $('infoSNR1').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>'+f.name+' ('+dSNR1.length+' baris)</div>';
-        checkSNR();
-    });
-}
-function handleSNR_Cache(e){
-    var f=e.target.files[0];if(!f)return;
-    var reader=f.name.endsWith('.csv')?readCSV(f):readExcel(f);
-    reader.then(function(d){
-        if(d.length>0&&!d[0].hasOwnProperty('_c0')){
-            var keys=Object.keys(d[0]);
-            d=d.map(function(row){return{'_c0':_cleanVal(row[keys[0]]),'_c1':_cleanVal(row[keys[1]])};});
-        }else{
-            d=d.map(function(row){return{'_c0':_cleanVal(row._c0),'_c1':_cleanVal(row._c1)};});
-        }
-        d=d.filter(function(row){return !_isHeader(row._c0)&&!_isHeader(row._c1);});
-        dSNR2=d;$('infoSNR2').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>'+dSNR2.length+'</b> baris';
-        checkSNR();showToast('Cache Tiket Berhasil Dimuat!');
-    });
-}
-async function fetchSNRCache(){
-    var url=$('gsSNR').value.trim(),btn=$('btnSNRGS'),info=$('infoSNR2');
-    if(!url){showToast('Harap masukkan link!','error');return;}
-    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
-    info.innerHTML='<span class="text-cyan-400">Menghubungi server...</span>';
-    var txt=await fetchGSheet(url);
-    if(txt){
-        console.log('[SNR] Raw CSV (first 600):\n',txt.substring(0,600));
-        var r=Papa.parse(txt,{header:false,skipEmptyLines:true});
-        if(r.data&&r.data.length>0){
-            dSNR2=r.data.map(function(row){return{'_c0':_cleanVal(row[0]),'_c1':_cleanVal(row[1])};});
-            dSNR2=dSNR2.filter(function(row){return !_isHeader(row._c0)&&!_isHeader(row._c1);});
-            btn.disabled=false;
-            btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';
-            btn.style.background='var(--accd)';btn.style.color='var(--acc)';
-            info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>'+dSNR2.length+'</b> baris';
-            console.log('[SNR] Cache (first 3):',dSNR2.slice(0,3));
-            checkSNR();showToast('Cache Tiket berhasil!');
-        }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='Gagal parse.';}
-    }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
-}
-function checkSNR(){$('btnSNR').disabled=!(dSNR1.length>0&&dSNR2.length>0);}
-function processSNR(){
-    
-    var cacheMap={},cacheArr=[];
-    dSNR2.forEach(function(row){
-        var ticket=row._c0,txid=row._c1;
-        if(ticket&&txid){
-            cacheMap[txid]=ticket;
-            cacheArr.push({ticket:ticket,txid:txid});
-        }
-    });
-    console.log('[SNR] cacheMap keys:',Object.keys(cacheMap).length,'sample:',Object.keys(cacheMap).slice(0,3));
-
-    var results=[],missLog=[];
-    dSNR1.forEach(function(row){
-        var cols=Object.keys(row);
-        function gv(n){var c=findCol(cols,n);return c?String(row[c]).trim():'';}
-        
-        // Explicitly getting IDs from Metabase columns as requested
-        var pt=_cleanVal(gv('partner_tx_id'));
-        var id=_cleanVal(gv('id'));
-        var vn=gv('vendor_name');
-
-        
-        var rt=cacheMap[pt]||cacheMap[id]||null;
-
-        
-        if(!rt){
-            var ptL=(pt||'').toLowerCase(),idL=(id||'').toLowerCase();
-            for(var i=0;i<cacheArr.length;i++){
-                var txL=(cacheArr[i].txid||'').toLowerCase();
-                if(txL&&(txL.indexOf(ptL)>-1||txL.indexOf(idL)>-1)){
-                    rt=cacheArr[i].ticket;break;
-                }
-            }
-        }
-
-        if(!rt)rt="TIKET TIDAK DITEMUKAN";
-
-        if(rt==="TIKET TIDAK DITEMUKAN"&&missLog.length<3){
-            missLog.push({
-                pt:pt,id:id,
-                mapPt:!!cacheMap[pt],mapId:!!cacheMap[id],
-                cacheTxSample:cacheArr.length>0?cacheArr[0].txid:'(empty)'
-            });
-        }
-
-        var av=gv('amount').replace(/,/g,''),af=parseFloat(av)?parseFloat(av).toLocaleString('id-ID'):av;
-        var w1='Dear tim @operationdanarapay \n\nMohon bantuannya untuk melakukan open claim '+vn+', detailnya :\n\nRelated tiket '+rt+'\n\ntrx id : '+id+'\npartner trx id : '+pt+'\ncreated date : '+gv('created timezone')+'\namount : '+af+'\nbank code : '+gv('bank_code')+'\nbank account no : '+gv('bank_recipient_account')+'\nbank account name : '+gv('bank_recipient_name')+'\nvendor ref id : '+gv('disburse_vendor_ref_id')+'\nStatus : '+gv('tx_status')+'\n\nBerikut terlampir evidencenya\n\nTerima kasih \n\ncc @ops-monitoring';
-        var w2='Dear Team, \n\nMohon bantuannya untuk melakukan open claim ke '+vn+', terkait case trx success not received, detail akan diinfokan di thread\n\nTerima kasih';
-        results.push({id:id,pt:pt,vn:vn,rt:rt,w1:w1,w2:w2});
-    });
-
-    console.log('[SNR] Miss log:',missLog);
-
-    window.wSNRResult=results;
-    var found=results.filter(function(r){return r.rt!=="TIKET TIDAK DITEMUKAN";}).length;
-    var notFound=results.length-found;
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Generate Wording</h3><div class="text-sm text-slate-400 mb-4">Total: <b>'+results.length+'</b> wording | <span class="text-emerald-400">Ditemukan: '+found+'</span> | <span class="text-red-400">Tidak ditemukan: '+notFound+'</span></div><button class="btn-primary text-sm py-2" onclick="dlSNR()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
-    results.forEach(function(r,i){
-        var isNF=r.rt==="TIKET TIDAK DITEMUKAN";
-        var tc=isNF?'text-red-400':'text-slate-500';
-        html+='<div class="stat-card mb-6"><div class="flex justify-between items-center mb-4"><h4 class="text-cyan-400 font-semibold">'+r.vn+' - '+r.id.substring(0,8)+'...</h4><span class="text-xs '+tc+'">Ticket: '+r.rt+'</span></div>';
-        html+='<div class="mb-6"><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 1:</div><div class="wording-box" id="w1-'+i+'">'+r.w1+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w1-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 1</button></div>';
-        html+='<div><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 2:</div><div class="wording-box" id="w2-'+i+'">'+r.w2+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w2-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 2</button></div></div></div>';
-    });
-    $('resultSNR').style.display='block';$('resultSNR').innerHTML=html;showToast('Wording SNR Selesai!');
-}
-/* ========== MODULE 3: BLASTING ========== */
-var dBL=[];
-function toggleBLMode(){
-    var mode=document.querySelector('input[name="blastMode"]:checked').value;
-    if(mode==='username'){$('blastUsernameWrap').style.display='block';$('blastNotesWrap').style.display='none';}
-    else{$('blastUsernameWrap').style.display='none';$('blastNotesWrap').style.display='block';}
-    checkBL();
-}
-function handleBLUpload(e){var f=e.target.files[0];if(!f)return;(f.name.endsWith('.csv')?readCSV(f):readExcel(f)).then(function(d){dBL=d;$('infoBL').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dBL.length+'</b> baris';checkBL();showToast('Database Blasting Berhasil!');});}
-async function fetchBLData(){
-    var url=$('gsBL').value.trim(),btn=$('btnBLGS'),info=$('infoBL');
-    if(!url){showToast('Harap masukkan link!','error');return;}
-    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
-    var txt=await fetchGSheet(url);
-    if(txt){
-        var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
-        if(r.data&&r.data.length>0){dBL=r.data;btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';btn.style.background='var(--accd)';btn.style.color='var(--acc)';info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dBL.length+'</b> baris';checkBL();showToast('Database Blasting berhasil!');}
-        else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');}
-    }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
-}
-function checkBL(){$('btnBL').disabled=!(dBL.length>0);}
-function processBL(){
-    var mode=document.querySelector('input[name="blastMode"]:checked').value;
-    var cols=Object.keys(dBL[0]);
-    var nc=findCol(cols,'NAMA'),wc=findCol(cols,'WAG'),bc=findCol(cols,'BAHASA'),kc=findCol(cols,'KATEGORI'),otc=findCol(cols,'NOTES');
-    if(!nc||!wc||!bc||!kc){showToast('Kolom NAMA/WAG/BAHASA/KATEGORI tidak ditemukan!','error');return;}
-    var added=new Set(),grouped={},matchCount=0,headerInfo='';
-    if(mode==='username'){
-        var ri=$('blastUN').value.trim();
-        if(!ri){showToast('Masukkan username!','error');return;}
-        var rawInputs=ri.split(/[\n,]+/).map(function(u){return u.trim();}).filter(function(u){return u.length>0;});
-        var rawLower=rawInputs.map(function(u){return u.toLowerCase();});
-        dBL.forEach(function(row,idx){
-            var cell=String(row[nc]||'').toLowerCase();
-            var namesInCell=cell.split(/[\n,]+/).map(function(n){return n.trim();}).filter(function(n){return n.length>0;});
-            var matched=[];
-            rawInputs.forEach(function(inputVal,i){if(namesInCell.indexOf(rawLower[i])>-1)matched.push(inputVal);});
-            if(matched.length>0&&!added.has(idx)){
-                added.add(idx);matchCount++;
-                var kat=String(row[kc]||'Unknown').trim().toUpperCase();
-                var bahasa=String(row[bc]||'Unknown').trim();
-                var wag=String(row[wc]||'Unknown').trim();
-                var notes=otc?String(row[otc]||'').trim():'-';
-                if(!grouped[kat])grouped[kat]={};
-                if(!grouped[kat][bahasa])grouped[kat][bahasa]={};
-                if(!grouped[kat][bahasa][wag])grouped[kat][bahasa][wag]={u:new Set(),n:notes};
-                matched.forEach(function(u){grouped[kat][bahasa][wag].u.add(u);});
-            }
-        });
-        headerInfo='Dicari: <b class="text-cyan-400">'+rawInputs.length+'</b> | Ditemukan: <b class="text-emerald-400">'+matchCount+'</b>';
-    }else{
-        var notesFilter=$('blastNotes').value.trim();
-        if(!notesFilter){showToast('Masukkan filter NOTES!','error');return;}
-        var nfLower=notesFilter.toLowerCase();
-        dBL.forEach(function(row,idx){
-            var notesVal=otc?String(row[otc]||'').trim():'';
-            if(notesVal.toLowerCase().indexOf(nfLower)===-1)return;
-            if(added.has(idx))return;
-            added.add(idx);matchCount++;
-            var kat=String(row[kc]||'Unknown').trim().toUpperCase();
-            var bahasa=String(row[bc]||'Unknown').trim();
-            var wag=String(row[wc]||'Unknown').trim();
-            var nama=String(row[nc]||'').trim();
-            var notes=notesVal||'-';
-            if(!grouped[kat])grouped[kat]={};
-            if(!grouped[kat][bahasa])grouped[kat][bahasa]={};
-            if(!grouped[kat][bahasa][wag])grouped[kat][bahasa][wag]={u:new Set(),n:notes};
-            nama.split(/[\n,]+/).map(function(n){return n.trim();}).filter(function(n){return n.length>0;}).forEach(function(u){grouped[kat][bahasa][wag].u.add(u);});
-        });
-        headerInfo='NOTES: <b class="text-cyan-400">'+notesFilter+'</b> | Ditemukan: <b class="text-emerald-400">'+matchCount+'</b> baris';
-    }
-    window.wBLGroup=grouped;
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter Blasting</h3><div class="text-sm text-slate-400 mb-4">'+headerInfo+'</div><button class="btn-primary text-sm py-2" onclick="dlBL()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
-    var katKeys=Object.keys(grouped).sort();
-    if(!katKeys.length){html+='<div class="stat-card text-center text-slate-400 py-8">Tidak ada data cocok.</div>';}
-    else{
-        katKeys.forEach(function(kat){
-            html+='<div class="stat-card mb-6" style="border-color:rgba(6,182,212,0.3)"><h3 class="font-bold text-cyan-400 mb-4 uppercase"><i class="fa-solid fa-layer-group mr-2"></i>'+kat+'</h3>';
-            Object.keys(grouped[kat]).sort().forEach(function(bahasa){
-                var wagKeys=Object.keys(grouped[kat][bahasa]).sort();
-                html+='<div class="mb-4 ml-4"><h4 class="font-semibold text-slate-200 mb-2 text-sm"><i class="fa-solid fa-language text-emerald-400 mr-1"></i>'+bahasa+' <span class="text-slate-500 text-xs">('+wagKeys.length+' WAG)</span></h4><div class="bg-[#0c1425] border border-slate-700/50 rounded-lg overflow-x-auto"><table class="data-table w-full"><thead><tr><th>NAMA</th><th>WAG</th><th>NOTES</th></tr></thead><tbody>';
-                wagKeys.forEach(function(wag){
-                    var item=grouped[kat][bahasa][wag];
-                    html+='<tr><td class="font-mono text-emerald-400 wlc">'+Array.from(item.u).join(', ')+'</td><td class="wlc">'+wag+'</td><td class="text-slate-400 wlc">'+(item.n||'-')+'</td></tr>';
-                });
-                html+='</tbody></table></div></div>';
-            });
-            html+='</div>';
-        });
-    }
-    $('resultBL').style.display='block';$('resultBL').innerHTML=html;showToast('Blasting Selesai!');
-}
-function dlBL(){
-    if(!window.wBLGroup)return;
-    var wb=XLSX.utils.book_new();
-    Object.keys(window.wBLGroup).sort().forEach(function(kat){
-        Object.keys(window.wBLGroup[kat]).sort().forEach(function(bahasa){
-            var d=Object.keys(window.wBLGroup[kat][bahasa]).sort().map(function(wag){var it=window.wBLGroup[kat][bahasa][wag];return{'NAMA':Array.from(it.u).join(', '),'WAG':wag,'NOTES':it.n};});
-            var ws=XLSX.utils.json_to_sheet(d);ws['!cols']=[{wch:40},{wch:40},{wch:40}];
-            var sn=(kat+'_'+bahasa).substring(0,31),fn=sn,c=1;
-            while(wb.SheetNames.indexOf(fn)>-1){fn=sn.substring(0,28)+'_'+c++;}
-            XLSX.utils.book_append_sheet(wb,ws,fn);
-        });
-    });
-    XLSX.writeFile(wb,'Blasting_Result.xlsx');showToast('Blasting_Result.xlsx berhasil!');
-}
-
-/* ========== MODULE 4: FORCE SUCCESS ========== */
-var dFS=[];
-var fsUrlMap={
-    'Payment Routing':'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=935635924&single=true&output=csv',
-    'VA Aggregator':'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=748605321&single=true&output=csv',
-    'VA Top Up':'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=456614761&single=true&output=csv'
-};
-function updateFSUrl(){
-    $('gsFS').value=fsUrlMap[$('fsProd').value]||'';
-    dFS=[];$('infoFS').innerHTML='<span class="text-slate-500">Product berubah.</span>';
-    $('btnFS').disabled=true;resetBtn($('btnFSGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-}
-function handleFSUpload(e){var f=e.target.files[0];if(!f)return;(f.name.endsWith('.csv')?readCSV(f):readExcel(f)).then(function(d){dFS=d;$('infoFS').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dFS.length+'</b> baris';checkFS();showToast('Database FS Berhasil!');});}
-async function fetchFSData(){
-    var url=$('gsFS').value.trim(),btn=$('btnFSGS'),info=$('infoFS');
-    if(!url){showToast('Link belum diset!','error');return;}
-    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
-    var txt=await fetchGSheet(url);
-    if(txt){
-        var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
-        if(r.data&&r.data.length>0){dFS=r.data;btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';btn.style.background='var(--accd)';btn.style.color='var(--acc)';info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dFS.length+'</b> baris';checkFS();showToast('Database FS berhasil!');}
-        else{resetBtn(btn,'Coba Lagi');}
-    }else{resetBtn(btn,'Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
-}
-function checkFS(){$('btnFS').disabled=!(dFS.length>0);}
-function processFS(){
-    var ri=$('fsUN').value.trim();if(!ri){showToast('Masukkan username!','error');return;}
-    var uu=ri.split(/[\n,]+/).map(function(u){return u.trim().toLowerCase();}).filter(function(u){return u.length>0;});
-    var cols=Object.keys(dFS[0]),uc=findCol(cols,'USERNAME')||findCol(cols,'NAMA')||cols[0],dc=findCol(cols,'TANGGAL INPUT')||findCol(cols,'TANGGAL')||findCol(cols,'DATE')||cols[1];
-    var fl=dFS.filter(function(r){return uu.indexOf(String(r[uc]||'').trim().toLowerCase())>-1;});
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter FS</h3><div class="text-sm text-slate-400 mb-2">Dicari: <b class="text-cyan-400">'+uu.length+'</b> | Ditemukan: <b class="text-emerald-400">'+fl.length+'</b></div></div>';
-    if(!fl.length){html+='<div class="stat-card text-center text-slate-400 py-8">Tidak ada data cocok.</div>';}
-    else{
-        html+='<div class="stat-card" style="border-color:rgba(6,182,212,0.3)"><div class="overflow-x-auto"><table class="data-table w-full"><thead><tr><th>No</th><th>USERNAME</th><th>TANGGAL INPUT</th></tr></thead><tbody>';
-        fl.forEach(function(r,i){html+='<tr><td class="text-center">'+(i+1)+'</td><td class="font-mono text-emerald-400">'+(r[uc]||'')+'</td><td>'+(r[dc]||'-')+'</td></tr>';});
-        html+='</tbody></table></div></div>';
-    }
-    $('resultFS').style.display='block';$('resultFS').innerHTML=html;showToast('Filter FS Selesai!');
-}
-
-/* ========== MODULE 5: CEK RRN/DISB ========== */
+/* ========== MODULE 2: CEK RRN/DISB ========== */
 var dRRN1=[],dRRN2=[];
 function dlTemplateRRN(){
     var wb=XLSX.utils.book_new();
@@ -1038,7 +630,7 @@ function dlRRN(){
     XLSX.writeFile(wb,'Result_RRN_DISB.xlsx');showToast('Result_RRN_DISB.xlsx berhasil!');
 }
 
-/* ========== MODULE 6: CEK VA ========== */
+/* ========== MODULE 3: CEK VA ========== */
 function normDTM(value){
     if(!value||String(value).trim()===''||String(value).trim()==='nan')return null;
     var vs=String(value).trim(),m,y,mo,d,h,mi;
@@ -1106,7 +698,7 @@ function toggleVAMode(){
     checkVA();
 }
 
-/* ========== MODULE 6: CEK VA DATA ========== */
+/* ========== MODULE 3: CEK VA DATA ========== */
 var dVA1=[],dVA2=[],dVA3=[];
 function dlTemplateVA(){
     var wb=XLSX.utils.book_new();
@@ -1174,7 +766,7 @@ function mergeVARows(df){
     });
 }
 
-/* ========== MODULE 6: CEK VA ========== */
+/* ========== MODULE 3: CEK VA ========== */
 function processVA(){
     var mode=document.querySelector('input[name="vaMode"]:checked').value;
     var TOL=5;
@@ -1368,8 +960,7 @@ function processVA(){
     $('resultVA').style.display='block';$('resultVA').innerHTML=html;
     showToast('CEK VA (Validasi) Selesai!');
 }
-
-/* ========== MODULE 6: CEK VA DOWNLOAD ========== */
+/* ========== MODULE 3: CEK VA DOWNLOAD ========== */
 function dlVA(){
     var wb=XLSX.utils.book_new();
     var mode=document.querySelector('input[name="vaMode"]:checked').value;
@@ -1390,7 +981,7 @@ function dlVA(){
     showToast('Result_CEK_VA.xlsx berhasil!');
 }
 
-/* ========== MODULE 6 TAMBAHAN: REK VA ========== */
+/* ========== MODULE 3 TAMBAHAN: REK VA ========== */
 var dRekVA=[];
 function handleRekVAUpload(e){
     var f=e.target.files[0];if(!f)return;
@@ -1540,9 +1131,7 @@ function dlRekVA(){
 }
 
 /* ========== INITIALIZE ========== */
-updateFSUrl();
 toggleVAMode();
-toggleBLMode();
 initMetabaseVALink();
 </script>
 </body>
