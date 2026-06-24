@@ -83,11 +83,9 @@
         <div class="logo-ait">AIT</div>
         <div class="logo-sub">Arta Intra Teknologi</div>
     </div>
+    <!--  -->
     <div class="nav-item active" onclick="switchMod('close-ticket',this)"><i class="fa-solid fa-ticket"></i><span>Close Ticket</span></div>
-    <div class="nav-item" onclick="switchMod('snr',this)"><i class="fa-solid fa-money-bill-transfer"></i><span>Template SNR</span></div>
-    <div class="nav-item" onclick="switchMod('blasting',this)"><i class="fa-solid fa-bullhorn"></i><span>Filter Blasting</span></div>
-    <div class="nav-item" onclick="switchMod('force-success',this)"><i class="fa-solid fa-list-check"></i><span>Filter FS Tanpa Bukses</span></div>
-    <div class="nav-item" onclick="switchMod('cek-rrn',this)"><i class="fa-solid fa-hashtag"></i><span>CEK RRN/DISB</span></div>
+    <div class="nav-item" onclick="switchMod('cek-rrn',this)"><i class="fa-solid fa-hashtag"></i><span>CEK DISB</span></div>
     <div class="nav-item" onclick="switchMod('cek-va',this)"><i class="fa-solid fa-building-columns"></i><span>CEK VA</span></div>
     <div class="nav-reset"><div class="nav-item" onclick="resetAll()"><i class="fa-solid fa-rotate-left"></i><span>Reset Data</span></div></div>
 </aside>
@@ -106,8 +104,6 @@
     </div>
 
     <div class="grid md:grid-cols-2 gap-6 mb-8">
-        
-        <!---->
         <div>
             <div class="upload-zone" id="zoneCT2" onclick="document.getElementById('inpCT2').click()">
                 <input type="file" id="inpCT2" accept=".xlsx,.xls" style="display:none" onchange="handleCT_XL(event)">
@@ -115,135 +111,31 @@
             </div><div id="infoCT2"></div>
         </div>
 
-        <!---->
         <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
             <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Tiket</h4>
             <p class="text-xs text-slate-400 mb-4">Pilih metode pengambilan data tiket.</p>
             
-            <!---->
             <input type="text" id="gsCT" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv">
             <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnCTGS" onclick="fetchCTCache()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
             
             <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
             
-            <!---->
             <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpCT1').click()"><i class="fa-solid fa-upload"></i> Upload Manual CSV</button>
             
             <input type="file" id="inpCT1" accept=".csv" style="display:none" onchange="handleCT_CSV(event)">
             
             <div id="infoCT1" class="text-xs text-center text-slate-500 mt-3">Belum ada data tiket.</div>
         </div>
-        
     </div>
     <button class="btn-primary" id="btnCT" disabled onclick="processCT()"><i class="fa-solid fa-bolt"></i> Proses Close Ticket</button>
     <div id="resultCT" class="mt-8" style="display:none"></div>
 </section>
 
-<!-- MODULE 2: SNR -->
-<section id="module-snr" class="module-section">
-    <div class="section-label">Tools Check 2</div>
-    <h2 class="text-3xl font-bold mb-2">Template Success Not Received</h2>
-    <p class="text-slate-400 mb-4">Generator wording claim untuk Slack.</p>
-    <div class="mb-8">
-        <a href="https://metabase.danarapay.com/question#eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjozLCJ0eXBlIjoicXVlcnkiLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOjEyMjA4LCJleHByZXNzaW9ucyI6eyJjcmVhdGVkIHRpbWV6b25lIjpbImNvbnZlcnQtdGltZXpvbmUiLFsiZmllbGQiLDIxMDYxMCx7ImJhc2UtdHlwZSI6InR5cGUvRGF0ZVRpbWUifV0sIkFzaWEvSmFrYXJ0YSIsIlVUQyJdfSwiZXhwcmVzc2lvbi1pZGVudGlmaWVycyI6eyJjcmVhdGVkIHRpbWV6b25lIjoieW95UTgtZXZjc2Y2aVdvQjZrT2JpbSJ9fX0sImRpc3BsYXkiOiJ0YWJsZSIsInZpc3VhbGl6YXRpb25fc2V0dGluZ3MiOnsidGFibGUuY29sdW1ucyI6W3sibmFtZSI6ImlkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJlY29yZF9mbGFnIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNyZWF0ZV9ieSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Imxhc3RfdXBkYXRlX2J5IiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiY3JlYXRlZCB0aW1lem9uZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Im5hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJkZXNjcmlwdGlvbiIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6IndhbGxldF9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFtb3VudCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFkbWluX2ZlZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InR4X3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImludGVybmFsX3R4X3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InJjX3N0YXR1cyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InNlbmRlcl9pZF90eXBlIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX2lkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX25hbWUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJzZW5kZXJfcGhvbmVfbnVtYmVyIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoicmVjaXBpZW50X3Bob25lX251bWJlciIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImVtYWlsIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZGlzYnVyc2VfdmVuZG9yX3JlZl9pZCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6InZlbmRvcl9uYW1lIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoic2VuZGVyX2NvdW50cnkiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJ0eF9yZWZfbnVtYmVyIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYmFsYW5jZV91c2VkIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiYWRkaXRpb25hbF9kYXRhIiwiZW5hYmxlZCI6dHJ1ZX0seyJuYW1lIjoiZXJyb3JfbWFwcGluZyIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImFjY291bnRfdHlwZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImlzX2NvbW1vbl9kaXNidXJzZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Im1hY2hpbmVfc3RhdGUiLCJlbmFibGVkIjp0cnVlfSx7Im5hbWUiOiJpc19zcGxpdF90eCIsImVuYWJsZWQiOnRydWV9XX0sInR5cGUiOiJxdWVzdGlvbiJ9" target="_blank" class="btn-secondary mb-6 inline-flex">
-            <i class="fa-solid fa-database"></i> Buka Metabase SNR
-        </a>
-    </div>
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div>
-            <div class="upload-zone" onclick="document.getElementById('inpSNR1').click()">
-                <input type="file" id="inpSNR1" accept=".csv" style="display:none" onchange="handleSNR_MTB(event)">
-                <div class="text-white font-semibold mb-1"><i class="fa-solid fa-file-csv text-emerald-400 mr-2"></i>File Metabase SNR (CSV)</div>
-                <div class="text-xs text-slate-500">Hasil download dari Metabase</div>
-            </div><div id="infoSNR1"></div>
-        </div>
-        <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Cache Tiket</h4>
-            <p class="text-xs text-slate-400 mb-4">Link spreadsheet sudah diisi otomatis.</p>
-            <input type="text" id="gsSNR" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv">
-            <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnSNRGS" onclick="fetchSNRCache()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
-            <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
-            <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpSNR2').click()"><i class="fa-solid fa-upload"></i> Upload Manual CSV</button>
-            <input type="file" id="inpSNR2" accept=".csv,.xlsx" style="display:none" onchange="handleSNR_Cache(event)">
-            <div id="infoSNR2" class="text-xs text-center text-slate-500 mt-3">Belum ada data cache.</div>
-        </div>
-    </div>
-    <button class="btn-primary" id="btnSNR" disabled onclick="processSNR()"><i class="fa-solid fa-comment-dots"></i> Generate Wording</button>
-    <div id="resultSNR" class="mt-8" style="display:none"></div>
-</section>
-
-<!-- MODULE 3: BLASTING -->
-<section id="module-blasting" class="module-section">
-    <div class="section-label">Tools Check 3</div>
-    <h2 class="text-3xl font-bold mb-2">Filter Blasting Group</h2>
-    <p class="text-slate-400 mb-8">Filter dan kelompokkan data blast berdasarkan username atau menampilkan semua WAG berdasarkan FILTER CLIENT.</p>
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div class="stat-card">
-            <h4 class="font-semibold text-cyan-400 mb-3"><i class="fa-solid fa-keyboard mr-2"></i>Input Data</h4>
-            <div class="radio-group flex gap-3 flex-wrap mb-4">
-                <label><input type="radio" name="blastMode" value="username" checked onchange="toggleBLMode()"><span>Filter Username</span></label>
-                <label><input type="radio" name="blastMode" value="allpartner" onchange="toggleBLMode()"><span>All Partner</span></label>
-            </div>
-            <div id="blastUsernameWrap">
-                <textarea id="blastUN" class="input-text" rows="6" placeholder="Masukkan username disini, contohnya&#10;danarapay"></textarea>
-            </div>
-            <div id="blastNotesWrap" style="display:none">
-                <label class="text-xs text-slate-400 mb-1 block font-semibold">FILTER CLIENT:</label>
-                <input type="text" id="blastNotes" class="input-text" placeholder="Contoh: DANARA">
-                <p class="text-xs text-slate-500 mt-2">Pilih salah satu dari client ini : DANARA, OY, OFFLINE, BAC. Hasil akan dikelompokkan per Kategori, Bahasa, dan WAG.</p>
-            </div>
-        </div>
-        <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Blasting</h4>
-            <input type="text" id="gsBL" class="input-text mb-3" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=0&single=true&output=csv">
-            <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnBLGS" onclick="fetchBLData()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
-            <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
-            <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpBL').click()"><i class="fa-solid fa-upload"></i> Upload Manual</button>
-            <input type="file" id="inpBL" accept=".csv,.xlsx" style="display:none" onchange="handleBLUpload(event)">
-            <div id="infoBL" class="text-xs text-center text-slate-500 mt-3">Belum ada data.</div>
-        </div>
-    </div>
-    <button class="btn-primary" id="btnBL" disabled onclick="processBL()"><i class="fa-solid fa-filter"></i> Proses Filter Blasting</button>
-    <div id="resultBL" class="mt-8" style="display:none"></div>
-</section>
-
-<!-- MODULE 4: FORCE SUCCESS -->
-<section id="module-force-success" class="module-section">
-    <div class="section-label">Tools Check 4</div>
-    <h2 class="text-3xl font-bold mb-2">List Force Success Tanpa Bukses</h2>
-    <p class="text-slate-400 mb-8">Filter data force success berdasarkan username dan product.</p>
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div class="stat-card">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-solid fa-keyboard mr-2"></i>Input Username</h4>
-            <textarea id="fsUN" class="input-text" rows="8" placeholder="Masukkan username disini, contohnya&#10;danarapay"></textarea>
-        </div>
-        <div class="stat-card border-cyan-500/20 bg-cyan-500/5">
-            <h4 class="font-semibold text-cyan-400 mb-2"><i class="fa-brands fa-google-sheets mr-2"></i>Database Force Success</h4>
-            <div class="mb-4">
-                <label class="text-xs text-slate-400 mb-1 block font-semibold">Pilih Product:</label>
-                <select id="fsProd" class="input-text py-2 cursor-pointer" onchange="updateFSUrl()">
-                    <option value="Payment Routing">Payment Routing</option>
-                    <option value="VA Aggregator">VA Aggregator</option>
-                    <option value="VA Top Up">VA Top Up</option>
-                </select>
-            </div>
-            <input type="text" id="gsFS" class="input-text mb-3 text-xs" value="" readonly>
-            <button class="btn-primary w-full justify-center text-sm py-3 mb-3" id="btnFSGS" onclick="fetchFSData()"><i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis</button>
-            <div class="text-center text-xs text-slate-600 mb-3">— ATAU —</div>
-            <button class="btn-secondary w-full justify-center text-xs py-2" onclick="document.getElementById('inpFS').click()"><i class="fa-solid fa-upload"></i> Upload Manual</button>
-            <input type="file" id="inpFS" accept=".csv,.xlsx" style="display:none" onchange="handleFSUpload(event)">
-            <div id="infoFS" class="text-xs text-center text-slate-500 mt-3">Belum ada data.</div>
-        </div>
-    </div>
-    <button class="btn-primary" id="btnFS" disabled onclick="processFS()"><i class="fa-solid fa-filter"></i> Proses List FS</button>
-    <div id="resultFS" class="mt-8" style="display:none"></div>
-</section>
-
 <!-- MODULE 5: CEK RRN/DISB -->
 <section id="module-cek-rrn" class="module-section">
-    <div class="section-label">Tools Check 5</div>
-    <h2 class="text-3xl font-bold mb-2">CEK RRN/DISB</h2>
-    <p class="text-slate-400 mb-8">Pencarian identifier RRN dan untuk DISB SATU ARAH di file database mutasi.</p>
+    <div class="section-label">Tools Check 2</div>
+    <h2 class="text-3xl font-bold mb-2">CEK DISB 1 ARAH</h2>
+    <p class="text-slate-400 mb-8">Pencarian identifier untuk DISB SATU ARAH di file database mutasi.</p>
     <div class="mb-8">
         <button class="btn-template" onclick="dlTemplateRRN()"><i class="fa-solid fa-file-arrow-down"></i> Download Template CEK_RRN_DISB.xlsx</button>
     </div>
@@ -262,13 +154,13 @@
             </div><div id="infoRRN2"></div>
         </div>
     </div>
-    <button class="btn-primary" id="btnRRN" disabled onclick="processRRN()"><i class="fa-solid fa-magnifying-glass"></i> Proses CEK RRN/DISB</button>
+    <button class="btn-primary" id="btnRRN" disabled onclick="processRRN()"><i class="fa-solid fa-magnifying-glass"></i> Proses CEK DISB</button>
     <div id="resultRRN" class="mt-8" style="display:none"></div>
 </section>
 
 <!-- MODULE 6: CEK VA -->
 <section id="module-cek-va" class="module-section">
-    <div class="section-label">Tools Check 6</div>
+    <div class="section-label">Tools Check 3</div>
     <h2 class="text-3xl font-bold mb-2">CEK VA</h2>
     <p class="text-slate-400 mb-4">Pencarian VA number di file mutasi dengan opsi validasi selisih/koreksi.</p>
     <p class="text-slate-400 mb-4">Untuk VA Topup data METABASE tanggalnya WAJIB sama dengan data MUTASI.</p>
@@ -419,36 +311,32 @@ function initMetabaseVALink(){
 
 /* ========== RESET ALL ========== */
 function resetAll(){
-    dCT1=[];dCT2=[];dSNR1=[];dSNR2=[];dBL=[];dFS=[];
+    dCT1=[];dCT2=[];
     dRRN1=[];dRRN2=[];dVA1=[];dVA2=[];dVA3=[];dRekVA=[];
-    window.wCTResult=[];window.wCTOpen=[];window.wSNRResult=[];
-    window.wBLGroup=null;window.wRRNResult=[];window.wVAResult=[];window.wVASelisih=[];
+    window.wCTResult=[];window.wCTOpen=[];
+    window.wRRNResult=[];window.wVAResult=[];window.wVASelisih=[];
     window.wRekVAResult=[];
-    ['inpCT1','inpCT2','inpSNR1','inpSNR2','inpBL','inpFS','inpRRN1','inpRRN2','inpVA1','inpVA2','inpVA3','inpRekVA'].forEach(function(id){var el=$(id);if(el)el.value='';});
-    document.querySelectorAll('.upload-zone').forEach(function(z){z.classList.remove('has-file');});
-    ['infoCT2','infoSNR1','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id){var el=$(id);if(el)el.innerHTML='';});
     
-    // 
+    ['inpCT1','inpCT2','inpRRN1','inpRRN2','inpVA1','inpVA2','inpVA3','inpRekVA'].forEach(function(id){var el=$(id);if(el)el.value='';});
+    document.querySelectorAll('.upload-zone').forEach(function(z){z.classList.remove('has-file');});
+    ['infoCT2','infoRRN1','infoRRN2','infoVA1','infoVA2','infoVA3'].forEach(function(id){var el=$(id);if(el)el.innerHTML='';});
+    
     $('infoCT1').innerHTML='<span class="text-slate-500">Belum ada data tiket.</span>';
     $('gsCT').value='https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=984740689&single=true&output=csv';
     resetBtn($('btnCTGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
     window.isCTManual = false; 
 
-    $('infoSNR2').innerHTML='<span class="text-slate-500">Belum ada data cache.</span>';
-    $('infoBL').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
-    $('infoFS').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
     $('infoRekVA').innerHTML='<span class="text-slate-500">Belum ada data.</span>';
-    $('blastUN').value='';$('fsUN').value='';$('blastNotes').value='';$('rekVAInput').value='';
-    var blastRadio=document.querySelector('input[name="blastMode"][value="username"]');
-    if(blastRadio)blastRadio.checked=true;
-    toggleBLMode();
-    ['btnCT','btnSNR','btnBL','btnFS','btnRRN','btnVA','btnRekVA'].forEach(function(id){$(id).disabled=true;});
-    ['resultCT','resultSNR','resultBL','resultFS','resultRRN','resultVA','resultRekVA'].forEach(function(id){$(id).style.display='none';});
-    resetBtn($('btnSNRGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-    resetBtn($('btnBLGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-    resetBtn($('btnFSGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
+    
+    $('rekVAInput').value='';
+    
+    ['btnCT','btnRRN','btnVA','btnRekVA'].forEach(function(id){$(id).disabled=true;});
+    
+    ['resultCT','resultRRN','resultVA','resultRekVA'].forEach(function(id){$(id).style.display='none';});
+    
     resetBtn($('btnRekVAGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-    updateFSUrl();toggleVAMode();
+    
+    toggleVAMode();
     switchMod('close-ticket',document.querySelector('.sidebar > .nav-item'));
     window.scrollTo({top:0,behavior:'smooth'});
     showToast('Semua data berhasil di-reset!','info');
@@ -467,7 +355,6 @@ function dlTemplateCT(){
     showToast('Template berhasil didownload!','info');
 }
 
-// Close tiket
 async function fetchCTCache(){
     var url=$('gsCT').value.trim(),btn=$('btnCTGS'),info=$('infoCT1');
     if(!url){showToast('Harap masukkan link!','error');return;}
@@ -480,7 +367,7 @@ async function fetchCTCache(){
             var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
             if(r.data&&r.data.length>0){
                 dCT1=r.data;
-                isCTManual = false; // Set flag: Auto source (assume all open)
+                isCTManual = false;
                 btn.disabled=false;
                 btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';
                 btn.style.background='var(--accd)';btn.style.color='var(--acc)';
@@ -494,7 +381,6 @@ async function fetchCTCache(){
     }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
 }
 
-// Close tiket
 function handleCT_CSV(e){
     var f=e.target.files[0];if(!f)return;
     Papa.parse(f,{header:true,skipEmptyLines:true,complete:function(r){
@@ -503,7 +389,6 @@ function handleCT_CSV(e){
             return;
         }
 
-        //
         var cols = Object.keys(r.data[0]);
         var colClose = findCol(cols, 'Close PIC (CSU)');
         
@@ -512,10 +397,8 @@ function handleCT_CSV(e){
             return;
         }
 
-        //
         var filteredData = r.data.filter(function(row){
             var val = row[colClose];
-            //
             return !val || String(val).trim() === '';
         });
 
@@ -527,15 +410,10 @@ function handleCT_CSV(e){
         dCT1 = filteredData;
         isCTManual = true;
         
-        
-        var parentZone = document.querySelector('.btn-secondary[onclick="document.getElementById(\'inpCT1\').click()"]').parentElement;
-        
         $('infoCT1').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil (Manual): <b>'+dCT1.length+'</b> tiket OPEN';
         checkCT();showToast('Manual CSV berhasil di-filter ke tiket OPEN!');
     }});
 }
-
-// Close tiket
 
 function handleCT_XL(e){
     var f=e.target.files[0];if(!f)return;
@@ -551,7 +429,6 @@ function handleCT_XL(e){
 }
 function checkCT(){$('btnCT').disabled=!(dCT1.length>0&&dCT2.length>0);}
 function processCT(){
-    // 
     var tC=findCol(Object.keys(dCT1[0]||{}),'No Ticket');
     if(!tC) tC=findCol(Object.keys(dCT1[0]||{}),'TICKET');
     if(!tC) tC=findCol(Object.keys(dCT1[0]||{}),'NOTICKET');
@@ -564,33 +441,26 @@ function processCT(){
     var nC=findCol(Object.keys(dCT1[0]||{}),'Number of Transaction');
     var rC=findCol(Object.keys(dCT2[0]||{}),'RESULT');
     
-    var resultData=[]; // Will hold ALL rows from Check File (RESULT Sheet)
+    var resultData=[];
     
-    // Loop through Check File (dCT2) - 1 to 1 Mapping for RESULT Sheet
     dCT2.forEach(function(ex){
         var id=String(ex['IDENTIFIER']||'').trim();
         var rv=rC?String(ex[rC]||'').trim():'';if(!rv)rv='-';
         var found=false;
         
-        // Search in Database (dCT1)
         dCT1.forEach(function(cs,idx){
             var rowText=Object.values(cs).map(function(v){return String(v).toLowerCase();}).join(' | ');
             if(rowText.indexOf(id.toLowerCase())>-1){
                 found=true;
                 var ticketNo=String(cs[tC]||'').trim();
-                // WE DO NOT CHECK globalSeen HERE anymore to allow duplicates in RESULT sheet
-                // Every identifier in Check File gets a row in RESULT
                 resultData.push({
                     'IDENTIFIER':id,
                     'NO TICKET':ticketNo||'*',
-                    'STATUS':'OPEN', // dCT1 is assumed to be the Open Tickets pool
+                    'STATUS':'OPEN',
                     'ROW LIST':idx+2,
                     'NUMBER OF TRANSACTION':nC?String(cs[nC]||'').trim()||'*':'*',
                     'STATUS RESULT':rv
                 });
-                // Assuming 1 ID matches 1 Ticket. If it matches multiple tickets in DB, it adds multiple rows.
-                // If we want to stop at first match per ID:
-                // return true; (to break loop)
             }
         });
         
@@ -608,7 +478,6 @@ function processCT(){
 
     window.wCTResult = resultData;
 
-    // Build SUMMARY_OPEN (Unique Tickets Only)
     var seenTickets = new Set();
     var openSummary = [];
 
@@ -648,902 +517,7 @@ function dlCT(){
     XLSX.writeFile(wb,'Result_Tiket.xlsx');
 }
 
-/* ========== MODULE 2: SNR ========== */
-var dSNR1=[],dSNR2=[];
-
-function _cleanVal(v){
-    if(v==null)return '';
-    var s=String(v).trim();
-    if(!s||s==='nan'||s==='undefined'||s==='null')return '';
-    s=s.replace(/^["']|["']$/g,'').replace(/[\uFEFF\u200B\u200C\u200D\u00AD]/g,'');
-    // FIX: Only apply scientific notation logic if it's actually a number.
-    // Prevents corrupting UUIDs or strings containing 'e'.
-    if(/[eE]/.test(s) && !isNaN(parseFloat(s)) && isFinite(s)){
-        try{
-            var p=s.split(/[eE]/),m=p[0],exp=parseInt(p[1]),neg=m.charAt(0)==='-';
-            if(neg)m=m.substring(1);
-            var di=m.indexOf('.'),d=m.replace('.',''),dl=di>=0?m.length-di-1:0;
-            var np=d.length-dl+exp,r;
-            if(np<=0)r='0.'+'0'.repeat(-np)+d;
-            else if(np>=d.length)r=d+'0'.repeat(np-d.length);
-            else r=d.substring(0,np)+'.'+d.substring(np);
-            r=r.replace(/\.?0+$/,'');
-            return(neg?'-':'')+r;
-        }catch(e){}
-    }
-    if(s.indexOf('.')>-1){try{var f=parseFloat(s);if(f===Math.floor(f))s=String(Math.floor(f));}catch(e){}}
-    return s;
-}
-
-/* Detect spreadsheet */
-function _isHeader(v){
-    if(!v)return false;
-    var u=v.toLowerCase();
-    return u.indexOf('no ticket')>-1||u.indexOf('transaction')>-1||u.indexOf('partner tx')>-1;
-}
-
-function handleSNR_MTB(e){
-    var f=e.target.files[0];if(!f)return;
-    readCSV(f).then(function(d){
-        dSNR1=d;e.target.parentElement.classList.add('has-file');
-        $('infoSNR1').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>'+f.name+' ('+dSNR1.length+' baris)</div>';
-        checkSNR();
-    });
-}
-function handleSNR_Cache(e){
-    var f=e.target.files[0];if(!f)return;
-    var reader=f.name.endsWith('.csv')?readCSV(f):readExcel(f);
-    reader.then(function(d){
-        if(d.length>0&&!d[0].hasOwnProperty('_c0')){
-            var keys=Object.keys(d[0]);
-            d=d.map(function(row){return{'_c0':_cleanVal(row[keys[0]]),'_c1':_cleanVal(row[keys[1]])};});
-        }else{
-            d=d.map(function(row){return{'_c0':_cleanVal(row._c0),'_c1':_cleanVal(row._c1)};});
-        }
-        d=d.filter(function(row){return !_isHeader(row._c0)&&!_isHeader(row._c1);});
-        dSNR2=d;$('infoSNR2').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>'+dSNR2.length+'</b> baris';
-        checkSNR();showToast('Cache Tiket Berhasil Dimuat!');
-    });
-}
-async function fetchSNRCache(){
-    var url=$('gsSNR').value.trim(),btn=$('btnSNRGS'),info=$('infoSNR2');
-    if(!url){showToast('Harap masukkan link!','error');return;}
-    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
-    info.innerHTML='<span class="text-cyan-400">Menghubungi server...</span>';
-    var txt=await fetchGSheet(url);
-    if(txt){
-        console.log('[SNR] Raw CSV (first 600):\n',txt.substring(0,600));
-        var r=Papa.parse(txt,{header:false,skipEmptyLines:true});
-        if(r.data&&r.data.length>0){
-            dSNR2=r.data.map(function(row){return{'_c0':_cleanVal(row[0]),'_c1':_cleanVal(row[1])};});
-            dSNR2=dSNR2.filter(function(row){return !_isHeader(row._c0)&&!_isHeader(row._c1);});
-            btn.disabled=false;
-            btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';
-            btn.style.background='var(--accd)';btn.style.color='var(--acc)';
-            info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> Berhasil: <b>'+dSNR2.length+'</b> baris';
-            console.log('[SNR] Cache (first 3):',dSNR2.slice(0,3));
-            checkSNR();showToast('Cache Tiket berhasil!');
-        }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='Gagal parse.';}
-    }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
-}
-function checkSNR(){$('btnSNR').disabled=!(dSNR1.length>0&&dSNR2.length>0);}
-function processSNR(){
-    
-    var cacheMap={},cacheArr=[];
-    dSNR2.forEach(function(row){
-        var ticket=row._c0,txid=row._c1;
-        if(ticket&&txid){
-            cacheMap[txid]=ticket;
-            cacheArr.push({ticket:ticket,txid:txid});
-        }
-    });
-    console.log('[SNR] cacheMap keys:',Object.keys(cacheMap).length,'sample:',Object.keys(cacheMap).slice(0,3));
-
-    var results=[],missLog=[];
-    dSNR1.forEach(function(row){
-        var cols=Object.keys(row);
-        function gv(n){var c=findCol(cols,n);return c?String(row[c]).trim():'';}
-        
-        // Explicitly getting IDs from Metabase columns as requested
-        var pt=_cleanVal(gv('partner_tx_id'));
-        var id=_cleanVal(gv('id'));
-        var vn=gv('vendor_name');
-
-        
-        var rt=cacheMap[pt]||cacheMap[id]||null;
-
-        
-        if(!rt){
-            var ptL=(pt||'').toLowerCase(),idL=(id||'').toLowerCase();
-            for(var i=0;i<cacheArr.length;i++){
-                var txL=(cacheArr[i].txid||'').toLowerCase();
-                if(txL&&(txL.indexOf(ptL)>-1||txL.indexOf(idL)>-1)){
-                    rt=cacheArr[i].ticket;break;
-                }
-            }
-        }
-
-        if(!rt)rt="TIKET TIDAK DITEMUKAN";
-
-        if(rt==="TIKET TIDAK DITEMUKAN"&&missLog.length<3){
-            missLog.push({
-                pt:pt,id:id,
-                mapPt:!!cacheMap[pt],mapId:!!cacheMap[id],
-                cacheTxSample:cacheArr.length>0?cacheArr[0].txid:'(empty)'
-            });
-        }
-
-        var av=gv('amount').replace(/,/g,''),af=parseFloat(av)?parseFloat(av).toLocaleString('id-ID'):av;
-        var w1='Dear tim @operationdanarapay \n\nMohon bantuannya untuk melakukan open claim '+vn+', detailnya :\n\nRelated tiket '+rt+'\n\ntrx id : '+id+'\npartner trx id : '+pt+'\ncreated date : '+gv('created timezone')+'\namount : '+af+'\nbank code : '+gv('bank_code')+'\nbank account no : '+gv('bank_recipient_account')+'\nbank account name : '+gv('bank_recipient_name')+'\nvendor ref id : '+gv('disburse_vendor_ref_id')+'\nStatus : '+gv('tx_status')+'\n\nBerikut terlampir evidencenya\n\nTerima kasih \n\ncc @ops-monitoring';
-        var w2='Dear Team, \n\nMohon bantuannya untuk melakukan open claim ke '+vn+', terkait case trx success not received, detail akan diinfokan di thread\n\nTerima kasih';
-        results.push({id:id,pt:pt,vn:vn,rt:rt,w1:w1,w2:w2});
-    });
-
-    console.log('[SNR] Miss log:',missLog);
-
-    window.wSNRResult=results;
-    var found=results.filter(function(r){return r.rt!=="TIKET TIDAK DITEMUKAN";}).length;
-    var notFound=results.length-found;
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Generate Wording</h3><div class="text-sm text-slate-400 mb-4">Total: <b>'+results.length+'</b> wording | <span class="text-emerald-400">Ditemukan: '+found+'</span> | <span class="text-red-400">Tidak ditemukan: '+notFound+'</span></div><button class="btn-primary text-sm py-2" onclick="dlSNR()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
-    results.forEach(function(r,i){
-        var isNF=r.rt==="TIKET TIDAK DITEMUKAN";
-        var tc=isNF?'text-red-400':'text-slate-500';
-        html+='<div class="stat-card mb-6"><div class="flex justify-between items-center mb-4"><h4 class="text-cyan-400 font-semibold">'+r.vn+' - '+r.id.substring(0,8)+'...</h4><span class="text-xs '+tc+'">Ticket: '+r.rt+'</span></div>';
-        html+='<div class="mb-6"><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 1:</div><div class="wording-box" id="w1-'+i+'">'+r.w1+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w1-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 1</button></div>';
-        html+='<div><div class="text-xs font-semibold text-slate-400 mb-2">WORDING 2:</div><div class="wording-box" id="w2-'+i+'">'+r.w2+'</div><button class="btn-secondary text-xs py-1 px-3" onclick="copyText(document.getElementById(\'w2-'+i+'\').innerText)"><i class="fa-solid fa-copy mr-1"></i> Copy 2</button></div></div></div>';
-    });
-    $('resultSNR').style.display='block';$('resultSNR').innerHTML=html;showToast('Wording SNR Selesai!');
-}
-/* ========== MODULE 3: BLASTING ========== */
-var dBL=[];
-function toggleBLMode(){
-    var mode=document.querySelector('input[name="blastMode"]:checked').value;
-    if(mode==='username'){$('blastUsernameWrap').style.display='block';$('blastNotesWrap').style.display='none';}
-    else{$('blastUsernameWrap').style.display='none';$('blastNotesWrap').style.display='block';}
-    checkBL();
-}
-function handleBLUpload(e){var f=e.target.files[0];if(!f)return;(f.name.endsWith('.csv')?readCSV(f):readExcel(f)).then(function(d){dBL=d;$('infoBL').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dBL.length+'</b> baris';checkBL();showToast('Database Blasting Berhasil!');});}
-async function fetchBLData(){
-    var url=$('gsBL').value.trim(),btn=$('btnBLGS'),info=$('infoBL');
-    if(!url){showToast('Harap masukkan link!','error');return;}
-    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
-    var txt=await fetchGSheet(url);
-    if(txt){
-        var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
-        if(r.data&&r.data.length>0){dBL=r.data;btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';btn.style.background='var(--accd)';btn.style.color='var(--acc)';info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dBL.length+'</b> baris';checkBL();showToast('Database Blasting berhasil!');}
-        else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');}
-    }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
-}
-function checkBL(){$('btnBL').disabled=!(dBL.length>0);}
-function processBL(){
-    var mode=document.querySelector('input[name="blastMode"]:checked').value;
-    var cols=Object.keys(dBL[0]);
-    var nc=findCol(cols,'NAMA'),wc=findCol(cols,'WAG'),bc=findCol(cols,'BAHASA'),kc=findCol(cols,'KATEGORI'),otc=findCol(cols,'NOTES');
-    if(!nc||!wc||!bc||!kc){showToast('Kolom NAMA/WAG/BAHASA/KATEGORI tidak ditemukan!','error');return;}
-    var added=new Set(),grouped={},matchCount=0,headerInfo='';
-    if(mode==='username'){
-        var ri=$('blastUN').value.trim();
-        if(!ri){showToast('Masukkan username!','error');return;}
-        var rawInputs=ri.split(/[\n,]+/).map(function(u){return u.trim();}).filter(function(u){return u.length>0;});
-        var rawLower=rawInputs.map(function(u){return u.toLowerCase();});
-        dBL.forEach(function(row,idx){
-            var cell=String(row[nc]||'').toLowerCase();
-            var namesInCell=cell.split(/[\n,]+/).map(function(n){return n.trim();}).filter(function(n){return n.length>0;});
-            var matched=[];
-            rawInputs.forEach(function(inputVal,i){if(namesInCell.indexOf(rawLower[i])>-1)matched.push(inputVal);});
-            if(matched.length>0&&!added.has(idx)){
-                added.add(idx);matchCount++;
-                var kat=String(row[kc]||'Unknown').trim().toUpperCase();
-                var bahasa=String(row[bc]||'Unknown').trim();
-                var wag=String(row[wc]||'Unknown').trim();
-                var notes=otc?String(row[otc]||'').trim():'-';
-                if(!grouped[kat])grouped[kat]={};
-                if(!grouped[kat][bahasa])grouped[kat][bahasa]={};
-                if(!grouped[kat][bahasa][wag])grouped[kat][bahasa][wag]={u:new Set(),n:notes};
-                matched.forEach(function(u){grouped[kat][bahasa][wag].u.add(u);});
-            }
-        });
-        headerInfo='Dicari: <b class="text-cyan-400">'+rawInputs.length+'</b> | Ditemukan: <b class="text-emerald-400">'+matchCount+'</b>';
-    }else{
-        var notesFilter=$('blastNotes').value.trim();
-        if(!notesFilter){showToast('Masukkan filter NOTES!','error');return;}
-        var nfLower=notesFilter.toLowerCase();
-        dBL.forEach(function(row,idx){
-            var notesVal=otc?String(row[otc]||'').trim():'';
-            if(notesVal.toLowerCase().indexOf(nfLower)===-1)return;
-            if(added.has(idx))return;
-            added.add(idx);matchCount++;
-            var kat=String(row[kc]||'Unknown').trim().toUpperCase();
-            var bahasa=String(row[bc]||'Unknown').trim();
-            var wag=String(row[wc]||'Unknown').trim();
-            var nama=String(row[nc]||'').trim();
-            var notes=notesVal||'-';
-            if(!grouped[kat])grouped[kat]={};
-            if(!grouped[kat][bahasa])grouped[kat][bahasa]={};
-            if(!grouped[kat][bahasa][wag])grouped[kat][bahasa][wag]={u:new Set(),n:notes};
-            nama.split(/[\n,]+/).map(function(n){return n.trim();}).filter(function(n){return n.length>0;}).forEach(function(u){grouped[kat][bahasa][wag].u.add(u);});
-        });
-        headerInfo='NOTES: <b class="text-cyan-400">'+notesFilter+'</b> | Ditemukan: <b class="text-emerald-400">'+matchCount+'</b> baris';
-    }
-    window.wBLGroup=grouped;
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter Blasting</h3><div class="text-sm text-slate-400 mb-4">'+headerInfo+'</div><button class="btn-primary text-sm py-2" onclick="dlBL()"><i class="fa-solid fa-file-excel mr-2"></i>Download Excel</button></div>';
-    var katKeys=Object.keys(grouped).sort();
-    if(!katKeys.length){html+='<div class="stat-card text-center text-slate-400 py-8">Tidak ada data cocok.</div>';}
-    else{
-        katKeys.forEach(function(kat){
-            html+='<div class="stat-card mb-6" style="border-color:rgba(6,182,212,0.3)"><h3 class="font-bold text-cyan-400 mb-4 uppercase"><i class="fa-solid fa-layer-group mr-2"></i>'+kat+'</h3>';
-            Object.keys(grouped[kat]).sort().forEach(function(bahasa){
-                var wagKeys=Object.keys(grouped[kat][bahasa]).sort();
-                html+='<div class="mb-4 ml-4"><h4 class="font-semibold text-slate-200 mb-2 text-sm"><i class="fa-solid fa-language text-emerald-400 mr-1"></i>'+bahasa+' <span class="text-slate-500 text-xs">('+wagKeys.length+' WAG)</span></h4><div class="bg-[#0c1425] border border-slate-700/50 rounded-lg overflow-x-auto"><table class="data-table w-full"><thead><tr><th>NAMA</th><th>WAG</th><th>NOTES</th></tr></thead><tbody>';
-                wagKeys.forEach(function(wag){
-                    var item=grouped[kat][bahasa][wag];
-                    html+='<tr><td class="font-mono text-emerald-400 wlc">'+Array.from(item.u).join(', ')+'</td><td class="wlc">'+wag+'</td><td class="text-slate-400 wlc">'+(item.n||'-')+'</td></tr>';
-                });
-                html+='</tbody></table></div></div>';
-            });
-            html+='</div>';
-        });
-    }
-    $('resultBL').style.display='block';$('resultBL').innerHTML=html;showToast('Blasting Selesai!');
-}
-function dlBL(){
-    if(!window.wBLGroup)return;
-    var wb=XLSX.utils.book_new();
-    Object.keys(window.wBLGroup).sort().forEach(function(kat){
-        Object.keys(window.wBLGroup[kat]).sort().forEach(function(bahasa){
-            var d=Object.keys(window.wBLGroup[kat][bahasa]).sort().map(function(wag){var it=window.wBLGroup[kat][bahasa][wag];return{'NAMA':Array.from(it.u).join(', '),'WAG':wag,'NOTES':it.n};});
-            var ws=XLSX.utils.json_to_sheet(d);ws['!cols']=[{wch:40},{wch:40},{wch:40}];
-            var sn=(kat+'_'+bahasa).substring(0,31),fn=sn,c=1;
-            while(wb.SheetNames.indexOf(fn)>-1){fn=sn.substring(0,28)+'_'+c++;}
-            XLSX.utils.book_append_sheet(wb,ws,fn);
-        });
-    });
-    XLSX.writeFile(wb,'Blasting_Result.xlsx');showToast('Blasting_Result.xlsx berhasil!');
-}
-
-/* ========== MODULE 4: FORCE SUCCESS ========== */
-var dFS=[];
-var fsUrlMap={
-    'Payment Routing':'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=935635924&single=true&output=csv',
-    'VA Aggregator':'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=748605321&single=true&output=csv',
-    'VA Top Up':'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZdXUrCGo26thsd6mNs6pBe9MyebSo7-AojfeGlog6wVLKZl2SxThnniatKYnhrnthj2Y9WVGlb9OH/pub?gid=456614761&single=true&output=csv'
-};
-function updateFSUrl(){
-    $('gsFS').value=fsUrlMap[$('fsProd').value]||'';
-    dFS=[];$('infoFS').innerHTML='<span class="text-slate-500">Product berubah.</span>';
-    $('btnFS').disabled=true;resetBtn($('btnFSGS'),'<i class="fa-solid fa-cloud-arrow-down"></i> Ambil Data Otomatis');
-}
-function handleFSUpload(e){var f=e.target.files[0];if(!f)return;(f.name.endsWith('.csv')?readCSV(f):readExcel(f)).then(function(d){dFS=d;$('infoFS').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dFS.length+'</b> baris';checkFS();showToast('Database FS Berhasil!');});}
-async function fetchFSData(){
-    var url=$('gsFS').value.trim(),btn=$('btnFSGS'),info=$('infoFS');
-    if(!url){showToast('Link belum diset!','error');return;}
-    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
-    var txt=await fetchGSheet(url);
-    if(txt){
-        var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
-        if(r.data&&r.data.length>0){dFS=r.data;btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';btn.style.background='var(--accd)';btn.style.color='var(--acc)';info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dFS.length+'</b> baris';checkFS();showToast('Database FS berhasil!');}
-        else{resetBtn(btn,'Coba Lagi');}
-    }else{resetBtn(btn,'Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
-}
-function checkFS(){$('btnFS').disabled=!(dFS.length>0);}
-function processFS(){
-    var ri=$('fsUN').value.trim();if(!ri){showToast('Masukkan username!','error');return;}
-    var uu=ri.split(/[\n,]+/).map(function(u){return u.trim().toLowerCase();}).filter(function(u){return u.length>0;});
-    var cols=Object.keys(dFS[0]),uc=findCol(cols,'USERNAME')||findCol(cols,'NAMA')||cols[0],dc=findCol(cols,'TANGGAL INPUT')||findCol(cols,'TANGGAL')||findCol(cols,'DATE')||cols[1];
-    var fl=dFS.filter(function(r){return uu.indexOf(String(r[uc]||'').trim().toLowerCase())>-1;});
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil Filter FS</h3><div class="text-sm text-slate-400 mb-2">Dicari: <b class="text-cyan-400">'+uu.length+'</b> | Ditemukan: <b class="text-emerald-400">'+fl.length+'</b></div></div>';
-    if(!fl.length){html+='<div class="stat-card text-center text-slate-400 py-8">Tidak ada data cocok.</div>';}
-    else{
-        html+='<div class="stat-card" style="border-color:rgba(6,182,212,0.3)"><div class="overflow-x-auto"><table class="data-table w-full"><thead><tr><th>No</th><th>USERNAME</th><th>TANGGAL INPUT</th></tr></thead><tbody>';
-        fl.forEach(function(r,i){html+='<tr><td class="text-center">'+(i+1)+'</td><td class="font-mono text-emerald-400">'+(r[uc]||'')+'</td><td>'+(r[dc]||'-')+'</td></tr>';});
-        html+='</tbody></table></div></div>';
-    }
-    $('resultFS').style.display='block';$('resultFS').innerHTML=html;showToast('Filter FS Selesai!');
-}
-
-/* ========== MODULE 5: CEK RRN/DISB ========== */
-var dRRN1=[],dRRN2=[];
-function dlTemplateRRN(){
-    var wb=XLSX.utils.book_new();
-    var ws=XLSX.utils.aoa_to_sheet([['IDENTIFIER'],['Input identifier yang digunakan utk pengecekan ke mutasi']]);
-    ws['!cols']=[{wch:50}];
-    XLSX.utils.book_append_sheet(wb,ws,'Sheet1');
-    XLSX.writeFile(wb,'CEK_RRN_DISB.xlsx');
-    showToast('Template berhasil didownload!','info');
-}
-function handleRRN_Tmpl(e){
-    var f=e.target.files[0];if(!f)return;
-    readExcel(f).then(function(d){
-        dRRN1=d;
-        var cols=Object.keys(dRRN1[0]||{});
-        var ic=findCol(cols,'IDENTIFIER')||findCol(cols,'IDENTIFIER RRN')||findCol(cols,'IDENTIFIER DISB');
-        if(!ic){showToast('Kolom IDENTIFIER tidak ditemukan!','error');return;}
-        $('zoneRRN1').classList.add('has-file');
-        $('infoRRN1').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-cyan-400 mr-2"></i>'+f.name+' ('+dRRN1.length+' id)</div>';
-        checkRRN();
-    });
-}
-function handleRRN_DB(e){
-    var files=Array.from(e.target.files);if(!files.length)return;
-    var promises=files.map(function(f){
-        var reader=f.name.toLowerCase().endsWith('.csv')?readCSV(f):readExcel(f);
-        return reader.then(function(d){return{name:f.name,data:d};});
-    });
-    Promise.all(promises).then(function(results){
-        dRRN2=results;
-        var total=results.reduce(function(s,r){return s+r.data.length;},0);
-        $('zoneRRN2').classList.add('has-file');
-        $('infoRRN2').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>'+files.length+' file ('+total.toLocaleString()+' baris)</div>';
-        checkRRN();
-    });
-}
-function checkRRN(){$('btnRRN').disabled=!(dRRN1.length>0&&dRRN2.length>0);}
-function processRRN(){
-    var cols=Object.keys(dRRN1[0]||{});
-    var idCol=findCol(cols,'IDENTIFIER')||findCol(cols,'IDENTIFIER RRN')||findCol(cols,'IDENTIFIER DISB');
-    if(!idCol){showToast('Kolom IDENTIFIER tidak ditemukan!','error');return;}
-    var identifiers=dRRN1.map(function(r){return String(r[idCol]||'').replace(/\.0$/,'').trim();}).filter(function(id){return id&&id!=='nan';});
-    var indexMap={},rowCacheMap={};
-    dRRN2.forEach(function(db){
-        var fileName=db.name;
-        var normData=db.data.map(function(row){
-            var nr={};
-            Object.keys(row).forEach(function(k){nr[k.replace(/"/g,'').toUpperCase().trim()]=String(row[k]).replace(/,/g,'').trim();});
-            return nr;
-        });
-        var rowCache=normData.map(function(row){return Object.values(row).join(' ').trim();});
-        rowCacheMap[fileName]={data:normData,cache:rowCache};
-        identifiers.forEach(function(ident){
-            if(!ident)return;
-            rowCache.forEach(function(text,i){
-                if(text.indexOf(ident)>-1){
-                    if(!indexMap[ident])indexMap[ident]=[];
-                    indexMap[ident].push({file:fileName,rowIdx:i});
-                }
-            });
-        });
-    });
-    var resultRows=[];
-    identifiers.forEach(function(ident){
-        if(indexMap[ident]){
-            var entries=indexMap[ident];
-            var srcFiles=[];entries.forEach(function(e){if(srcFiles.indexOf(e.file)===-1)srcFiles.push(e.file);});srcFiles=srcFiles.join(', ');
-            var d=rowCacheMap[entries[0].file].data;
-            var detailString=Object.values(d[entries[0].rowIdx]).join(' | ');
-            var infoRows=[];entries.forEach(function(e){var r='ROW '+(e.rowIdx+2);if(infoRows.indexOf(r)===-1)infoRows.push(r);});infoRows=infoRows.join(', ');
-            resultRows.push({'IDENTIFIER':ident,'RESULT':'DITEMUKAN','INFO':infoRows,'SOURCE FILE':srcFiles,'DETAILS':detailString});
-        }else{
-            resultRows.push({'IDENTIFIER':ident,'RESULT':'NO RESULT','INFO':'','SOURCE FILE':'','DETAILS':''});
-        }
-    });
-    window.wRRNResult=resultRows;
-    var fc=resultRows.filter(function(r){return r.RESULT==='DITEMUKAN';}).length;
-    var nc=resultRows.filter(function(r){return r.RESULT==='NO RESULT';}).length;
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil CEK RRN/DISB</h3><div class="text-sm text-slate-400 mb-4">Ditemukan: <b class="text-emerald-400">'+fc+'</b> | Tidak: <b class="text-red-400">'+nc+'</b></div><button class="btn-primary text-sm py-2" onclick="dlRRN()"><i class="fa-solid fa-download mr-2"></i>Download Result</button></div>';
-    if(resultRows.length){
-        html+='<div class="stat-card" style="border-color:rgba(6,182,212,0.3)"><div class="overflow-x-auto"><table class="data-table w-full"><thead><tr><th>IDENTIFIER</th><th>RESULT</th><th>INFO</th><th>SOURCE FILE</th></tr></thead><tbody>';
-        resultRows.forEach(function(r){
-            var badge=r.RESULT==='DITEMUKAN'?'<span class="status-badge found">DITEMUKAN</span>':'<span class="status-badge notfound">NO RESULT</span>';
-            html+='<tr><td class="font-mono text-emerald-400">'+r.IDENTIFIER+'</td><td>'+badge+'</td><td>'+(r.INFO||'-')+'</td><td class="text-xs">'+(r['SOURCE FILE']||'-')+'</td></tr>';
-        });
-        html+='</tbody></table></div></div>';
-    }
-    $('resultRRN').style.display='block';$('resultRRN').innerHTML=html;showToast('CEK RRN/DISB Selesai!');
-}
-function dlRRN(){
-    if(!window.wRRNResult)return;
-    var wb=XLSX.utils.book_new(),ws=XLSX.utils.json_to_sheet(window.wRRNResult);
-    ws['!cols']=[{wch:30},{wch:15},{wch:30},{wch:30},{wch:80}];
-    XLSX.utils.book_append_sheet(wb,ws,'Sheet1');
-    XLSX.writeFile(wb,'Result_RRN_DISB.xlsx');showToast('Result_RRN_DISB.xlsx berhasil!');
-}
-
-/* ========== MODULE 6: CEK VA ========== */
-function normDTM(value){
-    if(!value||String(value).trim()===''||String(value).trim()==='nan')return null;
-    var vs=String(value).trim(),m,y,mo,d,h,mi;
-    m=vs.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/);
-    if(m){y=m[1];mo=m[2];d=m[3];h=m[4];mi=m[5];return{ds:y+'-'+mo+'-'+d,mn:parseInt(h)*60+parseInt(mi),dt:y+'-'+mo+'-'+d+' '+h+':'+mi};}
-    m=vs.match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})/);
-    if(m){d=m[1];mo=m[2];y=m[3];h=m[4];mi=m[5];return{ds:y+'-'+mo+'-'+d,mn:parseInt(h)*60+parseInt(mi),dt:y+'-'+mo+'-'+d+' '+h+':'+mi};}
-    try{
-        var dt=new Date(vs);
-        if(!isNaN(dt.getTime())){
-            y=dt.getFullYear();mo=String(dt.getMonth()+1).padStart(2,'0');d=String(dt.getDate()).padStart(2,'0');
-            h=String(dt.getHours()).padStart(2,'0');mi=String(dt.getMinutes()).padStart(2,'0');
-            return{ds:y+'-'+mo+'-'+d,mn:parseInt(h)*60+parseInt(mi),dt:y+'-'+mo+'-'+d+' '+h+':'+mi};
-        }
-    }catch(e){}
-    return null;
-}
-function normAmt(v){
-    if(!v||String(v).trim()===''||String(v).trim()==='nan')return'';
-    var c=String(v).replace(/,/g,'').replace(/ /g,'').trim();
-    if(c.endsWith('.0'))c=c.slice(0,-2);
-    if(c.indexOf('.')>-1){try{var f=parseFloat(c);if(f===Math.floor(f))c=String(Math.floor(f));}catch(e){}}
-    return c;
-}
-function fixVA(val,targetIds){
-    var s=String(val).trim();
-    if(!s||s==='nan')return'';
-    if(/^\d+$/.test(s))return s;
-    try{
-        var expanded;
-        if(s.indexOf('E')>-1||s.indexOf('e')>-1){
-            var parts=s.split(/[Ee]/),mantissa=parts[0].replace('-',''),exponent=parseInt(parts[1]);
-            var dotIdx=mantissa.indexOf('.'),digits=mantissa.replace('.','');
-            var decPlaces=dotIdx>=0?mantissa.length-dotIdx-1:0;
-            var totalDigits=digits.length-decPlaces+exp,r;
-            if(totalDigits<=0)expanded='0';
-            else if(totalDigits>digits.length)expanded=digits+'0'.repeat(totalDigits-digits.length);
-            else expanded=digits.substring(0,totalDigits);
-        }else{
-            var f=parseFloat(s);
-            expanded=(f===Math.floor(f))?String(Math.floor(f)):String(f);
-        }
-        if(targetIds&&targetIds.has(expanded))return expanded;
-        if(targetIds&&expanded.length>=10){
-            var prefix=expanded.substring(0,10);
-            for(var tid of targetIds){if(tid.length>=10&&tid.substring(0,10)===prefix)return tid;}
-        }
-        return expanded;
-    }catch(e){return s;}
-}
-function getJenis(desc){
-    if(!desc||String(desc).trim()===''||String(desc).trim()==='nan')return'OTHER';
-    var s=String(desc).trim();
-    if(s.indexOf('KorBFVA')>-1)return'KOR';
-    if(s.indexOf('BFVA')>-1)return'BFVA';
-    if(s.indexOf('ATMLTRPRM')>-1)return'ATM';
-    if(s.indexOf('BRIVA')>-1)return'BRIVA';
-    return'OTHER';
-}
-function toggleVAMode(){
-    var mode=document.querySelector('input[name="vaMode"]:checked').value;
-    var zone=$('zoneVA2');
-    if(mode==='validation'){zone.style.opacity='1';zone.style.pointerEvents='auto';}
-    else{zone.style.opacity='0.4';zone.style.pointerEvents='none';}
-    checkVA();
-}
-
-/* ========== MODULE 6: CEK VA DATA ========== */
-var dVA1=[],dVA2=[],dVA3=[];
-function dlTemplateVA(){
-    var wb=XLSX.utils.book_new();
-    var ws=XLSX.utils.aoa_to_sheet([['IDENTIFIER','AMOUNT'],['Input No VA yang dicari','Input amount yang diinginkan (opsional)']]);
-    ws['!cols']=[{wch:42},{wch:30}];
-    XLSX.utils.book_append_sheet(wb,ws,'Sheet1');
-    XLSX.writeFile(wb,'CEK_VA.xlsx');
-    showToast('Template berhasil didownload!','info');
-}
-function handleVA_Tmpl(e){
-    var f=e.target.files[0];if(!f)return;
-    readExcel(f).then(function(d){
-        dVA1=d;$('zoneVA1').classList.add('has-file');
-        $('infoVA1').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-cyan-400 mr-2"></i>'+f.name+' ('+dVA1.length+' id)</div>';
-        checkVA();
-    });
-}
-function handleVA_MB(e){
-    var f=e.target.files[0];if(!f)return;
-    (f.name.toLowerCase().endsWith('.csv')?readCSV(f):readExcel(f)).then(function(d){
-        dVA2=d;$('zoneVA2').classList.add('has-file');
-        $('infoVA2').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-amber-400 mr-2"></i>'+f.name+' ('+dVA2.length+' baris)</div>';
-        checkVA();
-    });
-}
-function handleVA_Mutasi(e){
-    var files=Array.from(e.target.files);if(!files.length)return;
-    var promises=files.map(function(f){
-        var reader=f.name.toLowerCase().endsWith('.csv')?readCSV(f):readExcel(f);
-        return reader.then(function(d){return{name:f.name,data:d};});
-    });
-    Promise.all(promises).then(function(results){
-        dVA3=results;
-        var total=results.reduce(function(s,r){return s+r.data.length;},0);
-        $('zoneVA3').classList.add('has-file');
-        $('infoVA3').innerHTML='<div class="file-info"><i class="fa-solid fa-check text-emerald-400 mr-2"></i>'+files.length+' file ('+total.toLocaleString()+' baris)</div>';
-        checkVA();
-    });
-}
-function checkVA(){
-    var mode=document.querySelector('input[name="vaMode"]:checked').value;
-    var base=dVA1.length>0&&dVA3.length>0;
-    $('btnVA').disabled=!(base&&(mode==='normal'||dVA2.length>0));
-}
-function mergeVARows(df){
-    if(!df.length)return df;
-    var groupCols=Object.keys(df[0]).filter(function(c){return c!=='SOURCE_FILE'&&c!=='ROW_NUMBER';});
-    if(df.every(function(r){return r.RESULT==='NO RESULT';}))return df;
-    var groups={};
-    df.forEach(function(r){
-        var key=groupCols.map(function(c){return String(r[c]||'');}).join('|||');
-        if(!groups[key])groups[key]={};
-        groupCols.forEach(function(c){groups[key][c]=r[c];});
-        groups[key].SF=groups[key].SF||new Set();
-        groups[key].RN=groups[key].RN||new Set();
-        if(r.SOURCE_FILE)groups[key].SF.add(r.SOURCE_FILE);
-        if(r.ROW_NUMBER)groups[key].RN.add(r.ROW_NUMBER);
-    });
-    return Object.values(groups).map(function(r){
-        r.SOURCE_FILE=Array.from(r.SF).sort().join(', ');
-        r.ROW_NUMBER=Array.from(r.RN).sort().join(', ');
-        if(r.ROW_NUMBER)r.ROW_NUMBER='ROW '+r.ROW_NUMBER;
-        delete r.SF;delete r.RN;
-        return r;
-    });
-}
-
-/* ========== MODULE 6: CEK VA ========== */
-function processVA(){
-    var mode=document.querySelector('input[name="vaMode"]:checked').value;
-    var TOL=5;
-    var tCols=Object.keys(dVA1[0]||{});
-    var idCol=findCol(tCols,'IDENTIFIER')||findCol(tCols,'IDENTIFIER VA');
-    if(!idCol){showToast('Kolom IDENTIFIER tidak ditemukan!','error');return;}
-    var useAmt=!!findCol(tCols,'AMOUNT');
-    var targetIds=new Set();
-    dVA1.forEach(function(r){var v=String(r[idCol]||'').trim();if(v&&v!=='nan')targetIds.add(v);});
-    var allMuRows=[];
-    dVA3.forEach(function(db){
-        var norm=db.data.map(function(r){var nr={};Object.keys(r).forEach(function(k){nr[k.trim()]=String(r[k]);});return nr;});
-        norm.forEach(function(r,i){r._SRC=db.name;r._RN=i+2;r._ST=Object.values(r).map(function(v){return String(v).toLowerCase();}).join(' | ');});
-        allMuRows=allMuRows.concat(norm);
-    });
-    var slList=allMuRows.map(function(r){return r._ST;});
-    var outputRows=[];
-    dVA1.forEach(function(row){
-        var id=String(row[idCol]||'').trim();
-        var amt=useAmt?normAmt(String(row['AMOUNT']||'')):'';
-        if(!id||id==='nan')return;
-        var idl=id.toLowerCase(),amtl=amt.toLowerCase();
-        var mi=[];
-        slList.forEach(function(t,i){if(t.indexOf(idl)>-1&&(!amtl||t.indexOf(amtl)>-1))mi.push(i);});
-        if(!mi.length){outputRows.push({IDENTIFIER:id,AMOUNT:amt,RESULT:'NO RESULT',SOURCE_FILE:'',ROW_NUMBER:''});return;}
-        mi.forEach(function(i){
-            var mr=allMuRows[i];
-            var or2={IDENTIFIER:id,AMOUNT:amt,RESULT:'DITEMUKAN',SOURCE_FILE:mr._SRC,ROW_NUMBER:String(mr._RN)};
-            Object.keys(mr).forEach(function(k){if(!k.startsWith('_'))or2[k]=cleanNum(mr[k]);});
-            outputRows.push(or2);
-        });
-    });
-    outputRows=mergeVARows(outputRows);
-    window.wVAResult=outputRows;
-
-    if(mode==='normal'){
-        var fc=outputRows.filter(function(r){return r.RESULT==='DITEMUKAN';}).length;
-        var nf=outputRows.filter(function(r){return r.RESULT==='NO RESULT';}).length;
-        var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil CEK VA (Normal)</h3><div class="text-sm text-slate-400 mb-4">Ditemukan: <b class="text-emerald-400">'+fc+'</b> | Tidak: <b class="text-red-400">'+nf+'</b></div><button class="btn-primary text-sm py-2" onclick="dlVA()"><i class="fa-solid fa-download mr-2"></i>Download Result</button></div>';
-        if(outputRows.length){
-            var dc=Object.keys(outputRows[0]).filter(function(k){return k!=='DETAIL_LENGKAP';});
-            html+='<div class="stat-card" style="border-color:rgba(6,182,212,0.3)"><div class="overflow-x-auto" style="max-height:500px;overflow-y:auto"><table class="data-table w-full"><thead><tr>';
-            dc.forEach(function(c){html+='<th>'+c+'</th>';});
-            html+='</tr></thead><tbody>';
-            outputRows.forEach(function(r){
-                html+='<tr>';
-                dc.forEach(function(c){
-                    var v=r[c]||'';
-                    if(c==='RESULT'){v=v==='DITEMUKAN'?'<span class="status-badge found">DITEMUKAN</span>':'<span class="status-badge notfound">NO RESULT</span>';}
-                    else if(c==='IDENTIFIER'){v='<span class="font-mono text-emerald-400">'+v+'</span>';}
-                    html+='<td>'+v+'</td>';
-                });
-                html+='</tr>';
-            });
-            html+='</tbody></table></div></div>';
-        }
-        $('resultVA').style.display='block';$('resultVA').innerHTML=html;
-        showToast('CEK VA (Normal) Selesai!');
-        return;
-    }
-
-    if(!dVA2.length){showToast('File METABASE belum dimuat!','error');return;}
-    var mbCols=Object.keys(dVA2[0]||{});
-    var vaCol=null;
-    for(var i=0;i<mbCols.length;i++){var cu=mbCols[i].toUpperCase();if(cu.indexOf('VA_NUMBER')>-1||cu.indexOf('VA NUMBER')>-1){vaCol=mbCols[i];break;}}
-    if(!vaCol){for(var i=0;i<mbCols.length;i++){if(mbCols[i].toUpperCase().indexOf('VA')===0){vaCol=mbCols[i];break;}}}
-    if(!vaCol){showToast('Kolom VA_NUMBER tidak ditemukan di METABASE!','error');return;}
-    var maCol=findCol(mbCols,'AMOUNT')||findCol(mbCols,'AMOUNT (IDR)');
-    var tzCol=null;
-    for(var i=0;i<mbCols.length;i++){var cu=mbCols[i].toUpperCase();if(cu.indexOf('CREATED TIMEZONE')>-1||cu.indexOf('CREATED_TIMEZONE')>-1){tzCol=mbCols[i];break;}}
-    if(!tzCol)tzCol=findCol(mbCols,'TIMEZONE');
-    if(!tzCol)tzCol=findCol(mbCols,'CREATED');
-    if(!tzCol){showToast('Kolom CREATED TIMEZONE tidak ditemukan di METABASE!','error');return;}
-
-    var mbIdx={};
-    dVA2.forEach(function(r){
-        var ident=fixVA(r[vaCol],targetIds);
-        if(!ident||!targetIds.has(ident))return;
-        var p=normDTM(r[tzCol]);if(!p)return;
-        var amt=maCol?normAmt(r[maCol]):'';
-        var key=(useAmt&&amt)?ident+'|||'+amt:ident;
-        if(!mbIdx[key])mbIdx[key]={};
-        if(!mbIdx[key][p.ds])mbIdx[key][p.ds]=new Set();
-        mbIdx[key][p.ds].add(p.mn);
-    });
-    var foundRows=outputRows.filter(function(r){return r.RESULT==='DITEMUKAN';});
-    var mtIdx={},mtEntries=[],seenMt=new Set(),dedupCount={};
-    var allMuCols=foundRows.length?Object.keys(foundRows[0]):[];
-    var csvDateCol=null,deskCol=null,kreditCol=null;
-    for(var i=0;i<allMuCols.length;i++){
-        var cu=allMuCols[i].toUpperCase();
-        if(cu.indexOf('TGL_EFEKTIF')>-1)csvDateCol=allMuCols[i];
-        if(cu.indexOf('DESK_TRAN')>-1||cu==='DESK')deskCol=allMuCols[i];
-        if(cu.indexOf('MUTASI_KREDIT')>-1||cu==='KREDIT')kreditCol=allMuCols[i];
-    }
-    foundRows.forEach(function(r){
-        if(!csvDateCol)return;
-        var p=normDTM(r[csvDateCol]);if(!p)return;
-        var ident=String(r.IDENTIFIER||'').trim();if(!ident)return;
-        var desk=deskCol?r[deskCol]||'':'';
-        var jenis=getJenis(desk);
-        var amtT=normAmt(r.AMOUNT||''),amtK=kreditCol?normAmt(r[kreditCol]||''):'';
-        var csvAmt=amtT||amtK;
-        var key=(useAmt&&amtT)?ident+'|||'+amtT:ident;
-        var dk=key+'|||'+p.ds+'|||'+p.mn+'|||'+jenis;
-        dedupCount[dk]=(dedupCount[dk]||0)+1;
-        if(seenMt.has(dk))return;
-        seenMt.add(dk);
-        if(!mtIdx[key])mtIdx[key]={};
-        if(!mtIdx[key][p.ds])mtIdx[key][p.ds]=new Set();
-        mtIdx[key][p.ds].add(p.mn);
-        mtEntries.push({key:key,ds:p.ds,mn:p.mn,dt:p.dt,ident:ident,amt:r.AMOUNT||csvAmt,jenis:jenis,sf:r.SOURCE_FILE||'',rn:r.ROW_NUMBER||'',jk:dedupCount[dk]});
-    });
-    function checkMinuteMatch(mn,targetSet){return Array.from(targetSet).some(function(m){return Math.abs(m-mn)<=TOL;});}
-    var selisihList=[],cnt1=0,cnt2=0;
-    mtEntries.forEach(function(en){
-        if(en.jenis==='KOR'){
-            selisihList.push({IDENTIFIER:en.ident,AMOUNT:en.amt,TGL_EFEKTIF:en.dt,JENIS_TRANSAKSI:'KOR',STATUS_SELISIH:'TRANSAKSI KOREKSI (KorBFVA) DITEMUKAN DI MUTASI',JUMLAH_KEMUNCULAN:en.jk,SOURCE_FILE:en.sf,ROW_NUMBER:en.rn,DETAIL_LENGKAP:''});
-            cnt1++;return;
-        }
-        var key=en.key,ds=en.ds,mn=en.mn;
-        var reason=null;
-        if(!mbIdx[key])reason='TIDAK ADA DI METABASE (identifier/amount tidak cocok)';
-        else if(!mbIdx[key][ds])reason='TIDAK ADA DI METABASE (tanggal '+ds+' tidak ditemukan)';
-        else if(!checkMinuteMatch(mn,mbIdx[key][ds])){
-            var avail=Array.from(mbIdx[key][ds]).sort();
-            reason='CREATED TIMEZONE BERBEDA (mutasi menit='+mn+', metabase='+avail+')';
-        }
-        if(reason){
-            selisihList.push({IDENTIFIER:en.ident,AMOUNT:en.amt,TGL_EFEKTIF:en.dt,JENIS_TRANSAKSI:en.jenis,STATUS_SELISIH:reason,JUMLAH_KEMUNCULAN:en.jk,SOURCE_FILE:en.sf,ROW_NUMBER:en.rn,DETAIL_LENGKAP:''});
-            cnt1++;
-        }
-    });
-    var seenMb=new Set();
-    dVA2.forEach(function(r){
-        var ident=fixVA(r[vaCol],targetIds);
-        if(!ident||!targetIds.has(ident))return;
-        var p=normDTM(r[tzCol]);if(!p)return;
-        var amt=maCol?normAmt(r[maCol]):'';
-        var key=(useAmt&&amt)?ident+'|||'+amt:ident;
-        var dk=key+'|||'+p.ds+'|||'+p.mn;
-        if(seenMb.has(dk))return;
-        seenMb.add(dk);
-        var reason=null;
-        if(!mtIdx[key])reason='TIDAK ADA DI MUTASI (identifier/amount tidak ditemukan)';
-        else if(!mtIdx[key][p.ds])reason='TIDAK ADA DI MUTASI (tanggal '+p.ds+' tidak ditemukan)';
-        else if(!checkMinuteMatch(p.mn,mtIdx[key][p.ds])){
-            var avail=Array.from(mtIdx[key][p.ds]).sort();
-            reason='CREATED TIMEZONE BERBEDA (metabase menit='+p.mn+', mutasi='+avail+')';
-        }
-        if(reason){
-            selisihList.push({IDENTIFIER:ident,AMOUNT:amt,TGL_EFEKTIF:p.dt,JENIS_TRANSAKSI:'OTHER',STATUS_SELISIH:reason,JUMLAH_KEMUNCULAN:1,SOURCE_FILE:'METABASE',ROW_NUMBER:'*',DETAIL_LENGKAP:''});
-            cnt2++;
-        }
-    });
-    window.wVASelisih=selisihList;
-    var korCount=selisihList.filter(function(s){return s.JENIS_TRANSAKSI==='KOR';}).length;
-    var fc=outputRows.filter(function(r){return r.RESULT==='DITEMUKAN';}).length;
-    var nf=outputRows.filter(function(r){return r.RESULT==='NO RESULT';}).length;
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil CEK VA (Validasi)</h3>';
-    html+='<div class="text-sm text-slate-400 mb-2">Ditemukan di MUTASI: <b class="text-emerald-400">'+fc+'</b> | Tidak: <b class="text-red-400">'+nf+'</b></div>';
-    html+='<div class="text-sm text-slate-400 mb-4">Total SELISIH: <b class="text-amber-400">'+selisihList.length+'</b> (KOR: <b>'+korCount+'</b> | Dari MUTASI: <b>'+(cnt1-korCount)+'</b> | Dari METABASE: <b>'+cnt2+'</b>)</div>';
-    html+='<button class="btn-primary text-sm py-2" onclick="dlVA()"><i class="fa-solid fa-download mr-2"></i>Download Result</button></div>';
-    if(outputRows.length){
-        var dc2=Object.keys(outputRows[0]).filter(function(k){return k!=='DETAIL_LENGKAP';});
-        html+='<div class="stat-card mb-6" style="border-color:rgba(6,182,212,0.3)"><h3 class="font-semibold mb-3 text-cyan-400">HASIL_CEK_VA</h3><div class="overflow-x-auto" style="max-height:400px;overflow-y:auto"><table class="data-table w-full"><thead><tr>';
-        dc2.forEach(function(c){html+='<th>'+c+'</th>';});
-        html+='</tr></thead><tbody>';
-        outputRows.forEach(function(r){
-            html+='<tr>';
-            dc2.forEach(function(c){
-                var v=r[c]||'';
-                if(c==='RESULT'){v=v==='DITEMUKAN'?'<span class="status-badge found">DITEMUKAN</span>':'<span class="status-badge notfound">NO RESULT</span>';}
-                else if(c==='IDENTIFIER'){v='<span class="font-mono text-emerald-400">'+v+'</span>';}
-                html+='<td>'+v+'</td>';
-            });
-            html+='</tr>';
-        });
-        html+='</tbody></table></div></div>';
-    }
-    if(selisihList.length){
-        html+='<div class="stat-card" style="border-color:rgba(239,68,68,0.3)"><h3 class="font-semibold mb-3 text-red-400"><i class="fa-solid fa-triangle-exclamation mr-2"></i>SELISIH ('+selisihList.length+')</h3><div class="overflow-x-auto" style="max-height:400px;overflow-y:auto"><table class="data-table w-full"><thead><tr><th>IDENTIFIER</th><th>AMOUNT</th><th>TGL_EFEKTIF</th><th>JENIS</th><th>STATUS_SELISIH</th><th>x</th><th>SOURCE_FILE</th><th>ROW</th></tr></thead><tbody>';
-        selisihList.forEach(function(r){
-            var jBadge=r.JENIS_TRANSAKSI==='KOR'?'<span class="status-badge kor">KOR</span>':r.JENIS_TRANSAKSI;
-            html+='<tr><td class="font-mono text-emerald-400">'+r.IDENTIFIER+'</td><td>'+r.AMOUNT+'</td><td>'+r.TGL_EFEKTIF+'</td><td>'+jBadge+'</td><td class="text-xs">'+r.STATUS_SELISIH+'</td><td class="text-center">'+r.JUMLAH_KEMUNCULAN+'</td><td class="text-xs">'+r.SOURCE_FILE+'</td><td>'+r.ROW_NUMBER+'</td></tr>';
-        });
-        html+='</tbody></table></div></div>';
-    }else{
-        html+='<div class="stat-card text-center text-emerald-400 py-5"><i class="fa-solid fa-check-circle mr-2"></i>Tidak ada selisih!</div>';
-    }
-    $('resultVA').style.display='block';$('resultVA').innerHTML=html;
-    showToast('CEK VA (Validasi) Selesai!');
-}
-
-/* ========== MODULE 6: CEK VA DOWNLOAD ========== */
-function dlVA(){
-    var wb=XLSX.utils.book_new();
-    var mode=document.querySelector('input[name="vaMode"]:checked').value;
-    if(window.wVAResult&&window.wVAResult.length){
-        var ws1=XLSX.utils.json_to_sheet(window.wVAResult);
-        XLSX.utils.book_append_sheet(wb,ws1,'HASIL_CEK_VA');
-    }else{
-        XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['IDENTIFIER','AMOUNT','RESULT','SOURCE_FILE','ROW_NUMBER']]),'HASIL_CEK_VA');
-    }
-    if(mode==='validation'&&window.wVASelisih){
-        var sCols=['IDENTIFIER','AMOUNT','TGL_EFEKTIF','JENIS_TRANSAKSI','STATUS_SELISIH','JUMLAH_KEMUNCULAN','SOURCE_FILE','ROW_NUMBER','DETAIL_LENGKAP'];
-        var slData=window.wVASelisih.map(function(r){var o={};sCols.forEach(function(c){o[c]=r[c]||'';});return o;});
-        var ws2=XLSX.utils.json_to_sheet(slData);
-        ws2['!cols']=[{wch:30},{wch:20},{wch:20},{wch:10},{wch:60},{wch:5},{wch:30},{wch:10},{wch:80}];
-        XLSX.utils.book_append_sheet(wb,ws2,'SELISIH');
-    }
-    XLSX.writeFile(wb,'Result_CEK_VA.xlsx');
-    showToast('Result_CEK_VA.xlsx berhasil!');
-}
-
-/* ========== MODULE 6 TAMBAHAN: REK VA ========== */
-var dRekVA=[];
-function handleRekVAUpload(e){
-    var f=e.target.files[0];if(!f)return;
-    (f.name.endsWith('.csv')?readCSV(f):readExcel(f)).then(function(d){
-        dRekVA=d;$('infoRekVA').innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dRekVA.length+'</b> baris';
-        checkRekVA();showToast('Database REK VA Berhasil!');
-    });
-}
-async function fetchRekVAData(){
-    var url=$('gsRekVA').value.trim(),btn=$('btnRekVAGS'),info=$('infoRekVA');
-    if(!url){showToast('Harap masukkan link!','error');return;}
-    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner animate-spin"></i> Mengambil...';
-    info.innerHTML='<span class="text-cyan-400">Menghubungi server...</span>';
-    var txt=await fetchGSheet(url);
-    if(txt){
-        var r=Papa.parse(txt,{header:true,skipEmptyLines:true});
-        if(r.data&&r.data.length>0){
-            dRekVA=r.data;btn.disabled=false;
-            btn.innerHTML='<i class="fa-solid fa-check-circle"></i> Data Loaded';
-            btn.style.background='var(--accd)';btn.style.color='var(--acc)';
-            info.innerHTML='<i class="fa-solid fa-check text-emerald-400 mr-1"></i> <b>'+dRekVA.length+'</b> baris';
-            checkRekVA();showToast('Database REK VA berhasil!');
-        }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='Gagal parse.';}
-    }else{resetBtn(btn,'<i class="fa-solid fa-cloud-arrow-down"></i> Coba Lagi');info.innerHTML='<i class="fa-solid fa-exclamation-triangle text-red-400"></i> Gagal.';showToast('Gagal mengambil data.','error');}
-}
-function checkRekVA(){
-    var inp=$('rekVAInput').value.trim();
-    $('btnRekVA').disabled=!(dRekVA.length>0&&inp.length>0);
-}
-document.addEventListener('DOMContentLoaded',function(){
-    var el=$('rekVAInput');
-    if(el)el.addEventListener('input',checkRekVA);
-});
-
-function processRekVA(){
-    var ri=$('rekVAInput').value.trim();
-    if(!ri){showToast('Masukkan nomor VA!','error');return;}
-    if(!dRekVA.length){showToast('Database REK VA belum dimuat!','error');return;}
-
-    var vaList=ri.split(/[\n,]+/).map(function(v){return v.trim();}).filter(function(v){return v.length>0;});
-
-    var cols=Object.keys(dRekVA[0]||{});
-    var bankCol=findCol(cols,'BANK RECEIVER')||findCol(cols,'BANK')||findCol(cols,'RECEIVER');
-    var vendorCol=findCol(cols,'VENDOR');
-    var clientIdCol=findCol(cols,'CLIENT ID');
-    var prefixCol=findCol(cols,'PREFIX');
-    var norekCol=findCol(cols,'NOREK MUTASI')||findCol(cols,'NOREK_MUTASI')||findCol(cols,'NO REK MUTASI');
-    var purposeCol=findCol(cols,'PURPOSE');
-
-    if(!prefixCol){showToast('Kolom PREFIX tidak ditemukan di database!','error');return;}
-    if(!norekCol){showToast('Kolom NOREK MUTASI tidak ditemukan di database!','error');return;}
-
-    var dbEntries=[];
-    dRekVA.forEach(function(row){
-        var bank=bankCol?String(row[bankCol]||'').trim():'';
-        var vendor=vendorCol?String(row[vendorCol]||'').trim():'';
-        var clientId=clientIdCol?String(row[clientIdCol]||'').trim():'';
-        var prefixRaw=prefixCol?String(row[prefixCol]||'').trim():'';
-        var norek=norekCol?cleanNum(String(row[norekCol]||'').trim()):'';
-        var purpose=purposeCol?String(row[purposeCol]||'').trim():'';
-
-        var prefixParts=prefixRaw.split(/\s+/);
-        var prefixes=[];
-        prefixParts.forEach(function(part){
-            var cleaned=part.replace(/[()]/g,'').trim();
-            if(/^\d{5}$/.test(cleaned))prefixes.push(cleaned);
-        });
-        if(prefixes.length===0){
-            var matches=prefixRaw.match(/\d{5}/g);
-            if(matches)prefixes=matches;
-        }
-        if(prefixes.length===0&&clientId){
-            var cidMatches=clientId.match(/\d{5}/g);
-            if(cidMatches)prefixes=cidMatches;
-        }
-
-        dbEntries.push({
-            bank:bank,vendor:vendor,clientId:clientId,
-            prefixes:prefixes,prefixRaw:prefixRaw,norek:norek,purpose:purpose
-        });
-    });
-
-    var results=[];
-    vaList.forEach(function(va){
-        var prefix5=va.substring(0,5);
-        var matched=null;
-        for(var i=0;i<dbEntries.length;i++){
-            var entry=dbEntries[i];
-            for(var j=0;j<entry.prefixes.length;j++){
-                if(entry.prefixes[j]===prefix5){matched=entry;break;}
-            }
-            if(matched)break;
-        }
-        if(matched){
-            results.push({
-                'INPUT NO VA':va,
-                'BANK':matched.bank,
-                'VENDOR':matched.vendor,
-                'PREFIX':prefix5,
-                'NOREK MUTASI':matched.norek||'-',
-                'PURPOSE':matched.purpose||'-'
-            });
-        }else{
-            results.push({
-                'INPUT NO VA':va,
-                'BANK':'VA tidak ditemukan',
-                'VENDOR':'-',
-                'PREFIX':prefix5,
-                'NOREK MUTASI':'-',
-                'PURPOSE':'-'
-            });
-        }
-    });
-
-    window.wRekVAResult=results;
-    var foundCount=results.filter(function(r){return r.BANK!=='VA tidak ditemukan';}).length;
-    var notFoundCount=results.filter(function(r){return r.BANK==='VA tidak ditemukan';}).length;
-
-    var html='<div class="stat-card mb-6"><h3 class="font-semibold mb-2 text-emerald-400">Hasil REK VA</h3>';
-    html+='<div class="text-sm text-slate-400 mb-2">Dicari: <b class="text-cyan-400">'+vaList.length+'</b> VA | Ditemukan: <b class="text-emerald-400">'+foundCount+'</b> | Tidak: <b class="text-red-400">'+notFoundCount+'</b></div>';
-    html+='<button class="btn-primary text-sm py-2" onclick="dlRekVA()"><i class="fa-solid fa-download mr-2"></i>Download Excel</button></div>';
-
-    if(results.length){
-        html+='<div class="stat-card" style="border-color:rgba(6,182,212,0.3)"><div class="overflow-x-auto"><table class="data-table w-full"><thead><tr><th>INPUT NO VA</th><th>BANK</th><th>VENDOR</th><th>PREFIX</th><th>NOREK MUTASI</th><th>PURPOSE</th></tr></thead><tbody>';
-        results.forEach(function(r){
-            var isFound=r.BANK!=='VA tidak ditemukan';
-            var bankCell=isFound?'<span class="text-emerald-400">'+r.BANK+'</span>':'<span class="text-red-400">VA tidak ditemukan</span>';
-            var norekCell=isFound&&r['NOREK MUTASI']!=='-'?'<span class="font-mono text-cyan-400">'+r['NOREK MUTASI']+'</span>':'-';
-            html+='<tr><td class="font-mono text-cyan-400">'+r['INPUT NO VA']+'</td><td>'+bankCell+'</td><td>'+r.VENDOR+'</td><td class="font-mono">'+r.PREFIX+'</td><td>'+norekCell+'</td><td class="text-xs">'+r.PURPOSE+'</td></tr>';
-        });
-        html+='</tbody></table></div></div>';
-    }
-
-    $('resultRekVA').style.display='block';
-    $('resultRekVA').innerHTML=html;
-    showToast('REK VA Selesai!');
-}
-
-function dlRekVA(){
-    if(!window.wRekVAResult||!window.wRekVAResult.length)return;
-    var wb=XLSX.utils.book_new();
-    var ws=XLSX.utils.json_to_sheet(window.wRekVAResult);
-    ws['!cols']=[{wch:25},{wch:20},{wch:15},{wch:10},{wch:25},{wch:40}];
-    XLSX.utils.book_append_sheet(wb,ws,'REK_VA');
-    XLSX.writeFile(wb,'Result_REK_VA.xlsx');
-    showToast('Result_REK_VA.xlsx berhasil!');
-}
-
-/* ========== INITIALIZE ========== */
-updateFSUrl();
-toggleVAMode();
-toggleBLMode();
-initMetabaseVALink();
+// 
 </script>
 </body>
 </html>
